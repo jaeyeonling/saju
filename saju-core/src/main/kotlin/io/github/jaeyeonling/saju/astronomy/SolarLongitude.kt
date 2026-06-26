@@ -43,9 +43,19 @@ internal object SolarLongitude {
      */
     fun solarTermInstantUT(year: Int, termIndex: Int): Double {
         val tt = solarTermInstantTT(year, termIndex)
-        val decimalYear = 2000.0 + (tt - J2000_EPOCH) / 365.25
-        return tt - DeltaT.seconds(decimalYear) / SECONDS_PER_DAY
+        return tt - DeltaT.seconds(decimalYearOf(tt)) / SECONDS_PER_DAY
     }
+
+    /**
+     * UT 율리우스일에서의 태양 겉보기 황경 (도, `[0, 360)`).
+     * 월주 도출에 쓰인다 — 황경 315°(입춘)부터 30°마다 월(月)이 바뀐다.
+     */
+    fun apparentLongitudeDegAtUT(utJd: Double): Double {
+        val ttJd = utJd + DeltaT.seconds(decimalYearOf(utJd)) / SECONDS_PER_DAY
+        return SunPosition.apparentLongitudeRad(ttJd) * RAD_TO_DEG
+    }
+
+    private fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / 365.25
 
     private const val SECONDS_PER_DAY = 86_400.0
 }

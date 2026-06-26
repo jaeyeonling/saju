@@ -1,0 +1,79 @@
+package io.github.jaeyeonling.saju
+
+import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
+import io.github.jaeyeonling.saju.astronomy.SolarLongitude
+import io.github.jaeyeonling.saju.derivation.PillarDerivation
+import io.github.jaeyeonling.saju.domain.Jiji
+import io.github.jaeyeonling.saju.domain.Pillar
+import io.github.jaeyeonling.saju.domain.PillarPosition
+import io.github.jaeyeonling.saju.domain.SajuChart
+import kotlin.math.floor
+
+/**
+ * 사주 만세력 공개 진입점 — 천문 엔진과 4기둥 도출을 조립한다.
+ *
+ * **P3 단계**: 한국 시간 보정(진태양시·서머타임·자시 학파) 이전. 입력은 이미 보정된 로컬 시각으로 간주한다.
+ * P4 에서 한국 보정 파이프라인을 거치는 진입점이 saju-korea 에 추가된다.
+ */
+public object Saju {
+
+    /**
+     * 로컬 시각 + UT 오프셋으로 사주판을 도출한다(보정 전 단계).
+     *
+     * @param utOffsetHours 로컬 시각을 UT 로 바꾸는 오프셋. 예: 베이징 8.0, 한국 표준시 9.0.
+     */
+    @JvmStatic
+    public fun fromLocalDateTime(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+        utOffsetHours: Double,
+    ): SajuChart {
+        val timeFraction = (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY
+        val localJd = JulianDayConverter.fromGregorian(year, month, day, timeFraction)
+        val utJd = localJd - utOffsetHours / HOURS_PER_DAY
+
+        val yearGanZhi = run {
+            // 연주: 그 해 입춘 절입 시각과 비교 — 입춘 전이면 전년.
+            val ipchunUt = SolarLongitude.solarTermInstantUT(year, IPCHUN_TERM_INDEX)
+            val solarYear = if (utJd >= ipchunUt) year else year - 1
+            PillarDerivation.yearPillar(solarYear)
+        }
+
+        val monthGanZhi = run {
+            // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다).
+            val longitudeFromIpchun = normalizeDeg(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
+            val monthOffset = floor(longitudeFromIpchun / DEGREES_PER_MONTH).toInt() % MONTHS_PER_YEAR
+            PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
+        }
+
+        // 일주: 로컬 날짜의 율리우스일 번호. (자시 경계 보정은 P4)
+        val julianDayNumber = floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong()
+        val dayGanZhi = PillarDerivation.dayPillar(julianDayNumber)
+
+        // 시주: 시지(2시간 단위) + 일간. (자시 학파는 P4)
+        val hourJi = Jiji.fromIndex((hour + 1) / HOURS_PER_BRANCH)
+        val hourGanZhi = PillarDerivation.hourPillar(dayGanZhi.gan, hourJi)
+
+        return SajuChart(
+            year = Pillar(PillarPosition.YEAR, yearGanZhi),
+            month = Pillar(PillarPosition.MONTH, monthGanZhi),
+            day = Pillar(PillarPosition.DAY, dayGanZhi),
+            hour = Pillar(PillarPosition.HOUR, hourGanZhi),
+        )
+    }
+
+    private fun normalizeDeg(deg: Double): Double = ((deg % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE
+
+    private const val IPCHUN_TERM_INDEX = 21
+    private const val IPCHUN_LONGITUDE_DEG = 315.0
+    private const val DEGREES_PER_MONTH = 30.0
+    private const val MONTHS_PER_YEAR = 12
+    private const val FULL_CIRCLE = 360.0
+    private const val MINUTES_PER_HOUR = 60.0
+    private const val MINUTES_PER_DAY = 1440.0
+    private const val HOURS_PER_DAY = 24.0
+    private const val HOURS_PER_BRANCH = 2
+}
