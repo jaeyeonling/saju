@@ -55,6 +55,23 @@ internal object SolarLongitude {
         return SunPosition.apparentLongitudeRad(ttJd) * RAD_TO_DEG
     }
 
+    /**
+     * 태양 황경이 [targetDeg] 가 되는, [nearUtJd] 근처 가장 가까운 UT 율리우스일.
+     * 대운 절기 거리(다음/이전 절 시각) 계산에 쓰인다 — [nearUtJd] 를 그 절 근처로 주면 그 절로 수렴한다.
+     */
+    fun instantOfLongitudeUT(targetDeg: Double, nearUtJd: Double): Double {
+        val target = normalizeRadians(targetDeg * DEG_TO_RAD)
+        var jde = nearUtJd + DeltaT.seconds(decimalYearOf(nearUtJd)) / SECONDS_PER_DAY // TT 시작
+        repeat(MAX_ITERATIONS) {
+            val delta = wrapToPi(target - SunPosition.apparentLongitudeRad(jde))
+            jde += delta / MEAN_ANGULAR_SPEED
+            if (abs(delta) < CONVERGENCE_RAD) return toUt(jde)
+        }
+        return toUt(jde)
+    }
+
+    private fun toUt(jdeTT: Double): Double = jdeTT - DeltaT.seconds(decimalYearOf(jdeTT)) / SECONDS_PER_DAY
+
     private fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / 365.25
 
     private const val SECONDS_PER_DAY = 86_400.0

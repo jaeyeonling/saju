@@ -3,6 +3,7 @@ package io.github.jaeyeonling.saju.korea
 import io.github.jaeyeonling.saju.Saju
 import io.github.jaeyeonling.saju.astronomy.Ephemeris
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
+import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.domain.SajuChart
 
 /**
@@ -34,6 +35,25 @@ public object KoreanSaju {
         val tsHour = (ts.dayFraction * HOURS_PER_DAY).toInt()
         val tsMinute = ((ts.dayFraction * MINUTES_PER_DAY) % MINUTES_PER_HOUR).toInt()
         return Saju.fromLocalDateTime(ts.year, ts.month, ts.day, tsHour, tsMinute, trueSolarUtOffsetHours)
+    }
+
+    /** 법정시 + 출생지 + 성별로 대운 시퀀스 도출(한국 보정 반영). */
+    @JvmStatic
+    @JvmOverloads
+    public fun daeun(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+        isMale: Boolean,
+        longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
+        count: Int = DEFAULT_DAEUN_COUNT,
+    ): List<Daeun> {
+        val chart = fromCivilTime(year, month, day, hour, minute, longitudeDeg)
+        val (trueSolarJd, trueSolarUtOffsetHours) = computeTrueSolar(year, month, day, hour, minute, longitudeDeg)
+        val utJd = trueSolarJd - trueSolarUtOffsetHours / HOURS_PER_DAY
+        return Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count)
     }
 
     /**
@@ -83,6 +103,7 @@ public object KoreanSaju {
     private fun legalJulianDay(year: Int, month: Int, day: Int, hour: Int, minute: Int): Double =
         JulianDayConverter.fromGregorian(year, month, day, (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY)
 
+    private const val DEFAULT_DAEUN_COUNT = 8
     private const val SUMMER_TIME_HOURS = 1.0
     private const val DEGREES_PER_HOUR = 15.0
     private const val HOURS_PER_DAY = 24.0

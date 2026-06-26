@@ -2,7 +2,12 @@ package io.github.jaeyeonling.saju
 
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.astronomy.SolarLongitude
+import io.github.jaeyeonling.saju.derivation.Daeun
+import io.github.jaeyeonling.saju.derivation.DaeunCalculator
+import io.github.jaeyeonling.saju.derivation.DaeunDirection
 import io.github.jaeyeonling.saju.derivation.PillarDerivation
+import io.github.jaeyeonling.saju.domain.Eumyang
+import io.github.jaeyeonling.saju.domain.GanZhi
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
@@ -65,6 +70,46 @@ public object Saju {
         )
     }
 
+    /**
+     * 대운 도출 — 절기 경계까지의 거리로 시작 나이를 정하고 월주에서 방향대로 시퀀스를 만든다.
+     *
+     * @param utJd 출생의 절대 순간(UT 율리우스일).
+     * @param monthPillar 월주 간지.
+     * @param yearStemEumyang 연간 음양(방향 판정용).
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun daeun(
+        utJd: Double,
+        monthPillar: GanZhi,
+        yearStemEumyang: Eumyang,
+        isMale: Boolean,
+        count: Int = DEFAULT_DAEUN_COUNT,
+    ): List<Daeun> {
+        val direction = DaeunDirection.of(yearStemEumyang, isMale)
+        val birthLongitude = SolarLongitude.apparentLongitudeDegAtUT(utJd)
+
+        // 절(節)은 황경 ≡ 15 (mod 30). 현재 절 시작부터 경과한 각도.
+        val degreesIntoMonth = floorModDouble(birthLongitude - JEOL_PHASE_DEG, DEGREES_PER_MONTH)
+        val daysToBoundary = if (direction == DaeunDirection.FORWARD) {
+            val nextJeolLon = normalizeDeg(birthLongitude + (DEGREES_PER_MONTH - degreesIntoMonth))
+            val near = utJd + (DEGREES_PER_MONTH - degreesIntoMonth) / MEAN_DAILY_MOTION
+            SolarLongitude.instantOfLongitudeUT(nextJeolLon, near) - utJd
+        } else {
+            val prevJeolLon = normalizeDeg(birthLongitude - degreesIntoMonth)
+            val near = utJd - degreesIntoMonth / MEAN_DAILY_MOTION
+            utJd - SolarLongitude.instantOfLongitudeUT(prevJeolLon, near)
+        }
+
+        return DaeunCalculator.sequence(monthPillar, direction, DaeunCalculator.startAge(daysToBoundary), count)
+    }
+
+    /** 세운(歲運) — 특정 연도의 간지(입춘 기준 연주). */
+    @JvmStatic
+    public fun seun(year: Int): GanZhi = PillarDerivation.yearPillar(year)
+
+    private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
+
     private fun normalizeDeg(deg: Double): Double = ((deg % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE
 
     private const val IPCHUN_TERM_INDEX = 21
@@ -76,4 +121,7 @@ public object Saju {
     private const val MINUTES_PER_DAY = 1440.0
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
+    private const val JEOL_PHASE_DEG = 15.0
+    private const val MEAN_DAILY_MOTION = 0.98565
+    private const val DEFAULT_DAEUN_COUNT = 8
 }
