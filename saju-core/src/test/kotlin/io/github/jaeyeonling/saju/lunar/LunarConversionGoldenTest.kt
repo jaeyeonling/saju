@@ -61,10 +61,10 @@ class LunarConversionGoldenTest {
 
     @Test
     fun `양력→음력→양력 라운드트립 항등 (표본)`() {
-        // 하단 경계(음력 1899) 허용으로 1900년 초 양력도 왕복 복원된다.
-        for (year in START_YEAR..END_YEAR) {
+        // 하단 경계(음력 1899) 허용으로 1900년 초 양력도 왕복 복원된다. 말일 근처(28)까지 표본.
+        for (year in START_YEAR..ROUNDTRIP_END_YEAR) {
             for (month in 1..12) {
-                for (day in intArrayOf(1, 14, 27)) {
+                for (day in intArrayOf(1, 10, 20, 28)) {
                     val lunar = LunarConverter.toLunar(year, month, day, CalendarBasis.CHINA)
                     val back = LunarConverter.toSolar(lunar.year, lunar.month, lunar.day, lunar.isLeapMonth, CalendarBasis.CHINA)
                     assertEquals(year, back.year, "라운드트립 year @ $year-$month-$day")
@@ -105,7 +105,8 @@ class LunarConversionGoldenTest {
 
     private companion object {
         const val START_YEAR = 1900
-        const val END_YEAR = 2050
-        const val MAX_BOUNDARY_DIFF = 4 // 자정 극근처 삭 허용 상한 (실측 3건 + 여유 1)
+        const val END_YEAR = 2099 // tyme4j 윤달 테이블 상한 = 입력 지원 범위(~2100)
+        const val ROUNDTRIP_END_YEAR = 2050 // 라운드트립은 자체 일관성이라 표본 구간만
+        const val MAX_BOUNDARY_DIFF = 6 // 자정 극근처 삭 허용 상한 (1900~2099 실측 기준 + 여유)
     }
 }
