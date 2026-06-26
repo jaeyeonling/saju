@@ -19,6 +19,9 @@ public object LunarConverter {
         basis: CalendarBasis = CalendarBasis.KOREA,
     ): LunarDate {
         require(year in MIN_YEAR..MAX_YEAR) { "지원 범위(1900~2100) 밖: $year" }
+        // toSolar 와 대칭되는 입력 가드 — 쓰레기 양력 입력이 그럴듯한 음력으로 새지 않게 fail-fast.
+        require(month in 1..LAST_MONTH) { "양력 월은 1~12: $month" }
+        require(day in 1..MAX_SOLAR_DAY) { "양력 일은 1~31: $day" }
         return LunarCalendar.solarToLunar(year, month, day, basis.utOffsetHours)
     }
 
@@ -32,9 +35,10 @@ public object LunarConverter {
         isLeapMonth: Boolean = false,
         basis: CalendarBasis = CalendarBasis.KOREA,
     ): CalendarDate {
-        require(lunarYear in MIN_YEAR..MAX_YEAR) { "지원 범위(1900~2100) 밖: $lunarYear" }
+        // 하한을 음력 1899까지 허용 — toLunar(1900년 초)가 음력 1899를 반환하므로 왕복이 깨지지 않게 한다.
+        require(lunarYear in (MIN_YEAR - 1)..MAX_YEAR) { "지원 범위(1899~2100) 밖: $lunarYear" }
         require(lunarMonth in 1..LAST_MONTH) { "음력 월은 1~12: $lunarMonth" }
-        require(day in 1..MAX_DAY) { "음력 일은 1~30: $day" }
+        require(day in 1..MAX_DAY) { "음력 일은 1~30: $day" } // 실제 월 길이는 LunarCalendar 에서 재검증
         return LunarCalendar.lunarToSolar(lunarYear, lunarMonth, day, isLeapMonth, basis.utOffsetHours)
     }
 
@@ -42,4 +46,6 @@ public object LunarConverter {
     private const val MAX_YEAR = 2100
     private const val LAST_MONTH = 12
     private const val MAX_DAY = 30
+    private const val MAX_SOLAR_DAY = 31
 }
+

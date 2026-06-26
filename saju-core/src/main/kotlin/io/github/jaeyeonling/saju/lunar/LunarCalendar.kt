@@ -43,8 +43,19 @@ internal object LunarCalendar {
         val sui = buildSui(suiYear, utOffsetHours)
         val info = sui.firstOrNull {
             it.lunarYear == lunarYear && it.monthNumber == lunarMonth && it.isLeap == isLeapMonth
-        } ?: error("존재하지 않는 음력 월: ${lunarYear}년 ${if (isLeapMonth) "윤" else ""}${lunarMonth}월")
+        } ?: run {
+            val leap = sui.firstOrNull { it.isLeap && it.lunarYear == lunarYear }
+            val leapHint = if (leap != null) " (그 해 윤달은 ${leap.monthNumber}월)" else " (그 해 윤달 없음)"
+            throw IllegalArgumentException(
+                "존재하지 않는 음력 월: ${lunarYear}년 ${if (isLeapMonth) "윤" else ""}${lunarMonth}월$leapHint",
+            )
+        }
+        // 동적 월 길이 검증 — 29일 달에 30일 입력 등 '없는 날짜'를 fail-fast (조용한 누수 방지).
         val monthStartJdn = newMoonCivilJdn(info.newMoonK, utOffsetHours)
+        val monthLength = (newMoonCivilJdn(info.newMoonK + 1, utOffsetHours) - monthStartJdn).toInt()
+        require(day in 1..monthLength) {
+            "음력 ${lunarYear}년 ${if (isLeapMonth) "윤" else ""}${lunarMonth}월은 ${monthLength}일까지입니다: $day"
+        }
         val resultJdn = monthStartJdn + (day - 1)
         return JulianDayConverter.toGregorian(resultJdn.toDouble() - 0.5)
     }
