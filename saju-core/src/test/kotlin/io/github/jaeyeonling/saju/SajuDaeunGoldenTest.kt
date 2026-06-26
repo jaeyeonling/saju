@@ -58,9 +58,10 @@ class SajuDaeunGoldenTest {
             tymeFortune = tymeFortune.next(1)
         }
 
-        // ③ 시작 나이 (±1 허용)
-        val diff = abs(tymeFirst.startAge - mine[0].startAge)
-        assertTrue(diff <= 1, "대운 시작나이 @ $tag: tyme=${tymeFirst.startAge}, mine=${mine[0].startAge}")
+        // ③ 대운수(시작 나이) — tyme.yearCount(3일=1세, 한국 전통과 동일 정의)와 ±1(round vs floor 차) 비교.
+        // tyme.startDecadeFortune.startAge 는 '양력새해 교차' 정의라 최대 2세까지 벌어져 비교 대상으로 부적합.
+        val diff = abs(childLimit.yearCount - mine[0].startAge)
+        assertTrue(diff <= 1, "대운수(3일=1세) @ $tag: yearCount=${childLimit.yearCount}, mine=${mine[0].startAge}")
         return diff
     }
 
@@ -73,6 +74,9 @@ class SajuDaeunGoldenTest {
             intArrayOf(1984, 8, 20, 10, 0),
             intArrayOf(1975, 11, 5, 16, 0),
             intArrayOf(2010, 4, 18, 3, 0),
+            // 연말 출생 — 순행 대운이 양력 새해를 여러 번 가로지르는 경계
+            intArrayOf(1995, 12, 28, 10, 0),
+            intArrayOf(2003, 12, 20, 8, 0),
         )
     }
 }

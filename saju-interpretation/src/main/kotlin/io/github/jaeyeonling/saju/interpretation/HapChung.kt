@@ -26,10 +26,15 @@ public sealed interface HapChungRelation {
     public data class JijiSamhap(public val members: List<Jiji>, public val transformsTo: Ohaeng) : HapChungRelation
 }
 
-/** 천간·지지 집합에서 모든 합충 관계를 테이블 기반으로 탐지한다. */
+/**
+ * 천간·지지 집합에서 합충 관계를 테이블 기반으로 탐지한다.
+ *
+ * v1 탐지 범위: **천간합** + 지지 **육합·육충·육해·삼합**.
+ * (형(刑)·파(破)·방합·반합은 학파별 이견이 커 미모델링 — 골든 레퍼런스 tyme4j도 동일 범위)
+ */
 public object HapChungDetector {
 
-    /** 천간 합·충 + 지지 육합/육충/육해/삼합을 모두 찾는다. */
+    /** 천간합 + 지지 육합/육충/육해/삼합을 찾는다. */
     @JvmStatic
     public fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation> {
         val relations = mutableListOf<HapChungRelation>()

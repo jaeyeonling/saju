@@ -5,6 +5,7 @@ import io.github.jaeyeonling.saju.astronomy.Ephemeris
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.domain.SajuChart
+import io.github.jaeyeonling.saju.domain.ZishiPolicy
 import io.github.jaeyeonling.saju.lunar.CalendarBasis
 import io.github.jaeyeonling.saju.lunar.LunarConverter
 
@@ -36,12 +37,13 @@ public object KoreanSaju {
         hour: Int,
         minute: Int,
         longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
+        zishiPolicy: ZishiPolicy = ZishiPolicy.JEONGJASI,
     ): SajuChart {
         val solar = LunarConverter.toSolar(lunarYear, lunarMonth, lunarDay, isLeapMonth, CalendarBasis.KOREA)
-        return fromCivilTime(solar.year, solar.month, solar.day, hour, minute, longitudeDeg)
+        return fromCivilTime(solar.year, solar.month, solar.day, hour, minute, longitudeDeg, zishiPolicy)
     }
 
-    /** 법정시 + 출생지 경도로 사주판 도출. */
+    /** 법정시 + 출생지 경도로 사주판 도출. [zishiPolicy] 로 자시 학파(정자시/야자시) 선택. */
     @JvmStatic
     @JvmOverloads
     public fun fromCivilTime(
@@ -51,12 +53,12 @@ public object KoreanSaju {
         hour: Int,
         minute: Int,
         longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
+        zishiPolicy: ZishiPolicy = ZishiPolicy.JEONGJASI,
     ): SajuChart {
         val (trueSolarJd, trueSolarUtOffsetHours) = computeTrueSolar(year, month, day, hour, minute, longitudeDeg)
         val ts = JulianDayConverter.toGregorian(trueSolarJd)
-        val tsHour = (ts.dayFraction * HOURS_PER_DAY).toInt()
-        val tsMinute = ((ts.dayFraction * MINUTES_PER_DAY) % MINUTES_PER_HOUR).toInt()
-        return Saju.fromLocalDateTime(ts.year, ts.month, ts.day, tsHour, tsMinute, trueSolarUtOffsetHours)
+        // 진태양시 시각을 초까지 보존해 절기 경계 오판 방지.
+        return Saju.fromLocalDateTime(ts.year, ts.month, ts.day, ts.hour, ts.minute, trueSolarUtOffsetHours, zishiPolicy, ts.second)
     }
 
     /** 법정시 + 출생지 + 성별로 대운 시퀀스 도출(한국 보정 반영). */
@@ -106,6 +108,12 @@ public object KoreanSaju {
         minute: Int,
         longitudeDeg: Double,
     ): Pair<Double, Double> {
+        // 모든 공개 진입점(fromCivilTime/daeun/trueSolarOffsetMinutes)이 이 함수를 거치므로 여기서 fail-fast.
+        Saju.requireValidCivilDateTime(year, month, day, hour, minute)
+        require(longitudeDeg.isFinite() && longitudeDeg in MIN_LONGITUDE..MAX_LONGITUDE) {
+            "출생지 경도는 ${MIN_LONGITUDE}~${MAX_LONGITUDE}: $longitudeDeg"
+        }
+
         val info = KoreanStandardTime.at(year, month, day, hour, minute)
         // LMT(1908 이전)면 표준 자오선이 곧 출생지 경도라 경도보정이 0이 된다.
         val standardMeridian = info.standardMeridianDeg ?: longitudeDeg
@@ -126,6 +134,8 @@ public object KoreanSaju {
         JulianDayConverter.fromGregorian(year, month, day, (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY)
 
     private const val DEFAULT_DAEUN_COUNT = 8
+    private const val MIN_LONGITUDE = -180.0
+    private const val MAX_LONGITUDE = 180.0
     private const val SUMMER_TIME_HOURS = 1.0
     private const val DEGREES_PER_HOUR = 15.0
     private const val HOURS_PER_DAY = 24.0

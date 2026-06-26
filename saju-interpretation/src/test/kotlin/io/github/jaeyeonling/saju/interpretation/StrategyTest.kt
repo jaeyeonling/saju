@@ -54,6 +54,28 @@ class StrategyTest {
     }
 
     @Test
+    fun `신강신약 5단계가 모두 도달 가능하다 (JUNGHWA dead code 회귀)`() {
+        // 60갑자 조합으로 다양한 사주를 생성해 verdict 분포를 본다 — JUNGHWA 포함 5단계 모두 나와야 한다.
+        val verdicts = mutableSetOf<SinStrengthVerdict>()
+        for (y in 0 until 60 step 7) {
+            for (mo in 0 until 60 step 11) {
+                for (d in 0 until 60 step 13) {
+                    for (h in 0 until 60 step 17) {
+                        val chart = SajuChart(
+                            Pillar(PillarPosition.YEAR, GanZhi.fromIndex(y)),
+                            Pillar(PillarPosition.MONTH, GanZhi.fromIndex(mo)),
+                            Pillar(PillarPosition.DAY, GanZhi.fromIndex(d)),
+                            Pillar(PillarPosition.HOUR, GanZhi.fromIndex(h)),
+                        )
+                        verdicts.add(BueokSinStrengthStrategy.evaluate(chart).verdict)
+                    }
+                }
+            }
+        }
+        assertEquals(SinStrengthVerdict.entries.toSet(), verdicts, "5단계 verdict 모두 도달: $verdicts")
+    }
+
+    @Test
     fun `비겁·인성이 많으면 신강으로 판정된다`() {
         // 일간 갑목, 주변에 목·수(비겁·인성) 가득 → 신강.
         val strongWood = SajuChart(

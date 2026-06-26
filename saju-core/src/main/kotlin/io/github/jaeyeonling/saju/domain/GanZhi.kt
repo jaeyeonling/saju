@@ -25,9 +25,12 @@ public data class GanZhi(
             return GanZhi(Cheongan.fromIndex(normalized), Jiji.fromIndex(normalized))
         }
 
-        /** 60갑자 전체(0..59). */
+        /**
+         * 60갑자 전체(0..59). Java 소비자가 수정하지 못하도록 불변 래핑.
+         * (KMP 승격 시 kotlinx-collections-immutable 또는 expect/actual 로 교체)
+         */
         @JvmField
-        public val ALL: List<GanZhi> = (0 until CYCLE).map { fromIndex(it) }
+        public val ALL: List<GanZhi> = java.util.Collections.unmodifiableList((0 until CYCLE).map { fromIndex(it) })
 
         // i%10==gan, i%12==ji 를 만족하는 0..59 (유효 60갑자 조합은 최대 6스텝 내 발견).
         private fun sexagenaryIndex(gan: Cheongan, ji: Jiji): Int {

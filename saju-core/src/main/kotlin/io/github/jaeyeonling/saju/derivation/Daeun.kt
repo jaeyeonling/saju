@@ -49,6 +49,7 @@ public object DaeunCalculator {
         startAge: Int,
         count: Int,
     ): List<Daeun> {
+        require(count in 1..MAX_DAEUN_COUNT) { "대운 개수는 1~$MAX_DAEUN_COUNT: $count" }
         val step = if (direction == DaeunDirection.FORWARD) 1 else -1
         return (0 until count).map { i ->
             Daeun(startAge + i * YEARS_PER_DECADE, monthPillar.next(step * (i + 1)))
@@ -57,4 +58,5 @@ public object DaeunCalculator {
 
     private const val DAYS_PER_YEAR = 3.0
     private const val YEARS_PER_DECADE = 10
+    private const val MAX_DAEUN_COUNT = 12 // 120년 — 인간 수명 상한
 }

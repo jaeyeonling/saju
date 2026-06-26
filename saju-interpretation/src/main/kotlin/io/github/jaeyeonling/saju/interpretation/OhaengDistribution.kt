@@ -4,8 +4,8 @@ import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.SajuChart
 
 /**
- * 오행 분포 — 사주 8글자(천간 4 + 지지 4)의 오행 개수 집계.
- * 신강신약 판정·용신 도출의 입력. (지장간 가중은 P7에서 추가 가능)
+ * 오행 분포 — 사주 8글자(천간 4 + 지지 본기 4)의 오행 개수 집계. 해석 보조용 공개 유틸.
+ * [counts] 는 불변 맵으로 노출된다.
  */
 public data class OhaengDistribution(
     public val counts: Map<Ohaeng, Int>,
@@ -23,7 +23,7 @@ public data class OhaengDistribution(
             val counts = Ohaeng.entries.associateWith { 0 }.toMutableMap()
             chart.stems().forEach { counts[it.ohaeng] = counts.getValue(it.ohaeng) + 1 }
             chart.branches().forEach { counts[it.ohaeng] = counts.getValue(it.ohaeng) + 1 }
-            return OhaengDistribution(counts.toMap())
+            return OhaengDistribution(java.util.Collections.unmodifiableMap(LinkedHashMap(counts)))
         }
     }
 }

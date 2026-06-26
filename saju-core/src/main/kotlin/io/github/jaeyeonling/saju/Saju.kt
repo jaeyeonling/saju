@@ -6,6 +6,7 @@ import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.derivation.DaeunCalculator
 import io.github.jaeyeonling.saju.derivation.DaeunDirection
 import io.github.jaeyeonling.saju.derivation.PillarDerivation
+import io.github.jaeyeonling.saju.derivation.Seun
 import io.github.jaeyeonling.saju.domain.Eumyang
 import io.github.jaeyeonling.saju.domain.GanZhi
 import io.github.jaeyeonling.saju.domain.Jiji
@@ -38,8 +39,14 @@ public object Saju {
         minute: Int,
         utOffsetHours: Double,
         zishiPolicy: ZishiPolicy = ZishiPolicy.JEONGJASI,
+        second: Int = 0,
     ): SajuChart {
-        val timeFraction = (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY
+        requireValidCivilDateTime(year, month, day, hour, minute)
+        require(second in 0..MAX_SECOND) { "초는 0~59: $second" }
+        require(utOffsetHours.isFinite()) { "utOffsetHours 는 유한값이어야 합니다: $utOffsetHours" }
+
+        // 초까지 반영 — 절기 절입 ±60초 경계에서 연·월주가 흔들리지 않게(진태양시 보정의 초 손실 방지).
+        val timeFraction = (hour * SECONDS_PER_HOUR + minute * SECONDS_PER_MINUTE + second) / SECONDS_PER_DAY
         val localJd = JulianDayConverter.fromGregorian(year, month, day, timeFraction)
         val utJd = localJd - utOffsetHours / HOURS_PER_DAY
 
@@ -111,7 +118,22 @@ public object Saju {
 
     /** 세운(歲運) — 특정 연도의 간지(입춘 기준 연주). */
     @JvmStatic
-    public fun seun(year: Int): GanZhi = PillarDerivation.yearPillar(year)
+    public fun seun(year: Int): Seun = Seun(year, PillarDerivation.yearPillar(year))
+
+    /**
+     * 양력 시각 입력 공통 검증 — 라이브러리 전역 fail-fast 일관성(음력 경로와 동일 정책).
+     * 잘못된 입력이 '그럴듯하지만 틀린 사주'로 조용히 새는 것을 막는다.
+     */
+    @JvmStatic
+    public fun requireValidCivilDateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+        require(year in SUPPORTED_MIN_YEAR..SUPPORTED_MAX_YEAR) {
+            "지원 연도($SUPPORTED_MIN_YEAR~$SUPPORTED_MAX_YEAR) 밖: $year"
+        }
+        require(month in 1..MONTHS_PER_YEAR) { "월은 1~12: $month" }
+        require(day in 1..MAX_DAY_OF_MONTH) { "일은 1~31: $day" }
+        require(hour in 0..MAX_HOUR) { "시는 0~23: $hour" }
+        require(minute in 0..MAX_MINUTE) { "분은 0~59: $minute" }
+    }
 
     private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
 
@@ -127,6 +149,18 @@ public object Saju {
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
     private const val ZISHI_START_HOUR = 23
+    private const val MAX_DAY_OF_MONTH = 31
+    private const val MAX_HOUR = 23
+    private const val MAX_MINUTE = 59
+    private const val MAX_SECOND = 59
+    private const val SECONDS_PER_HOUR = 3600.0
+    private const val SECONDS_PER_MINUTE = 60.0
+    private const val SECONDS_PER_DAY = 86_400.0
+
+    /** 지원 입력 연도 범위 — 천문 리소스 정확도·음력 변환 구간과 정합. */
+    public const val SUPPORTED_MIN_YEAR: Int = 1900
+    public const val SUPPORTED_MAX_YEAR: Int = 2100
+
     private const val JEOL_PHASE_DEG = 15.0
     private const val MEAN_DAILY_MOTION = 0.98565
     private const val DEFAULT_DAEUN_COUNT = 8
