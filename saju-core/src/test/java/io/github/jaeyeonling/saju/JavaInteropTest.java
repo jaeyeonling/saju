@@ -1,8 +1,12 @@
 package io.github.jaeyeonling.saju;
 
+import io.github.jaeyeonling.saju.astronomy.CalendarDate;
 import io.github.jaeyeonling.saju.domain.Cheongan;
 import io.github.jaeyeonling.saju.domain.GanZhi;
 import io.github.jaeyeonling.saju.domain.SajuChart;
+import io.github.jaeyeonling.saju.lunar.CalendarBasis;
+import io.github.jaeyeonling.saju.lunar.LunarDate;
+import io.github.jaeyeonling.saju.lunar.LunarConverter;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -45,5 +49,17 @@ class JavaInteropTest {
         assertNotNull(gab.getEumyang());
         // 천간합 갑→기
         assertEquals(Cheongan.GI, gab.combinePartner());
+    }
+
+    @Test
+    void lunarConversionCallableFromJava() {
+        // @JvmStatic + @JvmOverloads — basis 지정/생략 모두 가능. @JvmField 는 필드로 노출.
+        CalendarDate solar = LunarConverter.toSolar(2023, 1, 1, false, CalendarBasis.KOREA);
+        assertEquals(2023, solar.year);
+        assertEquals(1, solar.month);
+
+        LunarDate lunar = LunarConverter.toLunar(2023, 1, 22); // basis 생략(@JvmOverloads)
+        assertEquals(1, lunar.month);
+        assertEquals(false, lunar.isLeapMonth);
     }
 }

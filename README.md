@@ -14,7 +14,7 @@
 
 | 모듈 | 역할 | java.time |
 |------|------|-----------|
-| `saju-core` | 천문 엔진 + 도메인(천간·지지·60갑자) + 4기둥/대운 도출 | ❌ 금지(Konsist 강제) |
+| `saju-core` | 천문 엔진(태양·달·절기·삭) + 도메인(천간·지지·60갑자) + 4기둥/대운 + 음력 변환(무중치윤) | ❌ 금지(Konsist 강제) |
 | `saju-korea` | 한국 시간 보정(진태양시·표준시 연혁·서머타임·자시) | ✅ 사용 |
 | `saju-interpretation` | 십성·오행·합충·신살·신강신약·용신·격국 | ❌ 금지 |
 | `saju-cli` | 데모/수동 검증 CLI | ✅ 사용 |
@@ -46,6 +46,11 @@ val gyeokguk = ctx.gyeokguk.classify(chart)      // 격국
 
 // 대운
 val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
+
+// 음력 생일 입력 (KASI 기준 양력 변환 후 동일 파이프라인)
+val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)
+val solar = LunarConverter.toSolar(2023, 1, 1)        // 음 → 양 (설날 → 2023-01-22)
+val lunar = LunarConverter.toLunar(2023, 1, 22)       // 양 → 음
 ```
 
 ### Java
@@ -75,6 +80,9 @@ List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
 | 천간·지지·60갑자 속성 | 전수 일치 |
 | 십성 100조합 / 십이운성 120조합 / 지장간 | 일치 |
 | 대운 방향·간지 | 일치 (시작나이 ±1, 학파 환산차) |
+| 음↔양력 변환(1900~2050) | 1865/1868 정확, 3건 자정경계 ±1일* |
+
+*삭이 자정 ±5분에 드는 극경계(1914·1916·1920)는 두 독립 천문 엔진의 한계로 중국 농력과 ±1일 갈릴 수 있다. 한국 기준(KASI, KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
 
 신강신약·용신·격국은 정답 데이터셋이 없어(tyme4j 미제공) 결정론성만 보장하며, 가중치·규칙은 KDoc에 근거를 명시한다.
 
@@ -89,7 +97,7 @@ List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
 - [x] **P6** 해석: 십성·합충·공망·오행분포
 - [x] **P7** 학파 전략: 십이운성·신강신약·용신·격국 + 자시
 - [x] **P8** Java interop + CLI 데모 + 문서
-- [ ] 음력 입력 지원(삭·음양력 변환)
+- [x] 음력 입력 지원(삭·무중치윤·음양력 변환, 한국/중국 기준)
 - [ ] Maven Central 배포
 
 ## 라이선스

@@ -5,6 +5,8 @@ import io.github.jaeyeonling.saju.astronomy.Ephemeris
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.domain.SajuChart
+import io.github.jaeyeonling.saju.lunar.CalendarBasis
+import io.github.jaeyeonling.saju.lunar.LunarConverter
 
 /**
  * 한국 사주 진입점 — 법정시(시계 시각)에 한국 보정을 적용해 사주판을 도출한다.
@@ -18,6 +20,26 @@ import io.github.jaeyeonling.saju.domain.SajuChart
  * 1·2 는 절대 순간(UT)을 정하고, 3 은 그 순간을 출생지 태양시로 표시한다.
  */
 public object KoreanSaju {
+
+    /**
+     * 음력 생일 + 법정시로 사주판 도출. 음력→양력(KASI 기준) 변환 후 [fromCivilTime] 파이프라인 재사용.
+     *
+     * @param isLeapMonth 윤달 여부.
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun fromLunarCivilTime(
+        lunarYear: Int,
+        lunarMonth: Int,
+        lunarDay: Int,
+        isLeapMonth: Boolean,
+        hour: Int,
+        minute: Int,
+        longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
+    ): SajuChart {
+        val solar = LunarConverter.toSolar(lunarYear, lunarMonth, lunarDay, isLeapMonth, CalendarBasis.KOREA)
+        return fromCivilTime(solar.year, solar.month, solar.day, hour, minute, longitudeDeg)
+    }
 
     /** 법정시 + 출생지 경도로 사주판 도출. */
     @JvmStatic

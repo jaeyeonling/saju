@@ -29,6 +29,15 @@ public fun main() {
     printInterpretation(chart)
     println()
     printDaeun(year, month, day, hour, minute, longitude)
+    println()
+    printLunarExample()
+}
+
+private fun printLunarExample() {
+    // 음력 입력 예시: 음력 2023-1-1(설날) → 양력 변환 후 사주.
+    val lunarChart = KoreanSaju.fromLunarCivilTime(2023, 1, 1, isLeapMonth = false, hour = 9, minute = 0)
+    println("───── 음력 입력 예시 ─────")
+    println("음력 2023-01-01 09:00 → ${ganKorean(lunarChart.year.gan)}${jiKorean(lunarChart.year.ji)}년 일간 ${ganKorean(lunarChart.dayMaster)}")
 }
 
 private fun printPillars(chart: SajuChart) {
