@@ -12,6 +12,7 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
+import io.github.jaeyeonling.saju.domain.ZishiPolicy
 import kotlin.math.floor
 
 /**
@@ -28,6 +29,7 @@ public object Saju {
      * @param utOffsetHours 로컬 시각을 UT 로 바꾸는 오프셋. 예: 베이징 8.0, 한국 표준시 9.0.
      */
     @JvmStatic
+    @JvmOverloads
     public fun fromLocalDateTime(
         year: Int,
         month: Int,
@@ -35,6 +37,7 @@ public object Saju {
         hour: Int,
         minute: Int,
         utOffsetHours: Double,
+        zishiPolicy: ZishiPolicy = ZishiPolicy.JEONGJASI,
     ): SajuChart {
         val timeFraction = (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY
         val localJd = JulianDayConverter.fromGregorian(year, month, day, timeFraction)
@@ -54,8 +57,10 @@ public object Saju {
             PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
         }
 
-        // 일주: 로컬 날짜의 율리우스일 번호. (자시 경계 보정은 P4)
-        val julianDayNumber = floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong()
+        // 일주: 로컬 날짜의 율리우스일 번호. 정자시설은 23시 이후를 다음날 일주로 본다.
+        val zishiDateShift = if (zishiPolicy == ZishiPolicy.JEONGJASI && hour >= ZISHI_START_HOUR) 1L else 0L
+        val julianDayNumber =
+            floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong() + zishiDateShift
         val dayGanZhi = PillarDerivation.dayPillar(julianDayNumber)
 
         // 시주: 시지(2시간 단위) + 일간. (자시 학파는 P4)
@@ -121,6 +126,7 @@ public object Saju {
     private const val MINUTES_PER_DAY = 1440.0
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
+    private const val ZISHI_START_HOUR = 23
     private const val JEOL_PHASE_DEG = 15.0
     private const val MEAN_DAILY_MOTION = 0.98565
     private const val DEFAULT_DAEUN_COUNT = 8
