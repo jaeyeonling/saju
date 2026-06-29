@@ -2,10 +2,12 @@ package io.github.jaeyeonling.saju
 
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.astronomy.SolarLongitude
+import io.github.jaeyeonling.saju.astronomy.normalizeDegrees
 import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.derivation.DaeunCalculator
 import io.github.jaeyeonling.saju.derivation.DaeunDirection
 import io.github.jaeyeonling.saju.derivation.PillarDerivation
+import io.github.jaeyeonling.saju.derivation.SajuConfig
 import io.github.jaeyeonling.saju.derivation.Seun
 import io.github.jaeyeonling.saju.domain.Eumyang
 import io.github.jaeyeonling.saju.domain.GanZhi
@@ -13,7 +15,6 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
-import io.github.jaeyeonling.saju.domain.ZishiPolicy
 import kotlin.math.floor
 
 /**
@@ -38,7 +39,7 @@ public object Saju {
         hour: Int,
         minute: Int,
         utOffsetHours: Double,
-        zishiPolicy: ZishiPolicy = ZishiPolicy.JEONGJASI,
+        config: SajuConfig = SajuConfig.DEFAULT,
         second: Int = 0,
     ): SajuChart {
         requireValidCivilDateTime(year, month, day, hour, minute)
@@ -51,26 +52,27 @@ public object Saju {
         val utJd = localJd - utOffsetHours / HOURS_PER_DAY
 
         val yearGanZhi = run {
-            // 연주: 그 해 입춘 절입 시각과 비교 — 입춘 전이면 전년.
-            val ipchunUt = SolarLongitude.solarTermInstantUT(year, IPCHUN_TERM_INDEX)
-            val solarYear = if (utJd >= ipchunUt) year else year - 1
+            // 연주: 경계 절기(입춘세수=입춘, 동지세수=동지) 절입 시각과 비교 — 학파별 보정은 정책에 위임.
+            val boundary = config.yearBoundary
+            val boundaryUt = SolarLongitude.solarTermInstantUT(year, boundary.termIndex)
+            val solarYear = boundary.resolveYear(year, utJd >= boundaryUt)
             PillarDerivation.yearPillar(solarYear)
         }
 
         val monthGanZhi = run {
-            // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다).
-            val longitudeFromIpchun = normalizeDeg(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
+            // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다). 학파 무관(절기 기준 고정).
+            val longitudeFromIpchun = normalizeDegrees(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
             val monthOffset = floor(longitudeFromIpchun / DEGREES_PER_MONTH).toInt() % MONTHS_PER_YEAR
             PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
         }
 
-        // 일주: 로컬 날짜의 율리우스일 번호. 정자시설은 23시 이후를 다음날 일주로 본다.
-        val zishiDateShift = if (zishiPolicy == ZishiPolicy.JEONGJASI && hour >= ZISHI_START_HOUR) 1L else 0L
+        // 일주: 로컬 날짜의 율리우스일 번호. 자시 학파(정자시=23시 이후 다음날)는 정책에 위임.
+        val zishiDateShift = config.zishi.dayPillarShift(hour)
         val julianDayNumber =
             floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong() + zishiDateShift
         val dayGanZhi = PillarDerivation.dayPillar(julianDayNumber)
 
-        // 시주: 시지(2시간 단위) + 일간. (자시 학파는 P4)
+        // 시주: 시지(2시간 단위) + 일간. 시간(時干)은 위에서 정책대로 시프트된 일간을 따라간다.
         val hourJi = Jiji.fromIndex((hour + 1) / HOURS_PER_BRANCH)
         val hourGanZhi = PillarDerivation.hourPillar(dayGanZhi.gan, hourJi)
 
@@ -97,6 +99,7 @@ public object Saju {
         yearStemEumyang: Eumyang,
         isMale: Boolean,
         count: Int = DEFAULT_DAEUN_COUNT,
+        config: SajuConfig = SajuConfig.DEFAULT,
     ): List<Daeun> {
         val direction = DaeunDirection.of(yearStemEumyang, isMale)
         val birthLongitude = SolarLongitude.apparentLongitudeDegAtUT(utJd)
@@ -104,16 +107,17 @@ public object Saju {
         // 절(節)은 황경 ≡ 15 (mod 30). 현재 절 시작부터 경과한 각도.
         val degreesIntoMonth = floorModDouble(birthLongitude - JEOL_PHASE_DEG, DEGREES_PER_MONTH)
         val daysToBoundary = if (direction == DaeunDirection.FORWARD) {
-            val nextJeolLon = normalizeDeg(birthLongitude + (DEGREES_PER_MONTH - degreesIntoMonth))
+            val nextJeolLon = normalizeDegrees(birthLongitude + (DEGREES_PER_MONTH - degreesIntoMonth))
             val near = utJd + (DEGREES_PER_MONTH - degreesIntoMonth) / MEAN_DAILY_MOTION
             SolarLongitude.instantOfLongitudeUT(nextJeolLon, near) - utJd
         } else {
-            val prevJeolLon = normalizeDeg(birthLongitude - degreesIntoMonth)
+            val prevJeolLon = normalizeDegrees(birthLongitude - degreesIntoMonth)
             val near = utJd - degreesIntoMonth / MEAN_DAILY_MOTION
             utJd - SolarLongitude.instantOfLongitudeUT(prevJeolLon, near)
         }
 
-        return DaeunCalculator.sequence(monthPillar, direction, DaeunCalculator.startAge(daysToBoundary), count)
+        val startAge = config.daeunStartAge.startAge(daysToBoundary)
+        return DaeunCalculator.sequence(monthPillar, direction, startAge, count)
     }
 
     /** 세운(歲運) — 특정 연도의 간지(입춘 기준 연주). */
@@ -137,18 +141,12 @@ public object Saju {
 
     private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
 
-    private fun normalizeDeg(deg: Double): Double = ((deg % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE
 
-    private const val IPCHUN_TERM_INDEX = 21
     private const val IPCHUN_LONGITUDE_DEG = 315.0
     private const val DEGREES_PER_MONTH = 30.0
     private const val MONTHS_PER_YEAR = 12
-    private const val FULL_CIRCLE = 360.0
-    private const val MINUTES_PER_HOUR = 60.0
-    private const val MINUTES_PER_DAY = 1440.0
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
-    private const val ZISHI_START_HOUR = 23
     private const val MAX_DAY_OF_MONTH = 31
     private const val MAX_HOUR = 23
     private const val MAX_MINUTE = 59
@@ -162,6 +160,8 @@ public object Saju {
     public const val SUPPORTED_MAX_YEAR: Int = 2100
 
     private const val JEOL_PHASE_DEG = 15.0
+
+    // 태양의 평균 일일 황경 이동 = 360° / 365.25일 ≈ 0.98565°/일. 절기 경계까지 남은 일수의 1차 추정에 쓴다.
     private const val MEAN_DAILY_MOTION = 0.98565
     private const val DEFAULT_DAEUN_COUNT = 8
 }

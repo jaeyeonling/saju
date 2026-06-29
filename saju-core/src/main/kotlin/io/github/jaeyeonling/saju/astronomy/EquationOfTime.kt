@@ -18,13 +18,13 @@ internal object EquationOfTime {
     /** [jdeTT] 에서 균시차 (분). 진태양시 = 평균태양시 + 반환값. */
     fun minutes(jdeTT: Double): Double {
         val tau = julianMillennia(jdeTT)
-        val meanLongitudeDeg = normalizeDeg(meanLongitudeDeg(tau))
+        val meanLongitudeDeg = normalizeDegrees(meanLongitudeDeg(tau))
         val apparentLongitude = SunPosition.apparentLongitudeRad(jdeTT)
         val obliquity = ObliquityOfEcliptic.trueRad(jdeTT)
         val nutationLongitudeDeg = Nutation.longitudeRad(jdeTT) * RAD_TO_DEG
 
         // 겉보기 적경 α (Meeus 25.6).
-        val rightAscensionDeg = normalizeDeg(
+        val rightAscensionDeg = normalizeDegrees(
             atan2(cos(obliquity) * sin(apparentLongitude), cos(apparentLongitude)) * RAD_TO_DEG,
         )
 
@@ -40,10 +40,9 @@ internal object EquationOfTime {
         1.0 / 49931.0, -1.0 / 15300.0, -1.0 / 2000000.0,
     )
 
-    private fun normalizeDeg(deg: Double): Double = ((deg % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE
 
     private fun wrapDeg180(deg: Double): Double {
-        val normalized = normalizeDeg(deg)
+        val normalized = normalizeDegrees(deg)
         return if (normalized > HALF_CIRCLE) normalized - FULL_CIRCLE else normalized
     }
 

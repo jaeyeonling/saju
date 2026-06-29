@@ -4,6 +4,7 @@ import io.github.jaeyeonling.saju.astronomy.CalendarDate
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.astronomy.LunarPhase
 import io.github.jaeyeonling.saju.astronomy.SolarLongitude
+import io.github.jaeyeonling.saju.astronomy.normalizeDegrees
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -119,7 +120,7 @@ internal object LunarCalendar {
         // 삭 시작 황경 이상 첫 중기(30°의 배수).
         val nextMajorLongitude = ceil(startLongitude / DEGREES_PER_MAJOR_TERM - EPSILON) * DEGREES_PER_MAJOR_TERM
         val near = startUt + (nextMajorLongitude - startLongitude) / MEAN_DAILY_MOTION
-        val termUt = SolarLongitude.instantOfLongitudeUT(normalizeDeg(nextMajorLongitude), near)
+        val termUt = SolarLongitude.instantOfLongitudeUT(normalizeDegrees(nextMajorLongitude), near)
         return civilJdn(termUt, utOffsetHours) < endJdn
     }
 
@@ -139,7 +140,6 @@ internal object LunarCalendar {
     private fun civilJdn(utJd: Double, utOffsetHours: Double): Long =
         floor(utJd + utOffsetHours / HOURS_PER_DAY + 0.5).toLong()
 
-    private fun normalizeDeg(degrees: Double): Double = ((degrees % FULL_CIRCLE) + FULL_CIRCLE) % FULL_CIRCLE
 
     /** 歲 안의 한 삭월: 삭 인덱스 + 배정된 음력 연/월/윤달. */
     private data class MonthInfo(
@@ -154,7 +154,6 @@ internal object LunarCalendar {
     private const val LEAP_YEAR_MONTHS = 13
     private const val WINTER_SOLSTICE_TERM_INDEX = 18 // 황경 270° = 동지 (15°×18)
     private const val DEGREES_PER_MAJOR_TERM = 30.0
-    private const val FULL_CIRCLE = 360.0
     private const val HOURS_PER_DAY = 24.0
     private const val MEAN_DAILY_MOTION = 0.98565
     private const val EPSILON = 1e-9

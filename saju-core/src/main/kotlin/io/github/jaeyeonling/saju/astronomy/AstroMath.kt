@@ -25,6 +25,12 @@ internal fun normalizeRadians(angle: Double): Double {
     return a
 }
 
+/** 각도를 `[0, 360)` 도(degree)로 정규화. */
+internal fun normalizeDegrees(deg: Double): Double {
+    val d = deg % 360.0
+    return if (d < 0.0) d + 360.0 else d
+}
+
 /** `[-π, π]` 로 감싼다 — 뉴턴 역산에서 목표 황경과의 최단 차이를 구할 때 쓴다. */
 internal fun wrapToPi(angle: Double): Double {
     var a = (angle + PI) % TWO_PI

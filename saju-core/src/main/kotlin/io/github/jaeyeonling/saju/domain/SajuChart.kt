@@ -11,6 +11,14 @@ public data class SajuChart(
     public val day: Pillar,
     public val hour: Pillar,
 ) {
+    init {
+        // 각 슬롯의 위치가 일치해야 한다 — year 슬롯에 시주를 넣어 dayMaster가 조용히 틀리는 일을 막는다.
+        require(year.position == PillarPosition.YEAR) { "year 슬롯에는 연주(YEAR)를 넣어야 합니다: ${year.position}" }
+        require(month.position == PillarPosition.MONTH) { "month 슬롯에는 월주(MONTH)를 넣어야 합니다: ${month.position}" }
+        require(day.position == PillarPosition.DAY) { "day 슬롯에는 일주(DAY)를 넣어야 합니다: ${day.position}" }
+        require(hour.position == PillarPosition.HOUR) { "hour 슬롯에는 시주(HOUR)를 넣어야 합니다: ${hour.position}" }
+    }
+
     /** 일간(日干) = '나'. 십성·신강신약 등 모든 해석의 기준. */
     public val dayMaster: Cheongan get() = day.gan
 

@@ -10,6 +10,14 @@ public data class GanZhi(
     public val gan: Cheongan,
     public val ji: Jiji,
 ) {
+    init {
+        // 60갑자는 천간·지지의 음양(parity)이 일치할 때만 존재한다(양간-양지, 음간-음지).
+        // 갑축(甲丑) 같은 무효 조합을 생성 시점에 차단 — index 호출까지 미루지 않는다.
+        require(gan.ordinal % 2 == ji.ordinal % 2) {
+            "유효하지 않은 60갑자 조합: $gan$ji (천간·지지 음양 불일치)"
+        }
+    }
+
     /** 60갑자 인덱스 0..59. */
     public val index: Int get() = sexagenaryIndex(gan, ji)
 

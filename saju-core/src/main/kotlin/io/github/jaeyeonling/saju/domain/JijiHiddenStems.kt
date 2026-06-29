@@ -1,8 +1,13 @@
 package io.github.jaeyeonling.saju.domain
 
 /**
- * 지장간(地藏干) — 지지가 품은 천간(본기/중기/여기).
- * 통근(通根)·격국 투출·신강신약 스코어링의 입력. 데이터는 tyme4j 와 검증된 일반본 기준.
+ * 지장간(地藏干) — 지지가 속에 품은 천간(본기/중기/여기).
+ *
+ * - **본기**(本氣) = 지지를 대표하는 가장 강한 기운, **중기**(中氣)·**여기**(餘氣) = 부차적으로 품은 기운.
+ * - **통근**(通根): 천간이 같은 오행을 지지 지장간에서 만나 '뿌리내려' 힘을 얻는 것 — 신강신약의 핵심 입력.
+ * - **투출**(透出): 지장간이 천간에 드러나는 것 — 격국 판정의 입력([io.github.jaeyeonling.saju] interpretation 의 Gyeokguk).
+ *
+ * 데이터는 tyme4j 와 검증된 일반본 기준.
  */
 public data class JijiHiddenStems(
     public val mainQi: Cheongan,

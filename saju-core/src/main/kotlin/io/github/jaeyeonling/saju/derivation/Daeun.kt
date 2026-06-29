@@ -2,7 +2,6 @@ package io.github.jaeyeonling.saju.derivation
 
 import io.github.jaeyeonling.saju.domain.Eumyang
 import io.github.jaeyeonling.saju.domain.GanZhi
-import kotlin.math.round
 
 /** 대운 진행 방향 — 양남음녀는 순행, 음남양녀는 역행. */
 public enum class DaeunDirection {
@@ -30,16 +29,11 @@ public data class Seun(
     public val ganZhi: GanZhi,
 )
 
-/** 대운 도출 — 절기까지의 거리로 시작 나이를 정하고, 월주에서 방향대로 시퀀스를 만든다. */
+/**
+ * 대운 도출 — 월주에서 방향대로 간지 시퀀스를 만든다.
+ * 시작 나이(대운수) 환산은 [DaeunStartAgePolicy] 가, 절기 거리 계산은 [io.github.jaeyeonling.saju.Saju] 가 맡는다.
+ */
 public object DaeunCalculator {
-
-    /**
-     * 대운 시작 나이(대운수) = 절기 경계까지의 일수 ÷ 3 (3일 = 1세).
-     *
-     * @param daysToBoundary 순행이면 다음 절(節)까지, 역행이면 이전 절부터의 일수.
-     */
-    @JvmStatic
-    public fun startAge(daysToBoundary: Double): Int = round(daysToBoundary / DAYS_PER_YEAR).toInt()
 
     /** 월주에서 시작하는 대운 간지 시퀀스. 첫 대운은 월주의 다음/이전 간지. */
     @JvmStatic
@@ -56,7 +50,6 @@ public object DaeunCalculator {
         }
     }
 
-    private const val DAYS_PER_YEAR = 3.0
     private const val YEARS_PER_DECADE = 10
     private const val MAX_DAEUN_COUNT = 12 // 120년 — 인간 수명 상한
 }
