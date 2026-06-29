@@ -13,6 +13,7 @@ import io.github.jaeyeonling.saju.interpretation.SinStrengthVerdict
 import io.github.jaeyeonling.saju.interpretation.SipSeong
 import io.github.jaeyeonling.saju.korea.Birthplace
 import io.github.jaeyeonling.saju.korea.KoreanSaju
+import kotlin.system.exitProcess
 
 /** CLI 입력 — 생년월일시 + 출생지 경도 + 성별. */
 internal data class CliInput(
@@ -30,23 +31,52 @@ internal data class CliInput(
     }
 }
 
-/** 인자 파싱: `year month day hour minute [longitude]`. 5개 미만이면 데모 기본값. */
-internal fun parseArgs(args: Array<String>): CliInput {
-    if (args.size < 5) return CliInput.DEFAULT
-    return CliInput(
-        year = args[0].toInt(),
-        month = args[1].toInt(),
-        day = args[2].toInt(),
-        hour = args[3].toInt(),
-        minute = args[4].toInt(),
-        longitude = args.getOrNull(5)?.toDouble() ?: Birthplace.SEOUL.longitudeDeg,
-    )
+/** 인자 파싱: `year month day hour minute [longitude]` (5개 이상 가정 — [runCli] 가 사전 검증). */
+internal fun parseArgs(args: Array<String>): CliInput = CliInput(
+    year = args[0].toInt(),
+    month = args[1].toInt(),
+    day = args[2].toInt(),
+    hour = args[3].toInt(),
+    minute = args[4].toInt(),
+    longitude = args.getOrNull(5)?.toDouble() ?: Birthplace.SEOUL.longitudeDeg,
+)
+
+/**
+ * 인자 → (출력 문자열, 종료 코드). 부작용 없는 순수 결정 — 인수 테스트 대상.
+ * 인자 없음=데모, 5개 미만/파싱 실패/잘못된 입력=usage + 코드 2(조용한 폴백 금지).
+ */
+internal fun runCli(args: Array<String>): Pair<String, Int> = when {
+    args.isEmpty() -> render(CliInput.DEFAULT) to EXIT_OK // 인자 없음 = 데모
+    args.size < REQUIRED_ARGS -> usage("생년월일시 인자 ${REQUIRED_ARGS}개가 필요합니다 (받은 ${args.size}개)") to EXIT_USAGE
+    else -> try {
+        render(parseArgs(args)) to EXIT_OK
+    } catch (e: NumberFormatException) {
+        usage("숫자로 바꿀 수 없는 인자: ${e.message}") to EXIT_USAGE
+    } catch (e: IllegalArgumentException) {
+        usage("잘못된 입력: ${e.message}") to EXIT_USAGE
+    }
 }
 
 /** 사주 만세력 데모 CLI — 생년월일시 → 8글자 + 해석 + 대운 출력. */
 public fun main(args: Array<String>) {
-    print(render(parseArgs(args)))
+    val (output, exitCode) = runCli(args)
+    if (exitCode == EXIT_OK) print(output) else System.err.println(output)
+    if (exitCode != EXIT_OK) exitProcess(exitCode)
 }
+
+private fun usage(reason: String): String =
+    """
+    [오류] $reason
+
+    사용법: saju <연> <월> <일> <시> <분> [경도]
+      예) ./gradlew :saju-cli:run --args="1990 3 15 7 0"          # 서울 기본 경도
+          ./gradlew :saju-cli:run --args="1990 3 15 7 0 129.08"   # 부산 경도
+    인자 없이 실행하면 데모(1990-03-15 07:00 서울)를 출력합니다.
+    """.trimIndent()
+
+private const val REQUIRED_ARGS = 5
+private const val EXIT_OK = 0
+private const val EXIT_USAGE = 2
 
 /** 입력 → 전체 출력 문자열(부작용 없는 순수 렌더 — 인수 테스트 대상). */
 internal fun render(input: CliInput): String = buildString {

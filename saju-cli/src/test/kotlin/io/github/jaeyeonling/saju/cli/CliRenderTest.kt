@@ -12,9 +12,27 @@ class CliRenderTest : StringSpec({
         parseArgs(arrayOf("1990", "3", "15", "7", "0")) shouldBe CliInput(1990, 3, 15, 7, 0)
     }
 
-    "인자가 부족하면 데모 기본값을 쓴다" {
-        parseArgs(emptyArray()) shouldBe CliInput.DEFAULT
-        parseArgs(arrayOf("1990", "3")) shouldBe CliInput.DEFAULT
+    "인자가 없으면 데모를 출력하고 종료코드 0" {
+        val (out, code) = runCli(emptyArray())
+        code shouldBe 0
+        withClue("데모 출력에 8글자 블록:\n$out") { out.contains("일간(나)").shouldBeTrue() }
+    }
+
+    "인자가 부족하면 usage 와 종료코드 2 (조용한 폴백 금지)" {
+        val (out, code) = runCli(arrayOf("1990", "3"))
+        code shouldBe 2
+        withClue("usage 누락:\n$out") { out.contains("사용법").shouldBeTrue() }
+    }
+
+    "숫자가 아닌 인자는 usage 로 거부" {
+        val (out, code) = runCli(arrayOf("1990", "삼", "15", "7", "0"))
+        code shouldBe 2
+        out.contains("사용법").shouldBeTrue()
+    }
+
+    "잘못된 날짜(2월 30일)는 usage 로 거부" {
+        val (_, code) = runCli(arrayOf("1990", "2", "30", "7", "0"))
+        code shouldBe 2
     }
 
     "렌더 출력에 8글자·해석·대운·음력 블록이 모두 포함된다" {

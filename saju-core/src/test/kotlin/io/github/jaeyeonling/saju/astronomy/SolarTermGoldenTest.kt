@@ -12,7 +12,10 @@ private const val IPCHUN_GOLDEN_INDEX = 3
 private const val IPCHUN_TERM_INDEX = 21
 private const val BEIJING_OFFSET_DAYS = 8.0 / 24.0
 private const val SECONDS_PER_DAY = 86_400.0
-private const val SECONDS_PER_MINUTE = 60.0
+
+// 정밀도 회귀 게이트. 실측 최대 차이 ~26초이므로 여유를 둔 35초로 조인다
+// (이전 60초는 광고 정밀도의 2.3배라 26→59초 퇴행이 GREEN으로 새던 것을 막는다).
+private const val MAX_DIFF_SECONDS = 35.0
 
 // 골든 인덱스(0=동지) 순서의 24절기 명칭 — 진단 출력 전용.
 private val TERM_NAMES = listOf(
@@ -57,9 +60,9 @@ class SolarTermGoldenTest : StringSpec({
         }
 
         println("골든 대조 ${rows.size} 절기 | 최대 차이 ${"%.2f".format(maxDiffSeconds)}초 @ $worstCase")
-        // 분 단위 정밀도 목표: 최대 차이가 1분 이내.
-        withClue("최대 차이 ${maxDiffSeconds}초가 1분을 초과 @ $worstCase") {
-            (maxDiffSeconds < SECONDS_PER_MINUTE).shouldBeTrue()
+        // 정밀도 목표: 최대 차이가 게이트(35초) 이내.
+        withClue("최대 차이 ${maxDiffSeconds}초가 ${MAX_DIFF_SECONDS}초를 초과 @ $worstCase") {
+            (maxDiffSeconds < MAX_DIFF_SECONDS).shouldBeTrue()
         }
     }
 
@@ -74,8 +77,8 @@ class SolarTermGoldenTest : StringSpec({
             maxDiffSeconds = maxOf(maxDiffSeconds, abs(myJd - goldenJd) * SECONDS_PER_DAY)
         }
         println("입춘 최대 차이 ${"%.2f".format(maxDiffSeconds)}초")
-        withClue("입춘 최대 차이 ${maxDiffSeconds}초") {
-            (maxDiffSeconds < SECONDS_PER_MINUTE).shouldBeTrue()
+        withClue("입춘 최대 차이 ${maxDiffSeconds}초가 ${MAX_DIFF_SECONDS}초를 초과") {
+            (maxDiffSeconds < MAX_DIFF_SECONDS).shouldBeTrue()
         }
     }
 })
