@@ -134,10 +134,23 @@ public object Saju {
             "지원 연도($SUPPORTED_MIN_YEAR~$SUPPORTED_MAX_YEAR) 밖: $year"
         }
         require(month in 1..MONTHS_PER_YEAR) { "월은 1~12: $month" }
-        require(day in 1..MAX_DAY_OF_MONTH) { "일은 1~31: $day" }
+        // 월별 말일·윤년까지 검증 — Meeus JD 공식은 순수 산술이라 2/31 을 3월로 굴려버린다.
+        // java.time(LocalDate.of) 은 saju-core 에서 금지(Konsist)라 윤년을 직접 산술로 판정한다.
+        val maxDay = daysInMonth(year, month)
+        require(day in 1..maxDay) { "일은 1~$maxDay ($year-${month}월): $day" }
         require(hour in 0..MAX_HOUR) { "시는 0~23: $hour" }
         require(minute in 0..MAX_MINUTE) { "분은 0~59: $minute" }
     }
+
+    /** 그레고리력 월별 일수(윤년 반영). 입력 [month] 는 1..12 로 사전 검증된 값을 받는다. */
+    private fun daysInMonth(year: Int, month: Int): Int = when (month) {
+        2 -> if (isLeapYear(year)) DAYS_FEB_LEAP else DAYS_FEB_COMMON
+        4, 6, 9, 11 -> DAYS_SHORT_MONTH
+        else -> DAYS_LONG_MONTH
+    }
+
+    /** 그레고리력 윤년 규칙: 4의 배수이되 100의 배수는 제외, 400의 배수는 다시 윤년. */
+    private fun isLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
 
     private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
 
@@ -147,7 +160,10 @@ public object Saju {
     private const val MONTHS_PER_YEAR = 12
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
-    private const val MAX_DAY_OF_MONTH = 31
+    private const val DAYS_LONG_MONTH = 31
+    private const val DAYS_SHORT_MONTH = 30
+    private const val DAYS_FEB_COMMON = 28
+    private const val DAYS_FEB_LEAP = 29
     private const val MAX_HOUR = 23
     private const val MAX_MINUTE = 59
     private const val MAX_SECOND = 59

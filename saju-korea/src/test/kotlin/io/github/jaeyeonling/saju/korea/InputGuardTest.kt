@@ -26,6 +26,8 @@ class InputGuardTest : StringSpec({
         shouldThrow<IllegalArgumentException> { KoreanSaju.trueSolarOffsetMinutes(2000, 1, 1, 7, 0, Double.POSITIVE_INFINITY) }
         // hour=25 가 hour=1 과 같은 시지로 충돌하던 조용한 오답을 차단
         shouldThrow<IllegalArgumentException> { KoreanSaju.fromCivilTime(2000, 1, 1, 7, 0, 999.0) } // 경도 밖
+        // 존재하지 않는 양력일(2월 30일)이 진태양시 보정 전에 fail-fast — 양력/음력 검증 대칭.
+        shouldThrow<IllegalArgumentException> { KoreanSaju.fromCivilTime(2023, 2, 30, 7, 0) }
     }
 
     "자시 학파에 따라 23시 일주가 갈린다 (ZishiPolicy 배선)" {
