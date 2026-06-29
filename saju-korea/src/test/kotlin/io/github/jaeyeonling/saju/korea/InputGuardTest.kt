@@ -23,7 +23,16 @@ class InputGuardTest : StringSpec({
     "KoreanSaju 진입점들이 잘못된 입력을 거부한다" {
         shouldThrow<IllegalArgumentException> { KoreanSaju.fromCivilTime(2000, 13, 1, 7, 0) }
         shouldThrow<IllegalArgumentException> { KoreanSaju.daeun(2000, 1, 1, 25, 0, isMale = true) }
-        shouldThrow<IllegalArgumentException> { KoreanSaju.trueSolarOffsetMinutes(2000, 1, 1, 7, 0, Double.POSITIVE_INFINITY) }
+        shouldThrow<IllegalArgumentException> {
+            KoreanSaju.trueSolarOffsetMinutes(
+                2000,
+                1,
+                1,
+                7,
+                0,
+                Double.POSITIVE_INFINITY,
+            )
+        }
         // hour=25 가 hour=1 과 같은 시지로 충돌하던 조용한 오답을 차단
         shouldThrow<IllegalArgumentException> { KoreanSaju.fromCivilTime(2000, 1, 1, 7, 0, 999.0) } // 경도 밖
         // 존재하지 않는 양력일(2월 30일)이 진태양시 보정 전에 fail-fast — 양력/음력 검증 대칭.

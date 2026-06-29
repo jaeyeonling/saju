@@ -18,7 +18,10 @@ public data class YongsinResult(
 
 /** 용신 도출 전략. 억부·조후·병약 등 방법이 다중이라 전략화한다. */
 public interface YongsinStrategy {
-    public fun derive(chart: SajuChart, strength: SinStrength): YongsinResult
+    public fun derive(
+        chart: SajuChart,
+        strength: SinStrength,
+    ): YongsinResult
 }
 
 /**
@@ -27,13 +30,17 @@ public interface YongsinStrategy {
  * 단순화한 기본 구현(디자인 결정). 실제 억부는 가장 약한 길신을 고르는 등 더 정교하다.
  */
 public object BueokYongsinStrategy : YongsinStrategy {
-    override fun derive(chart: SajuChart, strength: SinStrength): YongsinResult {
+    override fun derive(
+        chart: SajuChart,
+        strength: SinStrength,
+    ): YongsinResult {
         val dayOhaeng = chart.dayMaster.ohaeng
-        val yongsin = if (strength.verdict.isStrong) {
-            dayOhaeng.generates() // 신강 → 설기(식상)
-        } else {
-            dayOhaeng.generatedBy() // 신약 → 생조(인성)
-        }
+        val yongsin =
+            if (strength.verdict.isStrong) {
+                dayOhaeng.generates() // 신강 → 설기(식상)
+            } else {
+                dayOhaeng.generatedBy() // 신약 → 생조(인성)
+            }
         return YongsinResult(yongsin, YongsinMethod.BUEOK)
     }
 }
@@ -46,11 +53,15 @@ public object BueokYongsinStrategy : YongsinStrategy {
  * ※ 申酉(가을)→水 일괄 처리는 금수상관 火喜 등과 어긋날 수 있는 contestable 영역(정설 정답 아님).
  */
 public object JohuYongsinStrategy : YongsinStrategy {
-    override fun derive(chart: SajuChart, strength: SinStrength): YongsinResult {
-        val yongsin = when (chart.month.ji) {
-            Jiji.IN, Jiji.MYO, Jiji.JIN, Jiji.HAE, Jiji.JA, Jiji.CHUK -> Ohaeng.HWA // 한(寒) → 火
-            else -> Ohaeng.SU // 난조(暖燥) → 水
-        }
+    override fun derive(
+        chart: SajuChart,
+        strength: SinStrength,
+    ): YongsinResult {
+        val yongsin =
+            when (chart.month.ji) {
+                Jiji.IN, Jiji.MYO, Jiji.JIN, Jiji.HAE, Jiji.JA, Jiji.CHUK -> Ohaeng.HWA // 한(寒) → 火
+                else -> Ohaeng.SU // 난조(暖燥) → 水
+            }
         return YongsinResult(yongsin, YongsinMethod.JOHU)
     }
 }
@@ -70,7 +81,10 @@ public class CompositeYongsinStrategy
         private val primary: YongsinStrategy = BueokYongsinStrategy,
         private val secondary: YongsinStrategy = JohuYongsinStrategy,
     ) : YongsinStrategy {
-        override fun derive(chart: SajuChart, strength: SinStrength): YongsinResult =
+        override fun derive(
+            chart: SajuChart,
+            strength: SinStrength,
+        ): YongsinResult =
             if (strength.verdict == SinStrengthVerdict.GEUKSIN_GANG ||
                 strength.verdict == SinStrengthVerdict.GEUKSIN_YAK
             ) {

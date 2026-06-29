@@ -32,7 +32,10 @@ internal object Vsop87Earth {
     /** 지구–태양 거리 (AU). 光行差 계산에 쓰인다. */
     fun radiusAu(tau: Double): Double = evaluate(radiusSeries, tau)
 
-    private fun evaluate(series: Array<Array<DoubleArray>>, tau: Double): Double {
+    private fun evaluate(
+        series: Array<Array<DoubleArray>>,
+        tau: Double,
+    ): Double {
         var total = 0.0
         var tauPower = 1.0
         for (order in series.indices) {
@@ -50,8 +53,9 @@ internal object Vsop87Earth {
         longitude: Array<MutableList<DoubleArray>>,
         radius: Array<MutableList<DoubleArray>>,
     ) {
-        val stream = Vsop87Earth::class.java.getResourceAsStream(RESOURCE)
-            ?: error("VSOP87 리소스를 찾을 수 없습니다: $RESOURCE")
+        val stream =
+            Vsop87Earth::class.java.getResourceAsStream(RESOURCE)
+                ?: error("VSOP87 리소스를 찾을 수 없습니다: $RESOURCE")
         stream.bufferedReader().useLines { lines ->
             lines.forEach { line ->
                 if (line.isBlank() || line.startsWith("#")) return@forEach

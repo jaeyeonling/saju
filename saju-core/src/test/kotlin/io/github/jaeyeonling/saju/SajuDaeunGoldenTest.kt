@@ -69,10 +69,14 @@ class SajuDaeunGoldenTest : StringSpec({
     "대운 간지는 월주에서 방향대로 60갑자를 연속으로 걷는다 (불변식, 외부 표본 무관)" {
         // 외부 정답셋 없이도 검증 가능한 구조 불변식: 인접 대운 간지는 정확히 ±1(순행 1/역행 59),
         // 시작 나이는 0~10(절기 거리 3일=1세). 여러 날짜·성별 표본으로 골든 16케이스의 빈약함을 보강.
-        val samples = listOf(
-            intArrayOf(1984, 5, 20, 10), intArrayOf(1955, 11, 3, 23),
-            intArrayOf(2000, 2, 4, 0), intArrayOf(1973, 8, 17, 14), intArrayOf(2024, 12, 31, 6),
-        )
+        val samples =
+            listOf(
+                intArrayOf(1984, 5, 20, 10),
+                intArrayOf(1955, 11, 3, 23),
+                intArrayOf(2000, 2, 4, 0),
+                intArrayOf(1973, 8, 17, 14),
+                intArrayOf(2024, 12, 31, 6),
+            )
         for (s in samples) {
             for (isMale in listOf(true, false)) {
                 val chart = Saju.fromLocalDateTime(s[0], s[1], s[2], s[3], 0, BEIJING_OFFSET)

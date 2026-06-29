@@ -14,9 +14,10 @@ class LunarPhaseTest : StringSpec({
         // 삭의 정의: 달황경 = 태양황경.
         for (k in 300..320) {
             val tt = LunarPhase.newMoonInstantTT(k)
-            val diff = wrapToPi(
-                MoonPosition.apparentLongitudeRad(tt) - SunPosition.apparentLongitudeRad(tt),
-            )
+            val diff =
+                wrapToPi(
+                    MoonPosition.apparentLongitudeRad(tt) - SunPosition.apparentLongitudeRad(tt),
+                )
             withClue("k=$k 황경차 ${diff}rad") { (abs(diff) < 1e-6).shouldBeTrue() }
         }
     }

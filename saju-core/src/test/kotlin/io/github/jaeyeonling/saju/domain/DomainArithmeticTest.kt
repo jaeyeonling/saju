@@ -24,13 +24,14 @@ class DomainArithmeticTest : StringSpec({
     }
 
     "천간합 5쌍 — 갑기 을경 병신 정임 무계" {
-        val expected = mapOf(
-            Cheongan.GAB to Cheongan.GI,
-            Cheongan.EUL to Cheongan.GYEONG,
-            Cheongan.BYEONG to Cheongan.SIN,
-            Cheongan.JEONG to Cheongan.IM,
-            Cheongan.MU to Cheongan.GYE,
-        )
+        val expected =
+            mapOf(
+                Cheongan.GAB to Cheongan.GI,
+                Cheongan.EUL to Cheongan.GYEONG,
+                Cheongan.BYEONG to Cheongan.SIN,
+                Cheongan.JEONG to Cheongan.IM,
+                Cheongan.MU to Cheongan.GYE,
+            )
         for ((a, b) in expected) {
             withClue("$a 의 천간합") { a.combinePartner() shouldBe b }
             withClue("$b 의 천간합(대칭)") { b.combinePartner() shouldBe a }
@@ -38,10 +39,15 @@ class DomainArithmeticTest : StringSpec({
     }
 
     "지지 육충 6쌍 — 자오 축미 인신 묘유 진술 사해" {
-        val pairs = listOf(
-            Jiji.JA to Jiji.O, Jiji.CHUK to Jiji.MI, Jiji.IN to Jiji.SHIN,
-            Jiji.MYO to Jiji.YU, Jiji.JIN to Jiji.SUL, Jiji.SA to Jiji.HAE,
-        )
+        val pairs =
+            listOf(
+                Jiji.JA to Jiji.O,
+                Jiji.CHUK to Jiji.MI,
+                Jiji.IN to Jiji.SHIN,
+                Jiji.MYO to Jiji.YU,
+                Jiji.JIN to Jiji.SUL,
+                Jiji.SA to Jiji.HAE,
+            )
         for ((a, b) in pairs) {
             withClue("$a 충") { a.opposite() shouldBe b }
             withClue("$b 충(대칭)") { b.opposite() shouldBe a }
@@ -49,10 +55,15 @@ class DomainArithmeticTest : StringSpec({
     }
 
     "지지 육합 6쌍 — 자축 인해 묘술 진유 사신 오미" {
-        val pairs = listOf(
-            Jiji.JA to Jiji.CHUK, Jiji.IN to Jiji.HAE, Jiji.MYO to Jiji.SUL,
-            Jiji.JIN to Jiji.YU, Jiji.SA to Jiji.SHIN, Jiji.O to Jiji.MI,
-        )
+        val pairs =
+            listOf(
+                Jiji.JA to Jiji.CHUK,
+                Jiji.IN to Jiji.HAE,
+                Jiji.MYO to Jiji.SUL,
+                Jiji.JIN to Jiji.YU,
+                Jiji.SA to Jiji.SHIN,
+                Jiji.O to Jiji.MI,
+            )
         for ((a, b) in pairs) {
             withClue("$a 육합") { a.sixCombinePartner() shouldBe b }
             withClue("$b 육합(대칭)") { b.sixCombinePartner() shouldBe a }
@@ -60,10 +71,15 @@ class DomainArithmeticTest : StringSpec({
     }
 
     "지지 육해 6쌍 — 자미 축오 인사 묘진 신해 유술" {
-        val pairs = listOf(
-            Jiji.JA to Jiji.MI, Jiji.CHUK to Jiji.O, Jiji.IN to Jiji.SA,
-            Jiji.MYO to Jiji.JIN, Jiji.SHIN to Jiji.HAE, Jiji.YU to Jiji.SUL,
-        )
+        val pairs =
+            listOf(
+                Jiji.JA to Jiji.MI,
+                Jiji.CHUK to Jiji.O,
+                Jiji.IN to Jiji.SA,
+                Jiji.MYO to Jiji.JIN,
+                Jiji.SHIN to Jiji.HAE,
+                Jiji.YU to Jiji.SUL,
+            )
         for ((a, b) in pairs) {
             withClue("$a 육해") { a.harmPartner() shouldBe b }
             withClue("$b 육해(대칭)") { b.harmPartner() shouldBe a }

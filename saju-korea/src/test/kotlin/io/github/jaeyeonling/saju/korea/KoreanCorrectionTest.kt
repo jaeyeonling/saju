@@ -1,6 +1,5 @@
 package io.github.jaeyeonling.saju.korea
 
-import io.github.jaeyeonling.saju.Saju
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -65,9 +64,16 @@ class KoreanCorrectionTest : StringSpec({
         // 진태양시의 경도항은 순수 산술이라 외부 산술과 직접 대조 가능(135° 시기 = 2026).
         for (place in listOf(Birthplace.SEOUL, Birthplace.BUSAN, Birthplace.INCHEON, Birthplace.ULSAN)) {
             val expected = (place.longitudeDeg - KoreanStandardTime.MERIDIAN_135) * MINUTES_PER_DEGREE
-            val actual = KoreanSaju.trueSolarOffsetMinutes(
-                2026, 6, 26, 12, 0, place.longitudeDeg, TrueSolarTimePolicy.LONGITUDE_ONLY,
-            )
+            val actual =
+                KoreanSaju.trueSolarOffsetMinutes(
+                    2026,
+                    6,
+                    26,
+                    12,
+                    0,
+                    place.longitudeDeg,
+                    TrueSolarTimePolicy.LONGITUDE_ONLY,
+                )
             withClue("${place.name} 경도보정: 기대 $expected vs 실제 $actual") {
                 actual shouldBe (expected plusOrMinus 0.01)
             }
@@ -105,9 +111,16 @@ class KoreanCorrectionTest : StringSpec({
         // 01:10(법정시)은 축시(01~03)지만, 서울 진태양시 보정(≈−41분)하면 00:2x = 자시(23~01).
         val seoul = Birthplace.SEOUL.longitudeDeg
         val corrected = KoreanSaju.fromCivilTime(1990, 6, 26, 1, 10, seoul) // 기본 FULL 보정
-        val noCorrection = KoreanSaju.fromCivilTime(
-            1990, 6, 26, 1, 10, seoul, KoreanSajuConfig(trueSolarTime = TrueSolarTimePolicy.NONE),
-        )
+        val noCorrection =
+            KoreanSaju.fromCivilTime(
+                1990,
+                6,
+                26,
+                1,
+                10,
+                seoul,
+                KoreanSajuConfig(trueSolarTime = TrueSolarTimePolicy.NONE),
+            )
         withClue("보정 유무로 시주(시지 경계)가 달라져야: 보정=${corrected.hour.ganZhi} 무보정=${noCorrection.hour.ganZhi}") {
             (corrected.hour.ganZhi != noCorrection.hour.ganZhi).shouldBeTrue()
         }

@@ -10,7 +10,6 @@ import io.github.jaeyeonling.saju.domain.Jiji
  * 예: 갑자순(갑자~계유) → 술·해 공망, 갑술순 → 신·유 공망.
  */
 public object Gongmang {
-
     /** 일주 간지의 공망 두 지지. */
     @JvmStatic
     public fun of(dayGanZhi: GanZhi): Pair<Jiji, Jiji> {
@@ -20,7 +19,10 @@ public object Gongmang {
             Jiji.fromIndex(sunHeadBranchIndex + GONGMANG_OFFSET_2)
     }
 
-    private fun mod(value: Int, modulus: Int): Int = ((value % modulus) + modulus) % modulus
+    private fun mod(
+        value: Int,
+        modulus: Int,
+    ): Int = ((value % modulus) + modulus) % modulus
 
     private const val BRANCH_COUNT = 12
     private const val GONGMANG_OFFSET_1 = 10

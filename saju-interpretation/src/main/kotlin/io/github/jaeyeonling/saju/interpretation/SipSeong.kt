@@ -48,18 +48,25 @@ public enum class SipSeong(
     public companion object {
         /** 일간 [dayMaster] 기준 [target] 천간의 십성. */
         @JvmStatic
-        public fun of(dayMaster: Cheongan, target: Cheongan): SipSeong {
+        public fun of(
+            dayMaster: Cheongan,
+            target: Cheongan,
+        ): SipSeong {
             val group = relationGroup(dayMaster.ohaeng, target.ohaeng)
             val sameEumyang = dayMaster.eumyang == target.eumyang
             return entries.first { it.group == group && it.isSameEumyang == sameEumyang }
         }
 
-        private fun relationGroup(day: Ohaeng, target: Ohaeng): SipSeongGroup = when {
-            target == day -> SipSeongGroup.BIGYEOP
-            day.generates() == target -> SipSeongGroup.SIKSANG
-            day.controls() == target -> SipSeongGroup.JAESEONG
-            target.controls() == day -> SipSeongGroup.GWANSEONG
-            else -> SipSeongGroup.INSEONG // target.generates() == day
-        }
+        private fun relationGroup(
+            day: Ohaeng,
+            target: Ohaeng,
+        ): SipSeongGroup =
+            when {
+                target == day -> SipSeongGroup.BIGYEOP
+                day.generates() == target -> SipSeongGroup.SIKSANG
+                day.controls() == target -> SipSeongGroup.JAESEONG
+                target.controls() == day -> SipSeongGroup.GWANSEONG
+                else -> SipSeongGroup.INSEONG // target.generates() == day
+            }
     }
 }

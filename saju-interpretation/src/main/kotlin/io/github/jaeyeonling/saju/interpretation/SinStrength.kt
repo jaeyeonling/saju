@@ -87,16 +87,28 @@ public class BueokSinStrengthStrategy
                 val pillarWeight = if (pillar.position == PillarPosition.MONTH) weights.month else 1.0
                 // 일주의 천간(나 자신)은 세력 계산에서 제외.
                 if (pillar.position != PillarPosition.DAY) {
-                    add(SipSeong.of(dayMaster, pillar.gan), pillarWeight) { s, t -> support += s; total += t }
+                    add(SipSeong.of(dayMaster, pillar.gan), pillarWeight) { s, t ->
+                        support += s
+                        total += t
+                    }
                 }
                 // 지장간 본기·중기·여기를 차등 가중으로 반영(연속 ratio → 5단계 verdict 모두 도달 가능).
                 val hidden = hiddenStems.of(pillar.ji)
-                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi) { s, t -> support += s; total += t }
+                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi) { s, t ->
+                    support += s
+                    total += t
+                }
                 hidden.midQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi) { s, t -> support += s; total += t }
+                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi) { s, t ->
+                        support += s
+                        total += t
+                    }
                 }
                 hidden.residualQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.residualQi) { s, t -> support += s; total += t }
+                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.residualQi) { s, t ->
+                        support += s
+                        total += t
+                    }
                 }
             }
 
@@ -105,7 +117,11 @@ public class BueokSinStrengthStrategy
         }
 
         /** 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total 에 가산. */
-        private inline fun add(sipSeong: SipSeong, weight: Double, accumulate: (Double, Double) -> Unit) {
+        private inline fun add(
+            sipSeong: SipSeong,
+            weight: Double,
+            accumulate: (Double, Double) -> Unit,
+        ) {
             val support = if (isSupport(sipSeong)) weight else 0.0
             accumulate(support, weight)
         }
@@ -114,13 +130,14 @@ public class BueokSinStrengthStrategy
         private fun isSupport(sipSeong: SipSeong): Boolean =
             sipSeong.group == SipSeongGroup.BIGYEOP || sipSeong.group == SipSeongGroup.INSEONG
 
-        private fun verdictOf(ratio: Double): SinStrengthVerdict = when {
-            ratio >= weights.geuksinGang -> SinStrengthVerdict.GEUKSIN_GANG
-            ratio >= weights.sinGang -> SinStrengthVerdict.SIN_GANG
-            ratio >= weights.junghwa -> SinStrengthVerdict.JUNGHWA
-            ratio >= weights.sinYak -> SinStrengthVerdict.SIN_YAK
-            else -> SinStrengthVerdict.GEUKSIN_YAK
-        }
+        private fun verdictOf(ratio: Double): SinStrengthVerdict =
+            when {
+                ratio >= weights.geuksinGang -> SinStrengthVerdict.GEUKSIN_GANG
+                ratio >= weights.sinGang -> SinStrengthVerdict.SIN_GANG
+                ratio >= weights.junghwa -> SinStrengthVerdict.JUNGHWA
+                ratio >= weights.sinYak -> SinStrengthVerdict.SIN_YAK
+                else -> SinStrengthVerdict.GEUKSIN_YAK
+            }
 
         public companion object {
             private const val NEUTRAL = 0.5

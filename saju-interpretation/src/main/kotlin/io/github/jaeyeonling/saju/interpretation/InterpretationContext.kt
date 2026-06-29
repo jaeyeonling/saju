@@ -27,15 +27,17 @@ public data class InterpretationContext(
     public fun withHiddenStems(hiddenStems: HiddenStemTable): InterpretationContext =
         copy(
             // 기존 억부 가중치(BueokWeights)는 보존하고 테이블만 교체한다. 커스텀 신강 전략은 자체 관리하므로 그대로 둔다.
-            sinStrength = when (val current = sinStrength) {
-                is BueokSinStrengthStrategy -> BueokSinStrengthStrategy(current.weights, hiddenStems)
-                else -> current
-            },
-            gyeokguk = when (gyeokguk) {
-                is TuchulGyeokgukStrategy -> TuchulGyeokgukStrategy(hiddenStems)
-                is JapyeongGyeokgukStrategy -> JapyeongGyeokgukStrategy(hiddenStems)
-                else -> gyeokguk
-            },
+            sinStrength =
+                when (val current = sinStrength) {
+                    is BueokSinStrengthStrategy -> BueokSinStrengthStrategy(current.weights, hiddenStems)
+                    else -> current
+                },
+            gyeokguk =
+                when (gyeokguk) {
+                    is TuchulGyeokgukStrategy -> TuchulGyeokgukStrategy(hiddenStems)
+                    is JapyeongGyeokgukStrategy -> JapyeongGyeokgukStrategy(hiddenStems)
+                    else -> gyeokguk
+                },
         )
 
     public companion object {

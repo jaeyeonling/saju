@@ -9,7 +9,6 @@ import io.github.jaeyeonling.saju.domain.daysInGregorianMonth
  * 입력 범위는 1900~2100 (달 ELP 절단판 정확도 구간). 골든 벡터로 검증된 구간은 1900~2099.
  */
 public object LunarConverter {
-
     /** 양력(현지 날짜) → 음력. */
     @JvmStatic
     @JvmOverloads
@@ -50,4 +49,3 @@ public object LunarConverter {
     private const val LAST_MONTH = 12
     private const val MAX_DAY = 30
 }
-

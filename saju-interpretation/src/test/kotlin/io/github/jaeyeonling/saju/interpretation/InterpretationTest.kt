@@ -49,12 +49,13 @@ class InterpretationTest : StringSpec({
     }
 
     "오행 분포 합은 8글자" {
-        val chart = SajuChart(
-            year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
-            month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(15)),
-            day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(30)),
-            hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(45)),
-        )
+        val chart =
+            SajuChart(
+                year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
+                month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(15)),
+                day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(30)),
+                hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(45)),
+            )
         val distribution = OhaengDistribution.from(chart)
         distribution.counts.values.sum() shouldBe 8
     }

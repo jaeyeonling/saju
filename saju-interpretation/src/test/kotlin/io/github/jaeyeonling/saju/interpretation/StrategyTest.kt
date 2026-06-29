@@ -55,12 +55,13 @@ class StrategyTest : StringSpec({
             for (mo in 0 until 60 step 11) {
                 for (d in 0 until 60 step 13) {
                     for (h in 0 until 60 step 17) {
-                        val chart = SajuChart(
-                            Pillar(PillarPosition.YEAR, GanZhi.fromIndex(y)),
-                            Pillar(PillarPosition.MONTH, GanZhi.fromIndex(mo)),
-                            Pillar(PillarPosition.DAY, GanZhi.fromIndex(d)),
-                            Pillar(PillarPosition.HOUR, GanZhi.fromIndex(h)),
-                        )
+                        val chart =
+                            SajuChart(
+                                Pillar(PillarPosition.YEAR, GanZhi.fromIndex(y)),
+                                Pillar(PillarPosition.MONTH, GanZhi.fromIndex(mo)),
+                                Pillar(PillarPosition.DAY, GanZhi.fromIndex(d)),
+                                Pillar(PillarPosition.HOUR, GanZhi.fromIndex(h)),
+                            )
                         verdicts.add(BueokSinStrengthStrategy.DEFAULT.evaluate(chart).verdict)
                     }
                 }
@@ -71,12 +72,13 @@ class StrategyTest : StringSpec({
 
     "비겁·인성이 많으면 신강으로 판정된다" {
         // 일간 갑목, 주변에 목·수(비겁·인성) 가득 → 신강.
-        val strongWood = SajuChart(
-            year = Pillar(PillarPosition.YEAR, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자(목/수)
-            month = Pillar(PillarPosition.MONTH, GanZhi(Cheongan.GAB, Jiji.IN)), // 갑인(목/목)
-            day = Pillar(PillarPosition.DAY, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자
-            hour = Pillar(PillarPosition.HOUR, GanZhi(Cheongan.GYE, Jiji.HAE)), // 계해(수/수)
-        )
+        val strongWood =
+            SajuChart(
+                year = Pillar(PillarPosition.YEAR, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자(목/수)
+                month = Pillar(PillarPosition.MONTH, GanZhi(Cheongan.GAB, Jiji.IN)), // 갑인(목/목)
+                day = Pillar(PillarPosition.DAY, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자
+                hour = Pillar(PillarPosition.HOUR, GanZhi(Cheongan.GYE, Jiji.HAE)), // 계해(수/수)
+            )
         val strength = BueokSinStrengthStrategy.DEFAULT.evaluate(strongWood)
         withClue("목 일간 + 목수 다수 → 신강이어야: ${strength.verdict} (${strength.supportRatio})") {
             strength.verdict.isStrong.shouldBeTrue()
@@ -84,9 +86,10 @@ class StrategyTest : StringSpec({
     }
 })
 
-private fun sampleChart() = SajuChart(
-    year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
-    month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(20)),
-    day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(40)),
-    hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(10)),
-)
+private fun sampleChart() =
+    SajuChart(
+        year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
+        month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(20)),
+        day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(40)),
+        hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(10)),
+    )

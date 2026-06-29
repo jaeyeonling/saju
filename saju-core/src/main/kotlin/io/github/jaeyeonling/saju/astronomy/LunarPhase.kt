@@ -28,14 +28,16 @@ internal object LunarPhase {
     fun newMoonInstantTT(k: Int): Double {
         val t = k / LUNATIONS_PER_CENTURY
         // Meeus 49.1 평삭 초기추정.
-        var jde = NEW_MOON_EPOCH + SYNODIC_MONTH * k +
-            0.00015437 * t * t - 0.000000150 * t * t * t + 0.00000000073 * t * t * t * t
+        var jde =
+            NEW_MOON_EPOCH + SYNODIC_MONTH * k +
+                0.00015437 * t * t - 0.000000150 * t * t * t + 0.00000000073 * t * t * t * t
 
         // 뉴턴: 달황경 − 태양황경 = 0. wrapToPi 로 ±π 경계 안전.
         repeat(MAX_ITERATIONS) {
-            val diff = wrapToPi(
-                MoonPosition.apparentLongitudeRad(jde) - SunPosition.apparentLongitudeRad(jde),
-            )
+            val diff =
+                wrapToPi(
+                    MoonPosition.apparentLongitudeRad(jde) - SunPosition.apparentLongitudeRad(jde),
+                )
             jde -= diff / RELATIVE_SPEED
             if (abs(diff) < CONVERGENCE_RAD) return jde
         }

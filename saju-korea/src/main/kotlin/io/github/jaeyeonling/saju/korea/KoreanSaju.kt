@@ -4,7 +4,6 @@ import io.github.jaeyeonling.saju.Saju
 import io.github.jaeyeonling.saju.astronomy.Ephemeris
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.derivation.Daeun
-import io.github.jaeyeonling.saju.derivation.SajuConfig
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.lunar.CalendarBasis
 import io.github.jaeyeonling.saju.lunar.LunarConverter
@@ -21,7 +20,6 @@ import io.github.jaeyeonling.saju.lunar.LunarConverter
  * 1·2 는 절대 순간(UT)을 정하고, 3 은 그 순간을 출생지 태양시로 표시한다.
  */
 public object KoreanSaju {
-
     /**
      * 음력 생일 + 법정시로 사주판 도출. 음력→양력 변환 후 [fromCivilTime] 파이프라인 재사용.
      *
@@ -62,7 +60,14 @@ public object KoreanSaju {
         val ts = JulianDayConverter.toGregorian(trueSolarJd)
         // 진태양시 시각을 초까지 보존해 절기 경계 오판 방지.
         return Saju.fromLocalDateTime(
-            ts.year, ts.month, ts.day, ts.hour, ts.minute, trueSolarUtOffsetHours, config.saju, ts.second,
+            ts.year,
+            ts.month,
+            ts.day,
+            ts.hour,
+            ts.minute,
+            trueSolarUtOffsetHours,
+            config.saju,
+            ts.second,
         )
     }
 
@@ -84,9 +89,17 @@ public object KoreanSaju {
         val (trueSolarJd, trueSolarUtOffsetHours) =
             computeTrueSolar(year, month, day, hour, minute, longitudeDeg, config.trueSolarTime)
         val ts = JulianDayConverter.toGregorian(trueSolarJd)
-        val chart = Saju.fromLocalDateTime(
-            ts.year, ts.month, ts.day, ts.hour, ts.minute, trueSolarUtOffsetHours, config.saju, ts.second,
-        )
+        val chart =
+            Saju.fromLocalDateTime(
+                ts.year,
+                ts.month,
+                ts.day,
+                ts.hour,
+                ts.minute,
+                trueSolarUtOffsetHours,
+                config.saju,
+                ts.second,
+            )
         val utJd = trueSolarJd - trueSolarUtOffsetHours / HOURS_PER_DAY
         return Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count, config.saju)
     }
@@ -138,10 +151,11 @@ public object KoreanSaju {
 
         // 진태양시 = 평균태양시(경도 기준) + 균시차. 정책에 따라 각 항을 켜고 끈다.
         //  NONE: 표준 자오선 평균시(보정 0) / LONGITUDE_ONLY: 경도만 / FULL: 경도+균시차(통설).
-        val longitudeHours = when (policy) {
-            TrueSolarTimePolicy.NONE -> standardMeridian / DEGREES_PER_HOUR
-            TrueSolarTimePolicy.LONGITUDE_ONLY, TrueSolarTimePolicy.FULL -> longitudeDeg / DEGREES_PER_HOUR
-        }
+        val longitudeHours =
+            when (policy) {
+                TrueSolarTimePolicy.NONE -> standardMeridian / DEGREES_PER_HOUR
+                TrueSolarTimePolicy.LONGITUDE_ONLY, TrueSolarTimePolicy.FULL -> longitudeDeg / DEGREES_PER_HOUR
+            }
         val equationOfTimeMinutes =
             if (policy == TrueSolarTimePolicy.FULL) Ephemeris.equationOfTimeMinutes(utJd) else 0.0
         val trueSolarUtOffsetHours = longitudeHours + equationOfTimeMinutes / MINUTES_PER_HOUR
@@ -149,8 +163,13 @@ public object KoreanSaju {
         return trueSolarJd to trueSolarUtOffsetHours
     }
 
-    private fun legalJulianDay(year: Int, month: Int, day: Int, hour: Int, minute: Int): Double =
-        JulianDayConverter.fromGregorian(year, month, day, (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY)
+    private fun legalJulianDay(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+    ): Double = JulianDayConverter.fromGregorian(year, month, day, (hour * MINUTES_PER_HOUR + minute) / MINUTES_PER_DAY)
 
     private const val DEFAULT_DAEUN_COUNT = 8
     private const val MIN_LONGITUDE = -180.0

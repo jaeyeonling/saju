@@ -8,9 +8,15 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
+# Domain lookup tables (yukhap/samhap/hidden-stems/golden) and enums carry per-item
+# myeongri/hanja comments inline; that is this project's core readability pattern.
+# So allow inline comments in argument/parameter lists and consecutive file+decl KDoc.
+# Core consistency (indent, import order, trailing comma, no wildcard imports) stays enforced.
 [*.{kt,kts}]
 ktlint_code_style = ktlint_official
 max_line_length = 120
+ktlint_standard_discouraged-comment-location = disabled
+ktlint_standard_no-consecutive-comments = disabled
 
 [*.{yml,yaml,toml,json}]
 indent_size = 2

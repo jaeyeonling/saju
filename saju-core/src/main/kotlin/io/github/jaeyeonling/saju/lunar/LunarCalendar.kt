@@ -20,9 +20,13 @@ import kotlin.math.floor
  * (P1에서 겪은 베이징 하드코딩 함정 방지 — 절대 하드코딩하지 않음)
  */
 internal object LunarCalendar {
-
     /** 양력(현지 날짜) → 음력. */
-    fun solarToLunar(year: Int, month: Int, day: Int, utOffsetHours: Double): LunarDate {
+    fun solarToLunar(
+        year: Int,
+        month: Int,
+        day: Int,
+        utOffsetHours: Double,
+    ): LunarDate {
         val targetJdn = floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong()
         val newMoonK = newMoonIndexOnOrBefore(targetJdn, utOffsetHours)
         val sui = suiContaining(newMoonK, utOffsetHours)
@@ -42,15 +46,16 @@ internal object LunarCalendar {
         // 음력 1~10월은 그 해 歲에, 11~12월은 다음 歲에 속한다.
         val suiYear = if (lunarMonth >= WINTER_MONTH) lunarYear + 1 else lunarYear
         val sui = buildSui(suiYear, utOffsetHours)
-        val info = sui.firstOrNull {
-            it.lunarYear == lunarYear && it.monthNumber == lunarMonth && it.isLeap == isLeapMonth
-        } ?: run {
-            val leap = sui.firstOrNull { it.isLeap && it.lunarYear == lunarYear }
-            val leapHint = if (leap != null) " (그 해 윤달은 ${leap.monthNumber}월)" else " (그 해 윤달 없음)"
-            throw IllegalArgumentException(
-                "존재하지 않는 음력 월: ${lunarYear}년 ${if (isLeapMonth) "윤" else ""}${lunarMonth}월$leapHint",
-            )
-        }
+        val info =
+            sui.firstOrNull {
+                it.lunarYear == lunarYear && it.monthNumber == lunarMonth && it.isLeap == isLeapMonth
+            } ?: run {
+                val leap = sui.firstOrNull { it.isLeap && it.lunarYear == lunarYear }
+                val leapHint = if (leap != null) " (그 해 윤달은 ${leap.monthNumber}월)" else " (그 해 윤달 없음)"
+                throw IllegalArgumentException(
+                    "존재하지 않는 음력 월: ${lunarYear}년 ${if (isLeapMonth) "윤" else ""}${lunarMonth}월$leapHint",
+                )
+            }
         // 동적 월 길이 검증 — 29일 달에 30일 입력 등 '없는 날짜'를 fail-fast (조용한 누수 방지).
         val monthStartJdn = newMoonCivilJdn(info.newMoonK, utOffsetHours)
         val monthLength = (newMoonCivilJdn(info.newMoonK + 1, utOffsetHours) - monthStartJdn).toInt()
@@ -62,7 +67,10 @@ internal object LunarCalendar {
     }
 
     /** 한 歲(동지~동지)의 삭월별 음력 월 배정. */
-    private fun buildSui(suiYear: Int, utOffsetHours: Double): List<MonthInfo> {
+    private fun buildSui(
+        suiYear: Int,
+        utOffsetHours: Double,
+    ): List<MonthInfo> {
         val firstWinterMonth = winterSolsticeMonthK(suiYear - 1, utOffsetHours) // 음력 (suiYear-1) 11월
         val nextWinterMonth = winterSolsticeMonthK(suiYear, utOffsetHours) // 다음 歲의 11월
         val isLeapYear = (nextWinterMonth - firstWinterMonth) == LEAP_YEAR_MONTHS
@@ -98,7 +106,10 @@ internal object LunarCalendar {
     }
 
     /** [newMoonK] 삭월을 포함하는 歲(동지~동지)의 월 배정. */
-    private fun suiContaining(newMoonK: Int, utOffsetHours: Double): List<MonthInfo> {
+    private fun suiContaining(
+        newMoonK: Int,
+        utOffsetHours: Double,
+    ): List<MonthInfo> {
         val approxYear = JulianDayConverter.toGregorian(newMoonCivilJdn(newMoonK, utOffsetHours).toDouble() - 0.5).year
         var suiYear = approxYear
         while (winterSolsticeMonthK(suiYear - 1, utOffsetHours) > newMoonK) suiYear--
@@ -107,13 +118,19 @@ internal object LunarCalendar {
     }
 
     /** [solarYear] 12월 동지(황경 270°)가 드는 삭월의 k. */
-    private fun winterSolsticeMonthK(solarYear: Int, utOffsetHours: Double): Int {
+    private fun winterSolsticeMonthK(
+        solarYear: Int,
+        utOffsetHours: Double,
+    ): Int {
         val solsticeUt = SolarLongitude.solarTermInstantUT(solarYear, WINTER_SOLSTICE_TERM_INDEX)
         return newMoonIndexOnOrBefore(civilJdn(solsticeUt, utOffsetHours), utOffsetHours)
     }
 
     /** 삭월 [newMoonK, newMoonK+1) 에 중기(中氣, 황경 30°k)가 드는가. 없으면 윤달 후보. */
-    private fun hasMajorTerm(newMoonK: Int, utOffsetHours: Double): Boolean {
+    private fun hasMajorTerm(
+        newMoonK: Int,
+        utOffsetHours: Double,
+    ): Boolean {
         val startUt = LunarPhase.newMoonInstantUT(newMoonK)
         val endJdn = newMoonCivilJdn(newMoonK + 1, utOffsetHours)
         val startLongitude = SolarLongitude.apparentLongitudeDegAtUT(startUt)
@@ -125,7 +142,10 @@ internal object LunarCalendar {
     }
 
     /** [jdn] 이하 가장 가까운 삭의 k. */
-    private fun newMoonIndexOnOrBefore(jdn: Long, utOffsetHours: Double): Int {
+    private fun newMoonIndexOnOrBefore(
+        jdn: Long,
+        utOffsetHours: Double,
+    ): Int {
         var k = LunarPhase.newMoonIndexNear(jdn.toDouble())
         while (newMoonCivilJdn(k, utOffsetHours) > jdn) k--
         while (newMoonCivilJdn(k + 1, utOffsetHours) <= jdn) k++
@@ -133,13 +153,16 @@ internal object LunarCalendar {
     }
 
     /** 삭 k의 시작일(현지 자정 기준 민간일 번호). */
-    private fun newMoonCivilJdn(newMoonK: Int, utOffsetHours: Double): Long =
-        civilJdn(LunarPhase.newMoonInstantUT(newMoonK), utOffsetHours)
+    private fun newMoonCivilJdn(
+        newMoonK: Int,
+        utOffsetHours: Double,
+    ): Long = civilJdn(LunarPhase.newMoonInstantUT(newMoonK), utOffsetHours)
 
     /** UT 율리우스일 → 현지 자정 기준 민간일 번호. 프레임(utOffsetHours)은 여기서만 적용. */
-    private fun civilJdn(utJd: Double, utOffsetHours: Double): Long =
-        floor(utJd + utOffsetHours / HOURS_PER_DAY + 0.5).toLong()
-
+    private fun civilJdn(
+        utJd: Double,
+        utOffsetHours: Double,
+    ): Long = floor(utJd + utOffsetHours / HOURS_PER_DAY + 0.5).toLong()
 
     /** 歲 안의 한 삭월: 삭 인덱스 + 배정된 음력 연/월/윤달. */
     private data class MonthInfo(

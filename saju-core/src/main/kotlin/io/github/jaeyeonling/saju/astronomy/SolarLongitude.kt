@@ -20,7 +20,10 @@ internal object SolarLongitude {
     private const val DEGREES_PER_TERM = 15.0
 
     /** [year]년 1월 1일 이후 처음으로 황경이 `15°·termIndex` 가 되는 TT 율리우스일. */
-    fun solarTermInstantTT(year: Int, termIndex: Int): Double {
+    fun solarTermInstantTT(
+        year: Int,
+        termIndex: Int,
+    ): Double {
         val target = normalizeRadians(termIndex * DEGREES_PER_TERM * DEG_TO_RAD)
         var jde = JulianDayConverter.fromGregorian(year, 1, 1, 0.0)
 
@@ -41,7 +44,10 @@ internal object SolarLongitude {
      * 절입 시각을 **UT 율리우스일**로 반환 (TT − ΔT). 상위 레이어가 여기에 +9h 해서 KST 로 바꾼다.
      * 베이징/KST 하드코딩 없음 — 순수 UT.
      */
-    fun solarTermInstantUT(year: Int, termIndex: Int): Double {
+    fun solarTermInstantUT(
+        year: Int,
+        termIndex: Int,
+    ): Double {
         val tt = solarTermInstantTT(year, termIndex)
         return tt - DeltaT.seconds(decimalYearOf(tt)) / SECONDS_PER_DAY
     }
@@ -59,7 +65,10 @@ internal object SolarLongitude {
      * 태양 황경이 [targetDeg] 가 되는, [nearUtJd] 근처 가장 가까운 UT 율리우스일.
      * 대운 절기 거리(다음/이전 절 시각) 계산에 쓰인다 — [nearUtJd] 를 그 절 근처로 주면 그 절로 수렴한다.
      */
-    fun instantOfLongitudeUT(targetDeg: Double, nearUtJd: Double): Double {
+    fun instantOfLongitudeUT(
+        targetDeg: Double,
+        nearUtJd: Double,
+    ): Double {
         val target = normalizeRadians(targetDeg * DEG_TO_RAD)
         var jde = nearUtJd + DeltaT.seconds(decimalYearOf(nearUtJd)) / SECONDS_PER_DAY // TT 시작
         repeat(MAX_ITERATIONS) {

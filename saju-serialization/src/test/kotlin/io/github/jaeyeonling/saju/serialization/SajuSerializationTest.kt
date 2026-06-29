@@ -1,6 +1,10 @@
 package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.Saju
+import io.github.jaeyeonling.saju.domain.Cheongan
+import io.github.jaeyeonling.saju.domain.Jiji
+import io.github.jaeyeonling.saju.domain.Ohaeng
+import io.github.jaeyeonling.saju.interpretation.HapChungRelation
 import io.github.jaeyeonling.saju.interpretation.Interpretation
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -38,9 +42,17 @@ class SajuSerializationTest : StringSpec({
         back.sibiUnseong shouldBe dto.sibiUnseong
     }
 
-    "합충은 유효한 kind 한글 분류명으로 평탄화된다" {
-        val dto = Interpretation.of(chart).toDto()
-        val validKinds = setOf("천간합", "육합", "육충", "육해", "삼합")
-        dto.hapChung.forEach { (it.kind in validKinds) shouldBe true }
+    "합충 sealed 5종이 각각 올바른 kind 로 평탄화된다 (전 분기 커버)" {
+        HapChungRelation.CheonganHap(Cheongan.GAB, Cheongan.GI, Ohaeng.TO).toDto().also {
+            it.kind shouldBe "천간합"
+            it.transformsTo shouldBe "토"
+        }
+        HapChungRelation.JijiYukhap(Jiji.JA, Jiji.CHUK).toDto().kind shouldBe "육합"
+        HapChungRelation.JijiYukchung(Jiji.JA, Jiji.O).toDto().kind shouldBe "육충"
+        HapChungRelation.JijiYukhae(Jiji.JA, Jiji.MI).toDto().kind shouldBe "육해"
+        HapChungRelation.JijiSamhap(listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN), Ohaeng.SU).toDto().also {
+            it.kind shouldBe "삼합"
+            it.members shouldHaveSize 3
+        }
     }
 })

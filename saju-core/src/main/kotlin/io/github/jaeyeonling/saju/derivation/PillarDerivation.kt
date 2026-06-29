@@ -11,7 +11,6 @@ import io.github.jaeyeonling.saju.domain.floorMod
  * → core/astronomy 경계를 명확히 하고 java.time 의존을 막는다.
  */
 public object PillarDerivation {
-
     /**
      * 연주(年柱) — 입춘 기준으로 보정된 양력 연도에서. 1984년(갑자년) 기준 `(year−4) mod 60`.
      *
@@ -27,7 +26,10 @@ public object PillarDerivation {
      * @param monthBranchOffset 인월=0, 묘월=1, … 축월=11 (절기 절입 기준).
      */
     @JvmStatic
-    public fun monthPillar(yearGan: Cheongan, monthBranchOffset: Int): GanZhi {
+    public fun monthPillar(
+        yearGan: Cheongan,
+        monthBranchOffset: Int,
+    ): GanZhi {
         val monthJi = Jiji.fromIndex(Jiji.IN.ordinal + monthBranchOffset)
         // 갑기년→병인월, 을경년→무인월, 병신년→경인월, 정임년→임인월, 무계년→갑인월
         val firstMonthGanIndex = (yearGan.ordinal % HEAVENLY_GROUP) * 2 + WOLDU_BASE
@@ -51,7 +53,10 @@ public object PillarDerivation {
      * @param hourJi 시지(자시 경계 보정 후 확정된 시각의 지지).
      */
     @JvmStatic
-    public fun hourPillar(dayGan: Cheongan, hourJi: Jiji): GanZhi {
+    public fun hourPillar(
+        dayGan: Cheongan,
+        hourJi: Jiji,
+    ): GanZhi {
         // 갑기일→갑자시, 을경일→병자시, 병신일→무자시, 정임일→경자시, 무계일→임자시
         val firstHourGanIndex = (dayGan.ordinal % HEAVENLY_GROUP) * 2
         val hourGan = Cheongan.fromIndex(firstHourGanIndex + hourJi.ordinal)

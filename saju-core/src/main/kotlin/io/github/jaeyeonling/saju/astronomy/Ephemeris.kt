@@ -6,7 +6,6 @@ package io.github.jaeyeonling.saju.astronomy
  * 내부 천문 객체들은 `internal` 로 캡슐화하고, 외부에 필요한 최소 표면만 여기서 공개한다.
  */
 public object Ephemeris {
-
     /**
      * 균시차(분). **진태양시 = 평균태양시 + 반환값** (NOAA 관습). 한국 진태양시 보정에 쓰인다.
      *

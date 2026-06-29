@@ -45,9 +45,10 @@ class LunarRobustnessTest : StringSpec({
 
     "존재하지 않는 윤달 입력은 유용한 메시지로 거부된다" {
         // 2023 윤달은 2월뿐 — 윤7월은 없다.
-        val ex = shouldThrow<IllegalArgumentException> {
-            LunarConverter.toSolar(2023, 7, 1, isLeapMonth = true, basis = CalendarBasis.CHINA)
-        }
+        val ex =
+            shouldThrow<IllegalArgumentException> {
+                LunarConverter.toSolar(2023, 7, 1, isLeapMonth = true, basis = CalendarBasis.CHINA)
+            }
         withClue("메시지에 윤달 정보: ${ex.message}") { (ex.message?.contains("윤") == true).shouldBeTrue() }
     }
 
@@ -62,7 +63,10 @@ class LunarRobustnessTest : StringSpec({
 })
 
 /** 그 해 윤달 월 번호(없으면 0). 윤달 1일 변환이 성공하는 월을 탐색. */
-private fun leapMonthOf(year: Int, basis: CalendarBasis): Int {
+private fun leapMonthOf(
+    year: Int,
+    basis: CalendarBasis,
+): Int {
     for (month in 1..12) {
         try {
             LunarConverter.toSolar(year, month, 1, isLeapMonth = true, basis = basis)

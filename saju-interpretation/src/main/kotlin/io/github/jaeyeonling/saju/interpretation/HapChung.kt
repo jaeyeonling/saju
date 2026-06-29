@@ -31,7 +31,10 @@ public sealed interface HapChungRelation {
  * (형·파·방합·반합 포함 여부, 합화 성립 조건 등이 분기 지점)
  */
 public interface HapChungStrategy {
-    public fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation>
+    public fun detect(
+        stems: List<Cheongan>,
+        branches: List<Jiji>,
+    ): List<HapChungRelation>
 }
 
 /**
@@ -40,9 +43,11 @@ public interface HapChungStrategy {
  * (형(刑)·파(破)·방합·반합은 학파별 이견이 커 미모델링 — 골든 레퍼런스도 동일 범위)
  */
 public object StandardHapChungStrategy : HapChungStrategy {
-
     /** 천간합 + 지지 육합/육충/육해/삼합을 찾는다. */
-    override fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation> {
+    override fun detect(
+        stems: List<Cheongan>,
+        branches: List<Jiji>,
+    ): List<HapChungRelation> {
         val relations = mutableListOf<HapChungRelation>()
 
         // 천간합
@@ -77,7 +82,10 @@ public object StandardHapChungStrategy : HapChungStrategy {
     /** 천간합 변화 오행: 갑기합토·을경합금·병신합수·정임합목·무계합화. */
     private fun combinedOhaeng(stem: Cheongan): Ohaeng = COMBINED_OHAENG[stem.ordinal % COMBINED_OHAENG.size]
 
-    private inline fun forEachPair(size: Int, action: (Int, Int) -> Unit) {
+    private inline fun forEachPair(
+        size: Int,
+        action: (Int, Int) -> Unit,
+    ) {
         for (i in 0 until size) {
             for (j in i + 1 until size) action(i, j)
         }
@@ -85,10 +93,11 @@ public object StandardHapChungStrategy : HapChungStrategy {
 
     private val COMBINED_OHAENG = listOf(Ohaeng.TO, Ohaeng.GEUM, Ohaeng.SU, Ohaeng.MOK, Ohaeng.HWA)
 
-    private val SAMHAP_GROUPS: List<Pair<List<Jiji>, Ohaeng>> = listOf(
-        listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
-        listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목
-        listOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA, // 인오술 → 화
-        listOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM, // 사유축 → 금
-    )
+    private val SAMHAP_GROUPS: List<Pair<List<Jiji>, Ohaeng>> =
+        listOf(
+            listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
+            listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목
+            listOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA, // 인오술 → 화
+            listOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM, // 사유축 → 금
+        )
 }

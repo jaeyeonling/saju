@@ -5,7 +5,6 @@ package io.github.jaeyeonling.saju.astronomy
  * Meeus _Astronomical Algorithms_ Ch.22.
  */
 internal object ObliquityOfEcliptic {
-
     /** 평균 황도경사 ε0 (radian). Meeus 22.2. */
     fun meanRad(jdeTT: Double): Double {
         val t = julianCenturies(jdeTT)

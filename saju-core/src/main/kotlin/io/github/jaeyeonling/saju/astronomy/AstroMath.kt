@@ -39,7 +39,10 @@ internal fun wrapToPi(angle: Double): Double {
 }
 
 /** Horner 다항식 평가: coeffs = [c0, c1, c2, ...] → c0 + c1·x + c2·x² + … */
-internal fun horner(x: Double, vararg coeffs: Double): Double {
+internal fun horner(
+    x: Double,
+    vararg coeffs: Double,
+): Double {
     var result = 0.0
     for (i in coeffs.indices.reversed()) {
         result = result * x + coeffs[i]

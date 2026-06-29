@@ -4,12 +4,22 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     kotlin("jvm")
     jacoco
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 val libs = the<LibrariesForLibs>()
 
 repositories {
     mavenCentral()
+}
+
+// ktlintFormat 으로 ktlint_official 포맷(indent·import 순서·trailing comma·줄바꿈)을 전 파일에 적용해
+// 포맷 일관성을 유지한다. 다만 ktlint_official 의 discouraged-comment-location 규칙은 이 프로젝트의
+// 핵심 패턴(도메인 룩업 테이블·골든·enum 에 항목별 명리/한자 인라인 주석)과 충돌하는데,
+// 이 플러그인 버전에서 .editorconfig 규칙 disable·ignoreFailures 가 모두 동작하지 않는다.
+// 그래서 ktlintCheck 는 빌드 게이트에서 분리한다(필요 시 ./gradlew ktlintCheck 로 informational 실행).
+tasks.matching { it.name.startsWith("runKtlintCheck") }.configureEach {
+    enabled = false
 }
 
 kotlin {
@@ -49,7 +59,9 @@ tasks.named<JacocoReport>("jacocoTestReport") {
     }
 }
 
-// 커버리지 게이트 — 라인 80% 미만이면 빌드 실패(회귀 방지). check 가 의존하므로 build 시 자동 검증.
+// 커버리지 게이트 — check 가 의존하므로 build 시 자동 검증.
+//  LINE 80%: 전반 실행 보장. BRANCH 60%: 천문 급수·균시차·자정경계 같은 분기 다발 코드에서
+//  LINE 만으로는 못 잡는 의미있는 분기 커버리지를 강제(LINE 처럼 80 은 도메인 특성상 비현실적).
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     dependsOn(tasks.named("test"))
     violationRules {
@@ -58,6 +70,11 @@ tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
                 counter = "LINE"
                 value = "COVEREDRATIO"
                 minimum = "0.80".toBigDecimal()
+            }
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "0.60".toBigDecimal()
             }
         }
     }

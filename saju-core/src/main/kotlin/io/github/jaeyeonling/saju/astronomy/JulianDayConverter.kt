@@ -10,7 +10,6 @@ import kotlin.math.floor
  * 외삽하므로 역사적 율리우스력 날짜와 어긋날 수 있다(사주 실사용은 근현대라 무방).
  */
 public object JulianDayConverter {
-
     /**
      * (년, 월, 일, 일내 비율) → JD.
      *
@@ -18,7 +17,12 @@ public object JulianDayConverter {
      */
     @JvmStatic
     @JvmOverloads
-    public fun fromGregorian(year: Int, month: Int, day: Int, dayFraction: Double = 0.0): Double {
+    public fun fromGregorian(
+        year: Int,
+        month: Int,
+        day: Int,
+        dayFraction: Double = 0.0,
+    ): Double {
         // 1~2월은 전년도 13~14월로 취급 (Meeus 7.1)
         var y = year
         var m = month

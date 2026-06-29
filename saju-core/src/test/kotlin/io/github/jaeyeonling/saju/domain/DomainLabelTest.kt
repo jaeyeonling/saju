@@ -40,9 +40,11 @@ class DomainLabelTest : StringSpec({
     }
 
     "모든 도메인 라벨은 비어있지 않고 천간/지지 한글명이 유일하다" {
-        (Cheongan.entries.map { it.koreanName to it.hanja } +
-            Jiji.entries.map { it.koreanName to it.hanja } +
-            Ohaeng.entries.map { it.koreanName to it.hanja }).forEach { (ko, ha) ->
+        (
+            Cheongan.entries.map { it.koreanName to it.hanja } +
+                Jiji.entries.map { it.koreanName to it.hanja } +
+                Ohaeng.entries.map { it.koreanName to it.hanja }
+        ).forEach { (ko, ha) ->
             ko.shouldNotBeBlank()
             ha.shouldNotBeBlank()
         }

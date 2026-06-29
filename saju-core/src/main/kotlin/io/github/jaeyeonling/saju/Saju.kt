@@ -25,7 +25,6 @@ import kotlin.math.floor
  * P4 에서 한국 보정 파이프라인을 거치는 진입점이 saju-korea 에 추가된다.
  */
 public object Saju {
-
     /**
      * 로컬 시각 + UT 오프셋으로 사주판을 도출한다(보정 전 단계).
      *
@@ -52,20 +51,23 @@ public object Saju {
         val localJd = JulianDayConverter.fromGregorian(year, month, day, timeFraction)
         val utJd = localJd - utOffsetHours / HOURS_PER_DAY
 
-        val yearGanZhi = run {
-            // 연주: 경계 절기(입춘세수=입춘, 동지세수=동지) 절입 시각과 비교 — 학파별 보정은 정책에 위임.
-            val boundary = config.yearBoundary
-            val boundaryUt = SolarLongitude.solarTermInstantUT(year, boundary.termIndex)
-            val solarYear = boundary.resolveYear(year, utJd >= boundaryUt)
-            PillarDerivation.yearPillar(solarYear)
-        }
+        val yearGanZhi =
+            run {
+                // 연주: 경계 절기(입춘세수=입춘, 동지세수=동지) 절입 시각과 비교 — 학파별 보정은 정책에 위임.
+                val boundary = config.yearBoundary
+                val boundaryUt = SolarLongitude.solarTermInstantUT(year, boundary.termIndex)
+                val solarYear = boundary.resolveYear(year, utJd >= boundaryUt)
+                PillarDerivation.yearPillar(solarYear)
+            }
 
-        val monthGanZhi = run {
-            // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다). 학파 무관(절기 기준 고정).
-            val longitudeFromIpchun = normalizeDegrees(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
-            val monthOffset = floor(longitudeFromIpchun / DEGREES_PER_MONTH).toInt() % MONTHS_PER_YEAR
-            PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
-        }
+        val monthGanZhi =
+            run {
+                // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다). 학파 무관(절기 기준 고정).
+                val longitudeFromIpchun =
+                    normalizeDegrees(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
+                val monthOffset = floor(longitudeFromIpchun / DEGREES_PER_MONTH).toInt() % MONTHS_PER_YEAR
+                PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
+            }
 
         // 일주: 로컬 날짜의 율리우스일 번호. 자시 학파(정자시=23시 이후 다음날)는 정책에 위임.
         val zishiDateShift = config.zishi.dayPillarShift(hour)
@@ -107,15 +109,16 @@ public object Saju {
 
         // 절(節)은 황경 ≡ 15 (mod 30). 현재 절 시작부터 경과한 각도.
         val degreesIntoMonth = floorModDouble(birthLongitude - JEOL_PHASE_DEG, DEGREES_PER_MONTH)
-        val daysToBoundary = if (direction == DaeunDirection.FORWARD) {
-            val nextJeolLon = normalizeDegrees(birthLongitude + (DEGREES_PER_MONTH - degreesIntoMonth))
-            val near = utJd + (DEGREES_PER_MONTH - degreesIntoMonth) / MEAN_DAILY_MOTION
-            SolarLongitude.instantOfLongitudeUT(nextJeolLon, near) - utJd
-        } else {
-            val prevJeolLon = normalizeDegrees(birthLongitude - degreesIntoMonth)
-            val near = utJd - degreesIntoMonth / MEAN_DAILY_MOTION
-            utJd - SolarLongitude.instantOfLongitudeUT(prevJeolLon, near)
-        }
+        val daysToBoundary =
+            if (direction == DaeunDirection.FORWARD) {
+                val nextJeolLon = normalizeDegrees(birthLongitude + (DEGREES_PER_MONTH - degreesIntoMonth))
+                val near = utJd + (DEGREES_PER_MONTH - degreesIntoMonth) / MEAN_DAILY_MOTION
+                SolarLongitude.instantOfLongitudeUT(nextJeolLon, near) - utJd
+            } else {
+                val prevJeolLon = normalizeDegrees(birthLongitude - degreesIntoMonth)
+                val near = utJd - degreesIntoMonth / MEAN_DAILY_MOTION
+                utJd - SolarLongitude.instantOfLongitudeUT(prevJeolLon, near)
+            }
 
         val startAge = config.daeunStartAge.startAge(daysToBoundary)
         return DaeunCalculator.sequence(monthPillar, direction, startAge, count)
@@ -130,7 +133,13 @@ public object Saju {
      * 잘못된 입력이 '그럴듯하지만 틀린 사주'로 조용히 새는 것을 막는다.
      */
     @JvmStatic
-    public fun requireValidCivilDateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+    public fun requireValidCivilDateTime(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+    ) {
         require(year in SUPPORTED_MIN_YEAR..SUPPORTED_MAX_YEAR) {
             "지원 연도($SUPPORTED_MIN_YEAR~$SUPPORTED_MAX_YEAR) 밖: $year"
         }
@@ -143,8 +152,10 @@ public object Saju {
         require(minute in 0..MAX_MINUTE) { "분은 0~59: $minute" }
     }
 
-    private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
-
+    private fun floorModDouble(
+        value: Double,
+        modulus: Double,
+    ): Double = ((value % modulus) + modulus) % modulus
 
     private const val IPCHUN_LONGITUDE_DEG = 315.0
     private const val DEGREES_PER_MONTH = 30.0

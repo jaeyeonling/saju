@@ -27,6 +27,8 @@ public enum class YearBoundary(
     ;
 
     /** 경계 절입 시각([boundaryAfter])과 출생 순간 비교로 보정된 간지 연도. */
-    public fun resolveYear(year: Int, isAfterBoundary: Boolean): Int =
-        year + if (isAfterBoundary) yearShiftWhenAfter else yearShiftWhenBefore
+    public fun resolveYear(
+        year: Int,
+        isAfterBoundary: Boolean,
+    ): Int = year + if (isAfterBoundary) yearShiftWhenAfter else yearShiftWhenBefore
 }

@@ -42,19 +42,21 @@ internal object MoonPosition {
         for (row in longitudeTerms) {
             val argument = elongation * row[0] + anomalySun * row[1] + anomalyMoon * row[2] + argLatitude * row[3]
             // 태양 이심률 보정: |m|=1 → ×E, |m|=2 → ×E², m=0 → 미적용.
-            val eccentricityFactor = when (abs(row[1].toInt())) {
-                1 -> eccentricity
-                2 -> eccentricitySquared
-                else -> 1.0
-            }
+            val eccentricityFactor =
+                when (abs(row[1].toInt())) {
+                    1 -> eccentricity
+                    2 -> eccentricitySquared
+                    else -> 1.0
+                }
             sigmaL += row[4] * sin(argument) * eccentricityFactor
         }
         return meanLongitude + sigmaL * MICRO_DEGREE * DEG_TO_RAD
     }
 
     private fun load(): Array<DoubleArray> {
-        val stream = MoonPosition::class.java.getResourceAsStream(RESOURCE)
-            ?: error("달 ELP 리소스를 찾을 수 없습니다: $RESOURCE")
+        val stream =
+            MoonPosition::class.java.getResourceAsStream(RESOURCE)
+                ?: error("달 ELP 리소스를 찾을 수 없습니다: $RESOURCE")
         val terms = mutableListOf<DoubleArray>()
         stream.bufferedReader().useLines { lines ->
             lines.forEach { line ->
@@ -63,8 +65,11 @@ internal object MoonPosition {
                 if (parts[0] != "L") return@forEach // 황경(L)항만 — 위도(B)는 삭에 불필요
                 terms.add(
                     doubleArrayOf(
-                        parts[1].toDouble(), parts[2].toDouble(), parts[3].toDouble(),
-                        parts[4].toDouble(), parts[5].toDouble(),
+                        parts[1].toDouble(),
+                        parts[2].toDouble(),
+                        parts[3].toDouble(),
+                        parts[4].toDouble(),
+                        parts[5].toDouble(),
                     ),
                 )
             }

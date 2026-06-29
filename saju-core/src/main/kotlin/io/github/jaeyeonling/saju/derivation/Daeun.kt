@@ -12,8 +12,10 @@ public enum class DaeunDirection {
     public companion object {
         /** 연간 음양 × 성별로 방향 결정. (양년 ↔ 남성)이 일치하면 순행. */
         @JvmStatic
-        public fun of(yearStemEumyang: Eumyang, isMale: Boolean): DaeunDirection =
-            if (yearStemEumyang.isYang == isMale) FORWARD else BACKWARD
+        public fun of(
+            yearStemEumyang: Eumyang,
+            isMale: Boolean,
+        ): DaeunDirection = if (yearStemEumyang.isYang == isMale) FORWARD else BACKWARD
     }
 }
 
@@ -34,7 +36,6 @@ public data class Seun(
  * 시작 나이(대운수) 환산은 [DaeunStartAgePolicy] 가, 절기 거리 계산은 [io.github.jaeyeonling.saju.Saju] 가 맡는다.
  */
 public object DaeunCalculator {
-
     /** 월주에서 시작하는 대운 간지 시퀀스. 첫 대운은 월주의 다음/이전 간지. */
     @JvmStatic
     public fun sequence(

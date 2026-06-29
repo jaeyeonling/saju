@@ -34,9 +34,11 @@ class InterpretationLabelTest : StringSpec({
     }
 
     "모든 해석 라벨은 비어있지 않다" {
-        (SipSeong.entries.map { it.koreanName to it.hanja } +
-            SibiUnseong.entries.map { it.koreanName to it.hanja } +
-            SinStrengthVerdict.entries.map { it.koreanName to it.hanja }).forEach { (ko, ha) ->
+        (
+            SipSeong.entries.map { it.koreanName to it.hanja } +
+                SibiUnseong.entries.map { it.koreanName to it.hanja } +
+                SinStrengthVerdict.entries.map { it.koreanName to it.hanja }
+        ).forEach { (ko, ha) ->
             ko.shouldNotBeBlank()
             ha.shouldNotBeBlank()
         }

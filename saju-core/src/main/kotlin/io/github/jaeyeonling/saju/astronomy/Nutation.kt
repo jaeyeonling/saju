@@ -36,11 +36,12 @@ internal object Nutation {
         // 작은 항부터 누적(원 데이터는 진폭 내림차순).
         for (i in rows.indices.reversed()) {
             val row = rows[i]
-            val argument = row[0] * elongationMoon +
-                row[1] * anomalySun +
-                row[2] * anomalyMoon +
-                row[3] * argLatMoon +
-                row[4] * ascNode
+            val argument =
+                row[0] * elongationMoon +
+                    row[1] * anomalySun +
+                    row[2] * anomalyMoon +
+                    row[3] * argLatMoon +
+                    row[4] * ascNode
             deltaPsi += sin(argument) * (row[5] + row[6] * t)
             deltaEpsilon += cos(argument) * (row[7] + row[8] * t)
         }
@@ -48,8 +49,9 @@ internal object Nutation {
     }
 
     private fun load(): Array<DoubleArray> {
-        val stream = Nutation::class.java.getResourceAsStream(RESOURCE)
-            ?: error("章動 리소스를 찾을 수 없습니다: $RESOURCE")
+        val stream =
+            Nutation::class.java.getResourceAsStream(RESOURCE)
+                ?: error("章動 리소스를 찾을 수 없습니다: $RESOURCE")
         val parsed = mutableListOf<DoubleArray>()
         stream.bufferedReader().useLines { lines ->
             lines.forEach { line ->

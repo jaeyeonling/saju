@@ -1,6 +1,6 @@
 plugins {
     id("saju.kotlin-common")
-    id("saju.publish")                       // io.github.jaeyeonling:saju-serialization
+    id("saju.publish") // io.github.jaeyeonling:saju-serialization
     alias(libs.plugins.kotlin.serialization) // @Serializable 컴파일러 플러그인
 }
 

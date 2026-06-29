@@ -47,7 +47,10 @@ public data class GanZhi(
         public val ALL: List<GanZhi> = java.util.Collections.unmodifiableList((0 until CYCLE).map { fromIndex(it) })
 
         // i%10==gan, i%12==ji 를 만족하는 0..59 (유효 60갑자 조합은 최대 6스텝 내 발견).
-        private fun sexagenaryIndex(gan: Cheongan, ji: Jiji): Int {
+        private fun sexagenaryIndex(
+            gan: Cheongan,
+            ji: Jiji,
+        ): Int {
             for (k in 0 until 6) {
                 val candidate = gan.ordinal + 10 * k
                 if (candidate % 12 == ji.ordinal) return candidate

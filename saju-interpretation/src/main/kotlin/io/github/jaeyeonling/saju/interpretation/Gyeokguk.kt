@@ -35,18 +35,19 @@ public interface GyeokgukStrategy {
 }
 
 /** 십성 → 격 유형. 본기가 비겁인 월지는 녹왕지(건록·양인지)라 건록/양인격으로 본다. */
-private fun gyeokgukTypeOf(sipSeong: SipSeong): GyeokgukType = when (sipSeong) {
-    SipSeong.BIGYEON -> GyeokgukType.GEONLOK
-    SipSeong.GEOPJAE -> GyeokgukType.YANGIN
-    SipSeong.SIKSIN -> GyeokgukType.SIKSIN
-    SipSeong.SANGGWAN -> GyeokgukType.SANGGWAN
-    SipSeong.PYEONJAE -> GyeokgukType.PYEONJAE
-    SipSeong.JEONGJAE -> GyeokgukType.JEONGJAE
-    SipSeong.PYEONGWAN -> GyeokgukType.PYEONGWAN
-    SipSeong.JEONGGWAN -> GyeokgukType.JEONGGWAN
-    SipSeong.PYEONIN -> GyeokgukType.PYEONIN
-    SipSeong.JEONGIN -> GyeokgukType.JEONGIN
-}
+private fun gyeokgukTypeOf(sipSeong: SipSeong): GyeokgukType =
+    when (sipSeong) {
+        SipSeong.BIGYEON -> GyeokgukType.GEONLOK
+        SipSeong.GEOPJAE -> GyeokgukType.YANGIN
+        SipSeong.SIKSIN -> GyeokgukType.SIKSIN
+        SipSeong.SANGGWAN -> GyeokgukType.SANGGWAN
+        SipSeong.PYEONJAE -> GyeokgukType.PYEONJAE
+        SipSeong.JEONGJAE -> GyeokgukType.JEONGJAE
+        SipSeong.PYEONGWAN -> GyeokgukType.PYEONGWAN
+        SipSeong.JEONGGWAN -> GyeokgukType.JEONGGWAN
+        SipSeong.PYEONIN -> GyeokgukType.PYEONIN
+        SipSeong.JEONGIN -> GyeokgukType.JEONGIN
+    }
 
 /**
  * 자평(子平) 기본 구현 — **월지 지장간 본기의 십성**으로 격을 정한다(단순화).
@@ -88,9 +89,10 @@ public class TuchulGyeokgukStrategy
             val monthHidden = hiddenStems.of(chart.month.ji)
             val visibleStems = listOf(chart.year.gan, chart.month.gan, chart.hour.gan)
             // 비겁이 아닌 투출만 격으로 채택(비겁 투출은 격이 아니다).
-            val tuchul = monthHidden.all().firstOrNull {
-                it in visibleStems && SipSeong.of(chart.dayMaster, it).group != SipSeongGroup.BIGYEOP
-            }
+            val tuchul =
+                monthHidden.all().firstOrNull {
+                    it in visibleStems && SipSeong.of(chart.dayMaster, it).group != SipSeongGroup.BIGYEOP
+                }
             return if (tuchul != null) {
                 val sipSeong = SipSeong.of(chart.dayMaster, tuchul)
                 GyeokgukResult(gyeokgukTypeOf(sipSeong), "월지(${chart.month.ji}) 투출 $tuchul 의 $sipSeong")
