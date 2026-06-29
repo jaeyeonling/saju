@@ -4,6 +4,54 @@
 
 > 중국식 만세력과 달리 **한국 사주 특유의 시간 보정**(진태양시·표준시 역사·서머타임·자시 학파)을 1급으로 다룬다.
 
+## 빠른 시작
+
+생년월일시 한 줄 → **사주 8글자 + 해석 + 대운**. 한국 보정(진태양시·표준시 연혁·서머타임)은 자동.
+
+**① 설치 없이 바로 실행** (데모 CLI):
+
+```bash
+./gradlew :saju-cli:run --args="1990 3 15 7 0"   # 연 월 일 시 분
+```
+
+```text
+════════ 사주 만세력 ════════
+입력  : 1990-03-15 07:00
+진태양시 보정: -41.2분
+
+        시주   일주   월주   연주
+천간    정(편인)   기(일간)   기(비견)   경(상관)
+지지    묘     묘     묘     오
+일간(나) : 기 [토(土)/음(陰)]      ← 해석의 기준 '나'
+
+───── 해석 ─────
+신강신약 : 중화 (지원율 47%)
+용신     : 화(火) (억부)
+격국     : 편관격
+공망     : 신유
+십이운성 : 연 건록 · 월 병 · 일 병 · 시 병
+
+───── 대운 (남성) ─────
+7세 경진  17세 신사  27세 임오  37세 계미  47세 갑신  …
+```
+
+**② 코드로** (핵심 3줄):
+
+```kotlin
+import io.github.jaeyeonling.saju.korea.KoreanSaju
+import io.github.jaeyeonling.saju.interpretation.Interpretation
+
+val chart  = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0) // 생년월일시 → 사주판
+val report = Interpretation.of(chart)                     // 해석 한 번에
+
+chart.dayMaster         // 일간(나)  → 기(己) 토
+report.strength.verdict // 신강신약   → 중화
+report.yongsin.yongsin  // 용신       → 화(火)
+```
+
+> 입력은 **법정시(시계 시각)** 그대로. 진태양시 변환은 내부에서 처리한다.
+> 설치: Maven Central **배포 예정** — 현재는 소스 빌드(`./gradlew build`)로 사용.
+
 ## 사주(四柱)란 무엇인가
 
 > 사주를 모르고 코드를 읽기 시작했다면 이 절부터. 기초 용어(천간·지지·오행)는 `saju-core/.../domain/`, 해석 용어(십성·용신·격국)는 `saju-interpretation/` 의 enum KDoc에 정의가 있다.
@@ -34,7 +82,7 @@
 
 ## 설계 원칙
 
-- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0). `tyme4j`는 검증(골든 데이터)용으로만 사용.
+- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0). 검증은 체크인된 골든 벡터(독립 구현에서 추출한 정답)로만 수행.
 - **java.time-free 코어** — `saju-core`는 순수 계산(불변 도메인 + double 율리우스일). 시간대 보정은 `saju-korea` 가 전담. 이 격리가 "베이징 +8h 하드코딩" 오염을 구조적으로 차단한다.
 - **Java·Kotlin 친화** — 불변 `data class` + `@JvmStatic`/`@JvmOverloads`/`@JvmField`.
 
@@ -55,38 +103,81 @@ astronomy(순수 UT JD, 타임존 무지)
    → derivation(연도 / 절기 idx / JDN / 시지 → 4기둥)
 ```
 
+## 문서 지도
+
+| 무엇이 궁금한가 | 문서 |
+|----------------|------|
+| **전체 공개 API 한 장** (진입점·타입·enum·학파 스위치) | [docs/api.md](docs/api.md) |
+| **한국 시간 보정** (진태양시·표준시 연혁·서머타임) | [korea/](saju-korea/src/main/kotlin/io/github/jaeyeonling/saju/korea/README.md) |
+| **기초 용어** (천간·지지·오행·60갑자·지장간) | [domain/](saju-core/src/main/kotlin/io/github/jaeyeonling/saju/domain/README.md) |
+| **해석 용어** (십성·신강신약·용신·격국·십이운성) | [interpretation/](saju-interpretation/src/main/kotlin/io/github/jaeyeonling/saju/interpretation/README.md) |
+| **천문 엔진** (절기·삭을 왜·어떻게 계산하나) | [astronomy/](saju-core/src/main/kotlin/io/github/jaeyeonling/saju/astronomy/README.md) |
+
 ## 사용 예시
+
+진입점은 단 둘 — **`KoreanSaju`**(생년월일시 → 사주판)와 **`Interpretation.of`**(사주판 → 해석).
 
 ### Kotlin
 ```kotlin
 import io.github.jaeyeonling.saju.korea.KoreanSaju
 import io.github.jaeyeonling.saju.korea.Birthplace
-import io.github.jaeyeonling.saju.interpretation.InterpretationContext
+import io.github.jaeyeonling.saju.interpretation.Interpretation
+import io.github.jaeyeonling.saju.lunar.LunarConverter
 
-// 법정시 + 출생지 → 사주판 (진태양시·표준시 연혁·서머타임 자동 보정)
-val chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0, Birthplace.SEOUL.longitudeDeg)
-val dayMaster = chart.dayMaster              // 일간(나)
+// ── 1. 사주판 도출 (법정시 입력 → 한국 보정 자동) ──
+val chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0)                       // 서울 기본
+val busan = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0, Birthplace.BUSAN.longitudeDeg)
+chart.dayMaster      // 일간(나) = 기(己)
+chart.year.ganZhi    // 연주 = 경오
+chart.pillars()      // [연, 월, 일, 시] 네 기둥
 
-// 해석 (학파 전략 주입 가능, 기본 = 한국 표준)
-val ctx = InterpretationContext.DEFAULT
-val strength = ctx.sinStrength.evaluate(chart)   // 신강신약
-val gyeokguk = ctx.gyeokguk.classify(chart)      // 격국
+// ── 2. 해석 한 번에 ──
+val report = Interpretation.of(chart)
+report.strength.verdict   // 신강신약 = 중화
+report.yongsin.yongsin    // 용신 = 화(火)
+report.gyeokguk.type      // 격국 = 편관격
+report.gongmang           // 공망 = (신, 유)
+report.sibiUnseong        // 십이운성 (연·월·일·시)
 
-// 대운
+// ── 3. 대운 (10년 단위 인생 흐름) ──
 val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
+daeun.first().startAge    // 7 (세부터 시작)
+daeun.first().ganZhi      // 경진
 
-// 음력 생일 입력 (KASI 기준 양력 변환 후 동일 파이프라인)
+// ── 4. 음력 생일 입력 / 음↔양 변환 ──
 val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)
-val solar = LunarConverter.toSolar(2023, 1, 1)        // 음 → 양 (설날 → 2023-01-22)
-val lunar = LunarConverter.toLunar(2023, 1, 22)       // 양 → 음
+val solar = LunarConverter.toSolar(2023, 1, 1)   // 음→양: 설날 → 2023-01-22
+val lunar = LunarConverter.toLunar(2023, 1, 22)  // 양→음
 ```
 
 ### Java
 ```java
-SajuChart chart = Saju.fromLocalDateTime(1990, 3, 15, 7, 0, 9.0); // @JvmStatic/@JvmOverloads
-Cheongan dayMaster = chart.getDayMaster();
-List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
+import io.github.jaeyeonling.saju.korea.KoreanSaju;
+import io.github.jaeyeonling.saju.domain.SajuChart;
+import io.github.jaeyeonling.saju.interpretation.Interpretation;
+import io.github.jaeyeonling.saju.interpretation.InterpretationReport;
+
+SajuChart chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0);  // @JvmStatic/@JvmOverloads
+InterpretationReport report = Interpretation.of(chart);
+report.getStrength().getVerdict();   // 신강신약
+report.getYongsin().getYongsin();    // 용신
 ```
+
+### `Interpretation.of(chart)` 가 담는 7가지
+
+한 번의 호출로 아래 7개 해석이 한꺼번에 나온다:
+
+| 필드 | 타입 | 의미 | 접근 예 |
+|------|------|------|---------|
+| `strength` | `SinStrength` | **신강신약** — 일간이 강한가 약한가 | `.verdict`(극신강~극신약) · `.supportRatio` |
+| `yongsin` | `YongsinResult` | **용신** — 균형을 돕는 오행 | `.yongsin`(오행) · `.method`(억부/조후) |
+| `gyeokguk` | `GyeokgukResult` | **격국** — 사주의 짜임새 유형 | `.type`(편관격 등) · `.basis` |
+| `gongmang` | `Pair<Jiji, Jiji>` | **공망** — 작용력이 빈 지지 2개 | `.first` · `.second` |
+| `hapChung` | `List<HapChungRelation>` | **합충** — 글자끼리의 결합·충돌 | `.size`, `filterIsInstance` |
+| `ohaeng` | `OhaengDistribution` | **오행 분포** — 8글자의 오행 개수 | `.count(목)` · `.dominant()` |
+| `sibiUnseong` | `Map<PillarPosition, SibiUnseong>` | **십이운성** — 기둥별 기운 단계 | `.getValue(YEAR)` |
+
+> 전체 공개 API(진입점·타입·enum·학파 스위치)는 **[API 치트시트](docs/api.md)** 한 장으로.
 
 ## 빌드
 
@@ -97,9 +188,9 @@ List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
 
 요구사항: JDK 17+ (toolchain 자동 프로비저닝). 로컬 검증은 JDK 21에서 수행.
 
-## 검증 (tyme4j 골든)
+## 검증 (골든 회귀)
 
-자체 천문 엔진(VSOP87/Meeus)을 **독립 알고리즘(sxwnl 기반 tyme4j)** 과 대조해 정확성을 교차 증명한다:
+자체 천문 엔진(VSOP87/Meeus)을 **독립 알고리즘에서 추출해 체크인한 골든 벡터**(`src/test/resources/golden/`)와 대조해 정확성을 회귀 검증한다. 골든 벡터는 추출 시점에 독립 엔진과 분 단위로 교차 검증되었으며, 그 정답을 박제해 런타임·테스트 의존성 없이 회귀를 막는다:
 
 | 영역 | 골든 결과 |
 |------|-----------|
@@ -107,12 +198,12 @@ List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
 | 4기둥(매년 4시점, 604표본) | 연·월·일·시주 **완전 일치** |
 | 천간·지지·60갑자 속성 | 전수 일치 |
 | 십성 100조합 / 십이운성 120조합 / 지장간 | 일치 |
-| 대운 방향·간지 | 일치 (대운수는 3일=1세 기준 ±1; tyme4j `startAge`의 양력새해 교차식과는 정의가 달라 최대 2세 차) |
+| 대운 방향·간지 | 일치 (대운수는 3일=1세 기준 ±1; 양력새해 교차식 시작나이 정의와는 달라 최대 2세 차) |
 | 음↔양력 변환(1900~2050) | 1865/1868 정확, 3건 자정경계 ±1일* |
 
 *삭이 자정 ±5분에 드는 극경계(1914·1916·1920)는 두 독립 천문 엔진의 한계로 중국 농력과 ±1일 갈릴 수 있다. 한국 기준(KASI, KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
 
-신강신약·용신·격국은 정답 데이터셋이 없어(tyme4j 미제공) 결정론성만 보장하며, 가중치·규칙은 KDoc에 근거를 명시한다.
+신강신약·용신·격국은 정답 데이터셋이 없어 결정론성만 보장하며, 가중치·규칙은 KDoc에 근거를 명시한다.
 
 ## 로드맵
 
@@ -130,4 +221,4 @@ List<GanZhi> sixtyCycle = GanZhi.ALL;          // @JvmField
 
 ## 라이선스
 
-MIT (예정). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조하며, 검증에 [tyme4j](https://github.com/6tail/tyme4j)(MIT)를 사용한다.
+MIT (예정). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조한다.
