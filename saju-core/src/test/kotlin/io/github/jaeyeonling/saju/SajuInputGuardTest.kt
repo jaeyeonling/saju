@@ -33,6 +33,12 @@ class SajuInputGuardTest : StringSpec({
         shouldNotThrowAny { Saju.requireValidCivilDateTime(2000, 2, 29, 9, 0) } // 400의 배수 → 윤년
     }
 
+    "지원 연도 경계 — 2100 통과, 2101·1899 거부" {
+        shouldNotThrowAny { Saju.requireValidCivilDateTime(2100, 1, 1, 0, 0) }
+        shouldThrow<IllegalArgumentException> { Saju.requireValidCivilDateTime(2101, 1, 1, 0, 0) }
+        shouldThrow<IllegalArgumentException> { Saju.requireValidCivilDateTime(1899, 12, 31, 0, 0) }
+    }
+
     "정상 날짜는 통과한다 (회귀 방지)" {
         shouldNotThrowAny {
             Saju.fromLocalDateTime(1990, 3, 15, 7, 0, KST_OFFSET)
