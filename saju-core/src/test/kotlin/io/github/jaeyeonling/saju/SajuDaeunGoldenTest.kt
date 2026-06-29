@@ -65,4 +65,28 @@ class SajuDaeunGoldenTest : StringSpec({
         }
         println("대운 골든 $checked 케이스 통과, 시작나이 최대 차이 ${startAgeMaxDiff}세")
     }
+
+    "대운 간지는 월주에서 방향대로 60갑자를 연속으로 걷는다 (불변식, 외부 표본 무관)" {
+        // 외부 정답셋 없이도 검증 가능한 구조 불변식: 인접 대운 간지는 정확히 ±1(순행 1/역행 59),
+        // 시작 나이는 0~10(절기 거리 3일=1세). 여러 날짜·성별 표본으로 골든 16케이스의 빈약함을 보강.
+        val samples = listOf(
+            intArrayOf(1984, 5, 20, 10), intArrayOf(1955, 11, 3, 23),
+            intArrayOf(2000, 2, 4, 0), intArrayOf(1973, 8, 17, 14), intArrayOf(2024, 12, 31, 6),
+        )
+        for (s in samples) {
+            for (isMale in listOf(true, false)) {
+                val chart = Saju.fromLocalDateTime(s[0], s[1], s[2], s[3], 0, BEIJING_OFFSET)
+                val utJd = JulianDayConverter.fromGregorian(s[0], s[1], s[2], s[3] * 60 / 1440.0) - BEIJING_OFFSET / 24.0
+                val daeun = Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count = 8)
+                val tag = "${s[0]}-${s[1]}-${s[2]} ${if (isMale) "남" else "여"}"
+                for (i in 1 until daeun.size) {
+                    val step = ((daeun[i].ganZhi.index - daeun[i - 1].ganZhi.index) % 60 + 60) % 60
+                    withClue("$tag 인접 대운[$i] 간지는 ±1 (순행1/역행59): step=$step") {
+                        (step == 1 || step == 59).shouldBeTrue()
+                    }
+                }
+                withClue("$tag 대운 시작나이 0~10") { (daeun.first().startAge in 0..10).shouldBeTrue() }
+            }
+        }
+    }
 })
