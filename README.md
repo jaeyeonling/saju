@@ -95,6 +95,7 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum 
 | `saju-core` | 천문 엔진(태양·달·절기·삭) + 도메인(천간·지지·60갑자) + 4기둥/대운 + 음력 변환(무중치윤) | ❌ 금지(Konsist 강제) |
 | `saju-korea` | 한국 시간 보정(진태양시·표준시 연혁·서머타임·자시) | ✅ 사용 |
 | `saju-interpretation` | 십성·오행·합충·신살·신강신약·용신·격국 | ❌ 금지 |
+| `saju-serialization` | (opt-in) JSON 직렬화 — kotlinx.serialization DTO + `toJson()`. 이 모듈을 의존할 때만 직렬화 런타임이 따라온다 | ✅ 사용 |
 | `saju-cli` | 데모/수동 검증 CLI | ✅ 사용 |
 
 핵심 데이터 흐름:
@@ -150,6 +151,18 @@ daeun.first().ganZhi      // 경진
 val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)
 val solar = LunarConverter.toSolar(2023, 1, 1)   // 음→양: 설날 → 2023-01-22
 val lunar = LunarConverter.toLunar(2023, 1, 22)  // 양→음
+```
+
+### JSON 직렬화 (`saju-serialization` 모듈, opt-in)
+
+REST 응답으로 바로 내보낼 수 있다. 한글 라벨(`name`)과 영문 enum(`verdict`)을 함께 담고,
+`Pair`·`Map`·sealed `합충`을 깔끔한 JSON 구조로 평탄화한다. **이 모듈을 의존할 때만** kotlinx.serialization 런타임이 따라온다 — 코어 3모듈은 여전히 런타임 의존성 0.
+
+```kotlin
+import io.github.jaeyeonling.saju.serialization.toJson
+
+val chartJson  = chart.toJson()                    // 사주판 → JSON (일주 name="기묘", hanja="己卯" …)
+val reportJson = Interpretation.of(chart).toJson() // 해석 → JSON (strength.verdictKorean="중화" …)
 ```
 
 ### Java

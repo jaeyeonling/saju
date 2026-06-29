@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 include(":saju-core")
 include(":saju-korea")
 include(":saju-interpretation")
+include(":saju-serialization")
 include(":saju-cli")
