@@ -6,17 +6,22 @@ package io.github.jaeyeonling.saju.domain
  *
  * 일간(日干, 일주의 천간)이 사주 해석의 기준 '나'다.
  */
-public enum class Cheongan {
-    GAB, // 갑 甲
-    EUL, // 을 乙
-    BYEONG, // 병 丙
-    JEONG, // 정 丁
-    MU, // 무 戊
-    GI, // 기 己
-    GYEONG, // 경 庚
-    SIN, // 신 辛
-    IM, // 임 壬
-    GYE, // 계 癸
+public enum class Cheongan(
+    /** 한글 이름(갑·을·…). 라이브러리 표면의 표시 라벨 — 소비자가 별도 매핑을 다시 짤 필요가 없다. */
+    public val koreanName: String,
+    /** 한자(甲·乙·…). */
+    public val hanja: String,
+) {
+    GAB("갑", "甲"),
+    EUL("을", "乙"),
+    BYEONG("병", "丙"),
+    JEONG("정", "丁"),
+    MU("무", "戊"),
+    GI("기", "己"),
+    GYEONG("경", "庚"),
+    SIN("신", "辛"),
+    IM("임", "壬"),
+    GYE("계", "癸"),
     ;
 
     /** 오행 = ordinal / 2 (갑을=목, 병정=화, …). 순서가 곧 규칙이라 별도 테이블이 없다. */

@@ -122,19 +122,13 @@ private fun renderDaeun(input: CliInput): String = buildString {
     appendLine("(대운 = 시작 나이부터 10년 단위로 바뀌는 인생의 큰 흐름)")
 }
 
-private fun ganKorean(gan: Cheongan): String = GAN_KOREAN[gan.ordinal]
-private fun jiKorean(ji: Jiji): String = JI_KOREAN[ji.ordinal]
-private fun ohaengKorean(ohaeng: Ohaeng): String = OHAENG_KOREAN[ohaeng.ordinal]
-private fun eumyangKorean(eumyang: Eumyang): String = if (eumyang.isYang) "양(陽)" else "음(陰)"
-private fun sipSeongKorean(sipSeong: SipSeong): String = SIPSEONG_KOREAN[sipSeong.ordinal]
-private fun verdictKorean(verdict: SinStrengthVerdict): String = VERDICT_KOREAN[verdict.ordinal]
-private fun unseongKorean(unseong: SibiUnseong): String = SIBIUNSEONG_KOREAN[unseong.ordinal]
+// 표시 라벨은 라이브러리 enum 의 koreanName/hanja 를 단일 진실 소스로 쓴다(CLI 가 매핑을 재정의하지 않는다).
+// 한자 괄호 표기(目→목(木)) 여부만 CLI 의 표현 정책으로 남긴다.
+private fun ganKorean(gan: Cheongan): String = gan.koreanName
+private fun jiKorean(ji: Jiji): String = ji.koreanName
+private fun ohaengKorean(ohaeng: Ohaeng): String = "${ohaeng.koreanName}(${ohaeng.hanja})"
+private fun eumyangKorean(eumyang: Eumyang): String = "${eumyang.koreanName}(${eumyang.hanja})"
+private fun sipSeongKorean(sipSeong: SipSeong): String = sipSeong.koreanName
+private fun verdictKorean(verdict: SinStrengthVerdict): String = verdict.koreanName
+private fun unseongKorean(unseong: SibiUnseong): String = unseong.koreanName
 private fun pad(value: Int): String = value.toString().padStart(2, '0')
-
-private val GAN_KOREAN = listOf("갑", "을", "병", "정", "무", "기", "경", "신", "임", "계")
-private val JI_KOREAN = listOf("자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해")
-private val OHAENG_KOREAN = listOf("목(木)", "화(火)", "토(土)", "금(金)", "수(水)")
-private val SIPSEONG_KOREAN = listOf("비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인")
-private val VERDICT_KOREAN = listOf("극신강", "신강", "중화", "신약", "극신약")
-private val SIBIUNSEONG_KOREAN =
-    listOf("장생", "목욕", "관대", "건록", "제왕", "쇠", "병", "사", "묘", "절", "태", "양")

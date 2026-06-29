@@ -11,19 +11,23 @@ package io.github.jaeyeonling.saju.domain
  */
 public enum class Jiji(
     public val ohaeng: Ohaeng,
+    /** 한글 이름(자·축·…). */
+    public val koreanName: String,
+    /** 한자(子·丑·…). */
+    public val hanja: String,
 ) {
-    JA(Ohaeng.SU), // 자 子 쥐
-    CHUK(Ohaeng.TO), // 축 丑 소
-    IN(Ohaeng.MOK), // 인 寅 호랑이
-    MYO(Ohaeng.MOK), // 묘 卯 토끼
-    JIN(Ohaeng.TO), // 진 辰 용
-    SA(Ohaeng.HWA), // 사 巳 뱀
-    O(Ohaeng.HWA), // 오 午 말
-    MI(Ohaeng.TO), // 미 未 양
-    SHIN(Ohaeng.GEUM), // 신 申 원숭이
-    YU(Ohaeng.GEUM), // 유 酉 닭
-    SUL(Ohaeng.TO), // 술 戌 개
-    HAE(Ohaeng.SU), // 해 亥 돼지
+    JA(Ohaeng.SU, "자", "子"), // 쥐
+    CHUK(Ohaeng.TO, "축", "丑"), // 소
+    IN(Ohaeng.MOK, "인", "寅"), // 호랑이
+    MYO(Ohaeng.MOK, "묘", "卯"), // 토끼
+    JIN(Ohaeng.TO, "진", "辰"), // 용
+    SA(Ohaeng.HWA, "사", "巳"), // 뱀
+    O(Ohaeng.HWA, "오", "午"), // 말
+    MI(Ohaeng.TO, "미", "未"), // 양
+    SHIN(Ohaeng.GEUM, "신", "申"), // 원숭이
+    YU(Ohaeng.GEUM, "유", "酉"), // 닭
+    SUL(Ohaeng.TO, "술", "戌"), // 개
+    HAE(Ohaeng.SU, "해", "亥"), // 돼지
     ;
 
     /** 음양 = 위치 기준 ordinal % 2 (짝수=양: 子寅辰午申戌, 홀수=음). */

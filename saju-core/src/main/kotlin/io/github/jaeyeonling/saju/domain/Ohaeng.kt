@@ -8,12 +8,17 @@ package io.github.jaeyeonling.saju.domain
  * 상극(相剋): 木→土→水→火→金→木 (ordinal+2) — 나무가 흙을 파고, 흙이 물을 막고,
  *   물이 불을 끄고, 불이 쇠를 녹이고, 쇠가 나무를 벤다.
  */
-public enum class Ohaeng {
-    MOK, // 목 木
-    HWA, // 화 火
-    TO, // 토 土
-    GEUM, // 금 金
-    SU, // 수 水
+public enum class Ohaeng(
+    /** 한글 이름(목·화·토·금·수). */
+    public val koreanName: String,
+    /** 한자(木·火·土·金·水). */
+    public val hanja: String,
+) {
+    MOK("목", "木"),
+    HWA("화", "火"),
+    TO("토", "土"),
+    GEUM("금", "金"),
+    SU("수", "水"),
     ;
 
     /** 이 오행이 생(生)하는 오행 (내가 낳는 것). */

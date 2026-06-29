@@ -21,6 +21,12 @@ public data class GanZhi(
     /** 60갑자 인덱스 0..59. */
     public val index: Int get() = sexagenaryIndex(gan, ji)
 
+    /** 한글 표기(예: 경오). 천간·지지 [koreanName][Cheongan.koreanName] 합성. */
+    public val koreanName: String get() = "${gan.koreanName}${ji.koreanName}"
+
+    /** 한자 표기(예: 庚午). */
+    public val hanja: String get() = "${gan.hanja}${ji.hanja}"
+
     /** [n] 만큼 순행(양수)/역행(음수)한 간지. */
     public fun next(n: Int): GanZhi = fromIndex(index + n)
 

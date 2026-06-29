@@ -28,17 +28,21 @@ public enum class SipSeongGroup {
 public enum class SipSeong(
     public val group: SipSeongGroup,
     public val isSameEumyang: Boolean,
+    /** 한글 이름(비견·겁재·…). */
+    public val koreanName: String,
+    /** 한자(比肩·劫財·…). */
+    public val hanja: String,
 ) {
-    BIGYEON(SipSeongGroup.BIGYEOP, true), // 비견 比肩 — 나와 같은 오행·음양. 동료·경쟁자·자존심.
-    GEOPJAE(SipSeongGroup.BIGYEOP, false), // 겁재 劫財 — 같은 오행, 다른 음양. 형제·동업·재물 다툼.
-    SIKSIN(SipSeongGroup.SIKSANG, true), // 식신 食神 — 내가 생하는 것. 표현·먹을복·여유.
-    SANGGWAN(SipSeongGroup.SIKSANG, false), // 상관 傷官 — 내가 생하는 것(다른 음양). 재능·끼·반항.
-    PYEONJAE(SipSeongGroup.JAESEONG, true), // 편재 偏財 — 내가 극하는 것. 유동 재물·사업·큰돈.
-    JEONGJAE(SipSeongGroup.JAESEONG, false), // 정재 正財 — 내가 극하는 것(다른 음양). 고정 수입·정당한 재물·처(妻).
-    PYEONGWAN(SipSeongGroup.GWANSEONG, true), // 편관 偏官(칠살 七殺) — 나를 극하는 것. 권력·압박·도전.
-    JEONGGWAN(SipSeongGroup.GWANSEONG, false), // 정관 正官 — 나를 극하는 것(다른 음양). 직장·명예·규범.
-    PYEONIN(SipSeongGroup.INSEONG, true), // 편인 偏印 — 나를 생하는 것. 비주류 학문·종교·눈치.
-    JEONGIN(SipSeongGroup.INSEONG, false), // 정인 正印 — 나를 생하는 것(다른 음양). 학문·후원·모친.
+    BIGYEON(SipSeongGroup.BIGYEOP, true, "비견", "比肩"), // 나와 같은 오행·음양. 동료·경쟁자·자존심.
+    GEOPJAE(SipSeongGroup.BIGYEOP, false, "겁재", "劫財"), // 같은 오행, 다른 음양. 형제·동업·재물 다툼.
+    SIKSIN(SipSeongGroup.SIKSANG, true, "식신", "食神"), // 내가 생하는 것. 표현·먹을복·여유.
+    SANGGWAN(SipSeongGroup.SIKSANG, false, "상관", "傷官"), // 내가 생하는 것(다른 음양). 재능·끼·반항.
+    PYEONJAE(SipSeongGroup.JAESEONG, true, "편재", "偏財"), // 내가 극하는 것. 유동 재물·사업·큰돈.
+    JEONGJAE(SipSeongGroup.JAESEONG, false, "정재", "正財"), // 내가 극하는 것(다른 음양). 고정 수입·정당한 재물·처(妻).
+    PYEONGWAN(SipSeongGroup.GWANSEONG, true, "편관", "偏官"), // (칠살 七殺) 나를 극하는 것. 권력·압박·도전.
+    JEONGGWAN(SipSeongGroup.GWANSEONG, false, "정관", "正官"), // 나를 극하는 것(다른 음양). 직장·명예·규범.
+    PYEONIN(SipSeongGroup.INSEONG, true, "편인", "偏印"), // 나를 생하는 것. 비주류 학문·종교·눈치.
+    JEONGIN(SipSeongGroup.INSEONG, false, "정인", "正印"), // 나를 생하는 것(다른 음양). 학문·후원·모친.
     ;
 
     public companion object {

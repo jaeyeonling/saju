@@ -6,12 +6,17 @@ import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
 
 /** 신강신약 판정 결과. */
-public enum class SinStrengthVerdict {
-    GEUKSIN_GANG, // 극신강 極身強 — 일간이 과하게 강함(설기·억제가 급함).
-    SIN_GANG, // 신강 身強 — 일간이 강함(돕는 세력 우세).
-    JUNGHWA, // 중화 中和 — 이상적 균형.
-    SIN_YAK, // 신약 身弱 — 일간이 약함(생조가 필요).
-    GEUKSIN_YAK, // 극신약 極身弱 — 일간이 과하게 약함.
+public enum class SinStrengthVerdict(
+    /** 한글 이름(극신강·신강·…). */
+    public val koreanName: String,
+    /** 한자(極身強·身強·…). */
+    public val hanja: String,
+) {
+    GEUKSIN_GANG("극신강", "極身強"), // 일간이 과하게 강함(설기·억제가 급함).
+    SIN_GANG("신강", "身強"), // 일간이 강함(돕는 세력 우세).
+    JUNGHWA("중화", "中和"), // 이상적 균형.
+    SIN_YAK("신약", "身弱"), // 일간이 약함(생조가 필요).
+    GEUKSIN_YAK("극신약", "極身弱"), // 일간이 과하게 약함.
     ;
 
     /** 신강 계열(일간이 강함). */
