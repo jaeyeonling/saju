@@ -44,13 +44,15 @@ import io.github.jaeyeonling.saju.interpretation.Interpretation
 val chart  = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0) // 생년월일시 → 사주판
 val report = Interpretation.of(chart)                     // 해석 한 번에
 
-chart.dayMaster         // 일간(나)  → 기(己) 토
-report.strength.verdict // 신강신약   → 중화
-report.yongsin.yongsin  // 용신       → 화(火)
+chart.dayMaster                     // 일간(나) → Cheongan.GI         (.koreanName "기", .hanja "己")
+report.strength.verdict.koreanName  // 신강신약 → "중화"             (enum SinStrengthVerdict.JUNGHWA)
+report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum Ohaeng.HWA)
 ```
 
+> 모든 도메인/해석 enum 은 `.koreanName`·`.hanja` 표시 라벨을 제공한다 — 한글 매핑을 직접 짤 필요가 없다.
+
 > 입력은 **법정시(시계 시각)** 그대로. 진태양시 변환은 내부에서 처리한다.
-> 설치: Maven Central **배포 예정** — 현재는 소스 빌드(`./gradlew build`)로 사용.
+> 설치: 좌표 `io.github.jaeyeonling:saju-core:0.1.0`(+`saju-korea`·`saju-interpretation`). `maven-publish` 설정 완료 — Central 릴리스 전까지는 `./gradlew publishToMavenLocal` 후 `mavenLocal()` 의존으로, 또는 소스 빌드(`./gradlew build`)로 사용.
 
 ## 사주(四柱)란 무엇인가
 
@@ -82,7 +84,7 @@ report.yongsin.yongsin  // 용신       → 화(火)
 
 ## 설계 원칙
 
-- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0). 검증은 체크인된 골든 벡터(독립 구현에서 추출한 정답)로만 수행.
+- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0). 회귀 검증은 체크인된 골든 벡터(외부 라이브러리 tyme4j 출력 동결), 절대 정확도는 Meeus 원전 단위 테스트(태양 황경 ~1″)로 확인.
 - **java.time-free 코어** — `saju-core`는 순수 계산(불변 도메인 + double 율리우스일). 시간대 보정은 `saju-korea` 가 전담. 이 격리가 "베이징 +8h 하드코딩" 오염을 구조적으로 차단한다.
 - **Java·Kotlin 친화** — 불변 `data class` + `@JvmStatic`/`@JvmOverloads`/`@JvmField`.
 
@@ -127,17 +129,17 @@ import io.github.jaeyeonling.saju.lunar.LunarConverter
 // ── 1. 사주판 도출 (법정시 입력 → 한국 보정 자동) ──
 val chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0)                       // 서울 기본
 val busan = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0, Birthplace.BUSAN.longitudeDeg)
-chart.dayMaster      // 일간(나) = 기(己)
-chart.year.ganZhi    // 연주 = 경오
-chart.pillars()      // [연, 월, 일, 시] 네 기둥
+chart.dayMaster              // 일간(나) = Cheongan.GI       (.koreanName "기", .hanja "己")
+chart.year.ganZhi.koreanName // 연주 = "경오"               (.hanja "庚午")
+chart.pillars()              // [연, 월, 일, 시] 네 기둥
 
 // ── 2. 해석 한 번에 ──
 val report = Interpretation.of(chart)
-report.strength.verdict   // 신강신약 = 중화
-report.yongsin.yongsin    // 용신 = 화(火)
-report.gyeokguk.type      // 격국 = 편관격
-report.gongmang           // 공망 = (신, 유)
-report.sibiUnseong        // 십이운성 (연·월·일·시)
+report.strength.verdict.koreanName // 신강신약 = "중화"      (enum SinStrengthVerdict.JUNGHWA)
+report.yongsin.yongsin.koreanName  // 용신 = "화"            (enum Ohaeng.HWA)
+report.gyeokguk.type.koreanName    // 격국 = "편관격"
+report.gongmang                    // 공망 = (Jiji.SHIN, Jiji.YU)
+report.sibiUnseong                 // 십이운성 Map<PillarPosition, SibiUnseong>
 
 // ── 3. 대운 (10년 단위 인생 흐름) ──
 val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
@@ -159,8 +161,8 @@ import io.github.jaeyeonling.saju.interpretation.InterpretationReport;
 
 SajuChart chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0);  // @JvmStatic/@JvmOverloads
 InterpretationReport report = Interpretation.of(chart);
-report.getStrength().getVerdict();   // 신강신약
-report.getYongsin().getYongsin();    // 용신
+report.getStrength().getVerdict().getKoreanName();   // 신강신약 = "중화"
+report.getYongsin().getYongsin().getKoreanName();    // 용신 = "화"
 ```
 
 ### `Interpretation.of(chart)` 가 담는 7가지
@@ -169,7 +171,7 @@ report.getYongsin().getYongsin();    // 용신
 
 | 필드 | 타입 | 의미 | 접근 예 |
 |------|------|------|---------|
-| `strength` | `SinStrength` | **신강신약** — 일간이 강한가 약한가 | `.verdict`(극신강~극신약) · `.supportRatio` |
+| `strength` | `SinStrength` | **신강신약** — 일간이 강한가 약한가 | `.verdict`(극신강~극신약) · `.supportRatio`(0~1, 0.45~0.55=중화·≥0.55 신강·<0.45 신약) |
 | `yongsin` | `YongsinResult` | **용신** — 균형을 돕는 오행 | `.yongsin`(오행) · `.method`(억부/조후) |
 | `gyeokguk` | `GyeokgukResult` | **격국** — 사주의 짜임새 유형 | `.type`(편관격 등) · `.basis` |
 | `gongmang` | `Pair<Jiji, Jiji>` | **공망** — 작용력이 빈 지지 2개 | `.first` · `.second` |
@@ -190,20 +192,20 @@ report.getYongsin().getYongsin();    // 용신
 
 ## 검증 (골든 회귀)
 
-자체 천문 엔진(VSOP87/Meeus)을 **독립 알고리즘에서 추출해 체크인한 골든 벡터**(`src/test/resources/golden/`)와 대조해 정확성을 회귀 검증한다. 골든 벡터는 추출 시점에 독립 엔진과 분 단위로 교차 검증되었으며, 그 정답을 박제해 런타임·테스트 의존성 없이 회귀를 막는다:
+자체 천문 엔진(VSOP87/Meeus)을 **외부 만세력 라이브러리 [tyme4j](https://github.com/6tail/tyme4j) 출력에서 추출해 체크인한 골든 벡터**(`*/src/test/resources/golden/`)와 대조해 회귀 검증한다. tyme4j 도 VSOP87 계열이라 자체 엔진과 수학 계보를 일부 공유하므로, 이 골든은 *두 구현의 분 단위 합치*를 박제한 것이다 — 정설 천문학에 대한 **절대 앵커는 Meeus 원전 단위 테스트**(태양 황경 ~1″)가 맡는다. 골든은 런타임·테스트 의존성 없이 회귀를 막는다:
 
 | 영역 | 골든 결과 |
 |------|-----------|
-| 절기 절입(1900~2050, 3624건) | 최대 **26초** 차 |
-| 4기둥(매년 4시점, 604표본) | 연·월·일·시주 **완전 일치** |
+| 절기 절입(1900~2050, 3624건) | 최대 **26초** 차 (회귀 게이트 60초) |
+| 4기둥(1900~2050, 609표본) | 연·월·일·시주 **완전 일치**(베이징 기준 — 한국 보정 경로는 `KoreanCorrectionTest` 가 별도 검증) |
 | 천간·지지·60갑자 속성 | 전수 일치 |
 | 십성 100조합 / 십이운성 120조합 / 지장간 | 일치 |
 | 대운 방향·간지 | 일치 (대운수는 3일=1세 기준 ±1; 양력새해 교차식 시작나이 정의와는 달라 최대 2세 차) |
-| 음↔양력 변환(1900~2050) | 1865/1868 정확, 3건 자정경계 ±1일* |
+| 음↔양력 변환(1900~2050) | 대부분 정확, 자정경계 ±1일 극소수* |
 
-*삭이 자정 ±5분에 드는 극경계(1914·1916·1920)는 두 독립 천문 엔진의 한계로 중국 농력과 ±1일 갈릴 수 있다. 한국 기준(KASI, KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
+*삭이 자정 ±5분에 드는 극경계는 자체 엔진과 tyme4j(둘 다 VSOP87 계열)의 한계로 중국 농력과 ±1일 갈릴 수 있다. 한국 기준(KASI, KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
 
-신강신약·용신·격국은 정답 데이터셋이 없어 결정론성만 보장하며, 가중치·규칙은 KDoc에 근거를 명시한다.
+신강신약·용신·격국은 정답 데이터셋이 없어 결정론성만 보장하며(정확도 보장 아님), 가중치·규칙은 KDoc에 근거를 명시한다.
 
 ## 로드맵
 
@@ -217,8 +219,8 @@ report.getYongsin().getYongsin();    // 용신
 - [x] **P7** 학파 전략: 십이운성·신강신약·용신·격국 + 자시
 - [x] **P8** Java interop + CLI 데모 + 문서
 - [x] 음력 입력 지원(삭·무중치윤·음양력 변환, 한국/중국 기준)
-- [ ] Maven Central 배포
+- [ ] Maven Central 릴리스 (`maven-publish`·POM·sources/javadoc jar 설정 완료 — GPG 서명·태그·Sonatype 자격증명 연결 대기)
 
 ## 라이선스
 
-MIT (예정). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조한다.
+[MIT](LICENSE). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조한다. 골든 테스트 벡터(`*/src/test/resources/golden/*.csv`)는 [tyme4j](https://github.com/6tail/tyme4j)(MIT) 출력을 동결한 테스트 픽스처로, 배포 산출물에는 포함되지 않는다. 자세한 제3자 고지는 [LICENSE](LICENSE) 참조.

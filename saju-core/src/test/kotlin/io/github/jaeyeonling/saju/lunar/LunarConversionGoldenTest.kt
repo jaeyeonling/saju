@@ -17,7 +17,7 @@ private fun jdnOf(year: Int, month: Int, day: Int): Long =
     floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong()
 
 /**
- * 음력 변환 골든 회귀 — 자체 력법을 동결된 골든 벡터(중국 농력, sxwnl 산출)와 대조한다.
+ * 음력 변환 골든 회귀 — 자체 력법을 동결된 골든 벡터(중국 농력, 외부 라이브러리 tyme4j 출력 동결)와 대조한다.
  *
  * 골든은 베이징(+8) 기준이므로 [CalendarBasis.CHINA] 로 정렬한다.
  * 한국 KASI(+9)와는 의도적으로 다를 수 있어(2017 윤달 등) 골든은 중국 기준으로 한정한다.
