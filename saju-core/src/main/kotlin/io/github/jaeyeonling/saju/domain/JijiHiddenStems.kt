@@ -7,7 +7,7 @@ package io.github.jaeyeonling.saju.domain
  * - **통근**(通根): 천간이 같은 오행을 지지 지장간에서 만나 '뿌리내려' 힘을 얻는 것 — 신강신약의 핵심 입력.
  * - **투출**(透出): 지장간이 천간에 드러나는 것 — 격국 판정의 입력([io.github.jaeyeonling.saju] interpretation 의 Gyeokguk).
  *
- * 데이터는 tyme4j 와 검증된 일반본 기준.
+ * 데이터는 골든 벡터로 검증된 일반본 기준.
  */
 public data class JijiHiddenStems(
     public val mainQi: Cheongan,

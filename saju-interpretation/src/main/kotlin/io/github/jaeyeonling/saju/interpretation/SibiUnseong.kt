@@ -5,7 +5,7 @@ import io.github.jaeyeonling.saju.domain.Jiji
 
 /**
  * 십이운성(十二運星) — 일간이 지지를 만났을 때의 에너지 12단계(인생 그래프).
- * 순서는 tyme4j Terrain 과 동일(장생·목욕·관대·건록·제왕·쇠·병·사·묘·절·태·양).
+ * 순서는 표준 십이운성 순서와 동일(장생·목욕·관대·건록·제왕·쇠·병·사·묘·절·태·양).
  */
 public enum class SibiUnseong {
     JANGSAENG, // 장생 長生 — 태어남. 기운이 막 솟는 시작.

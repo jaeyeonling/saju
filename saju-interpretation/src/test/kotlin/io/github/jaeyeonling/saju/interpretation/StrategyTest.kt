@@ -1,7 +1,5 @@
 package io.github.jaeyeonling.saju.interpretation
 
-import com.tyme.sixtycycle.EarthBranch
-import com.tyme.sixtycycle.HeavenStem
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.GanZhi
 import io.github.jaeyeonling.saju.domain.Jiji
@@ -16,21 +14,20 @@ import io.kotest.matchers.shouldBe
 
 class StrategyTest : StringSpec({
 
-    "십이운성 120조합이 tyme4j 와 일치 (음포태)" {
-        for (stem in 0 until 10) {
-            for (branch in 0 until 12) {
-                val tyme = HeavenStem.fromIndex(stem).getTerrain(EarthBranch.fromIndex(branch))
-                val mine = EumPotaeStrategy.stageOf(Cheongan.entries[stem], Jiji.entries[branch])
-                withClue("천간 $stem 지지 $branch 십이운성") { mine.ordinal shouldBe tyme.index }
-            }
+    "십이운성 120조합이 골든 벡터와 일치 (음포태)" {
+        for (row in Golden.rows("terrain.csv")) {
+            val stem = row[0].toInt()
+            val branch = row[1].toInt()
+            val mine = EumPotaeStrategy.stageOf(Cheongan.entries[stem], Jiji.entries[branch])
+            withClue("천간 $stem 지지 $branch 십이운성") { mine.ordinal shouldBe row[2].toInt() }
         }
     }
 
-    "지장간 본기가 tyme4j 와 일치" {
-        for (branch in 0 until 12) {
-            val tyme = EarthBranch.fromIndex(branch).hideHeavenStemMain
+    "지장간 본기가 골든 벡터와 일치" {
+        for (row in Golden.rows("hidden_main.csv")) {
+            val branch = row[0].toInt()
             val mine = JijiHiddenStems.of(Jiji.entries[branch]).mainQi
-            withClue("지지 $branch 본기") { mine.ordinal shouldBe tyme.index }
+            withClue("지지 $branch 본기") { mine.ordinal shouldBe row[1].toInt() }
         }
     }
 

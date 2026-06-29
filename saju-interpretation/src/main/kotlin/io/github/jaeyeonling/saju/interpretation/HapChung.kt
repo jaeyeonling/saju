@@ -37,7 +37,7 @@ public interface HapChungStrategy {
 /**
  * 표준 합충 탐지 — **천간합** + 지지 **육합·육충·육해·삼합**.
  *
- * (형(刑)·파(破)·방합·반합은 학파별 이견이 커 미모델링 — 골든 레퍼런스 tyme4j도 동일 범위)
+ * (형(刑)·파(破)·방합·반합은 학파별 이견이 커 미모델링 — 골든 레퍼런스도 동일 범위)
  */
 public object StandardHapChungStrategy : HapChungStrategy {
 

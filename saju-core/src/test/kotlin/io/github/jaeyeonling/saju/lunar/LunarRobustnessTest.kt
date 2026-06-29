@@ -46,11 +46,11 @@ class LunarRobustnessTest : StringSpec({
     }
 
     "2017 윤달 — 한국(KASI) 윤5월 vs 중국 윤6월 분기" {
-        // 한·중 기준이 갈리는 대표 해. KASI 공식: 윤5월. 중국 농력(tyme4j): 윤6월.
+        // 한·중 기준이 갈리는 대표 해. KASI 공식: 윤5월. 중국 농력: 윤6월.
         val koreaLeap = leapMonthOf(2017, CalendarBasis.KOREA)
         val chinaLeap = leapMonthOf(2017, CalendarBasis.CHINA)
         println("2017 윤달: KOREA=$koreaLeap, CHINA=$chinaLeap")
-        withClue("중국 농력 2017 윤6월 (tyme4j 기준)") { chinaLeap shouldBe 6 }
+        withClue("중국 농력 2017 윤6월") { chinaLeap shouldBe 6 }
         withClue("한국 KASI 2017 윤5월") { koreaLeap shouldBe 5 }
     }
 })

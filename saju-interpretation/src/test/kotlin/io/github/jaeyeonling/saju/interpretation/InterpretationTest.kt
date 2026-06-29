@@ -1,6 +1,5 @@
 package io.github.jaeyeonling.saju.interpretation
 
-import com.tyme.sixtycycle.HeavenStem
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.GanZhi
 import io.github.jaeyeonling.saju.domain.Jiji
@@ -15,13 +14,12 @@ import io.kotest.matchers.shouldBe
 
 class InterpretationTest : StringSpec({
 
-    "십성 100조합이 tyme4j 와 일치" {
-        for (day in 0 until 10) {
-            for (target in 0 until 10) {
-                val tyme = HeavenStem.fromIndex(day).getTenStar(HeavenStem.fromIndex(target))
-                val mine = SipSeong.of(Cheongan.entries[day], Cheongan.entries[target])
-                withClue("일간 $day 대상 $target 십성") { mine.ordinal shouldBe tyme.index }
-            }
+    "십성 100조합이 골든 벡터와 일치" {
+        for (row in Golden.rows("ten_star.csv")) {
+            val day = row[0].toInt()
+            val target = row[1].toInt()
+            val mine = SipSeong.of(Cheongan.entries[day], Cheongan.entries[target])
+            withClue("일간 $day 대상 $target 십성") { mine.ordinal shouldBe row[2].toInt() }
         }
     }
 

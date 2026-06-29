@@ -29,6 +29,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       # build = compile + test. test 에는 Konsist java.time-free 강제와
-      # (이후 단계의) tyme4j 골든 회귀가 포함된다.
+      # 골든 벡터 회귀가 포함된다.
       - name: Build, test, architecture check
         run: ./gradlew build --stacktrace

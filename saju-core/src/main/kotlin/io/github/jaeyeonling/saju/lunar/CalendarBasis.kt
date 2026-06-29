@@ -10,6 +10,6 @@ public enum class CalendarBasis(public val utOffsetHours: Double) {
     /** 한국 천문연구원(KASI) 기준 — KST(UTC+9) 자정. */
     KOREA(9.0),
 
-    /** 중국 농력 기준 — 베이징(UTC+8) 자정. tyme4j 와 정렬됨. */
+    /** 중국 농력 기준 — 베이징(UTC+8) 자정. 골든 벡터와 정렬됨. */
     CHINA(8.0),
 }

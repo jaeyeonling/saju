@@ -26,7 +26,7 @@ public data class SinStrength(
 
 /**
  * 신강신약 판정 전략. **정답 데이터셋이 없는 영역**이라 가중치가 곧 사양이다.
- * tyme4j 도 이 값을 제공하지 않으므로 결정론성만 보장한다.
+ * 골든 정답셋도 이 값을 제공하지 않으므로 결정론성만 보장한다.
  */
 public interface SinStrengthStrategy {
     public fun evaluate(chart: SajuChart): SinStrength

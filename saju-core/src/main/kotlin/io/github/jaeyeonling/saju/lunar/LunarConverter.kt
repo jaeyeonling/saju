@@ -5,7 +5,7 @@ import io.github.jaeyeonling.saju.astronomy.CalendarDate
 /**
  * 음력 ↔ 양력 변환 공개 진입점. 기본 기준은 한국([CalendarBasis.KOREA], KASI/KST).
  *
- * 입력 범위는 1900~2100 (달 ELP 절단판 정확도 + tyme4j 골든 커버리지 구간).
+ * 입력 범위는 1900~2100 (달 ELP 절단판 정확도 + 골든 벡터 커버리지 구간).
  */
 public object LunarConverter {
 

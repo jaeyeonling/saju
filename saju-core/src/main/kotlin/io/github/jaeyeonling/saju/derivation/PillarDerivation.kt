@@ -69,7 +69,7 @@ public object PillarDerivation {
 
     /**
      * 일주 60갑자 보정 상수. `GanZhi.fromIndex(jdn + DAY_OFFSET)` 가 실제 일진과 맞도록 골든으로 고정.
-     * (JDN 2451544 = 1999-12-31 자정 → 정묘일 등, tyme4j 로 검증)
+     * (JDN 2451544 = 1999-12-31 자정 → 정묘일 등, 골든 벡터로 검증)
      */
     internal const val DAY_OFFSET = 49
 }

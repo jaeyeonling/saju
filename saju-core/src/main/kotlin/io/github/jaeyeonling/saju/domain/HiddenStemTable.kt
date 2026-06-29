@@ -14,7 +14,7 @@ public fun interface HiddenStemTable {
     public fun of(jiji: Jiji): JijiHiddenStems
 }
 
-/** 표준 지장간표 — 기존 [JijiHiddenStems.of] 와 동일한 tyme4j 일반본(사령 미반영). */
+/** 표준 지장간표 — 기존 [JijiHiddenStems.of] 와 동일한 일반본(사령 미반영). */
 public object StandardHiddenStemTable : HiddenStemTable {
     override fun of(jiji: Jiji): JijiHiddenStems = JijiHiddenStems.of(jiji)
 }
