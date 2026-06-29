@@ -1,9 +1,11 @@
 package io.github.jaeyeonling.saju;
 
 import io.github.jaeyeonling.saju.astronomy.CalendarDate;
+import io.github.jaeyeonling.saju.derivation.SajuConfig;
 import io.github.jaeyeonling.saju.domain.Cheongan;
 import io.github.jaeyeonling.saju.domain.GanZhi;
 import io.github.jaeyeonling.saju.domain.SajuChart;
+import io.github.jaeyeonling.saju.domain.ZishiPolicy;
 import io.github.jaeyeonling.saju.lunar.CalendarBasis;
 import io.github.jaeyeonling.saju.lunar.LunarDate;
 import io.github.jaeyeonling.saju.lunar.LunarConverter;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /** Java 소비자가 공개 API를 자연스럽게 호출할 수 있는지 검증한다(@JvmStatic/@JvmField/@JvmOverloads). */
@@ -25,6 +28,20 @@ class JavaInteropTest {
         Cheongan dayMaster = chart.getDayMaster();
         assertNotNull(dayMaster);
         assertEquals(4, chart.pillars().size());
+    }
+
+    @Test
+    void sajuConfigIsCallableFromJava() {
+        // @JvmField DEFAULT — 정적 필드로 노출.
+        SajuChart withDefault = Saju.fromLocalDateTime(1990, 3, 15, 7, 0, 9.0, SajuConfig.DEFAULT);
+        assertNotNull(withDefault);
+
+        // @JvmOverloads constructor — 앞에서부터 일부 정책만 지정(나머지 기본값).
+        SajuConfig yajasi = new SajuConfig(ZishiPolicy.YAJASI);
+        SajuChart jeong = Saju.fromLocalDateTime(1990, 3, 15, 23, 30, 9.0, SajuConfig.DEFAULT);
+        SajuChart ya = Saju.fromLocalDateTime(1990, 3, 15, 23, 30, 9.0, yajasi);
+        // 같은 23:30 입력에 정자시(기본)와 야자시는 일주가 달라야.
+        assertNotEquals(jeong.getDay().getGanZhi(), ya.getDay().getGanZhi());
     }
 
     @Test

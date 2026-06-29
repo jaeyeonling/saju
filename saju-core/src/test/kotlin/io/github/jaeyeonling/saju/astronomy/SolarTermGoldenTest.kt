@@ -1,9 +1,20 @@
 package io.github.jaeyeonling.saju.astronomy
 
 import com.tyme.solar.SolarTerm
+import io.kotest.assertions.withClue
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.booleans.shouldBeTrue
 import kotlin.math.abs
-import kotlin.test.Test
-import kotlin.test.assertTrue
+
+private const val START_YEAR = 1900
+private const val END_YEAR = 2050
+private const val TERMS_PER_YEAR = 24
+private const val DONGJI_OFFSET = 18 // tyme4j 0=동지(270°) → 내 termIndex 18
+private const val IPCHUN_TYME_INDEX = 3
+private const val IPCHUN_TERM_INDEX = 21
+private const val BEIJING_OFFSET_DAYS = 8.0 / 24.0
+private const val SECONDS_PER_DAY = 86_400.0
+private const val SECONDS_PER_MINUTE = 60.0
 
 /**
  * 절기 절입 시각 골든 회귀 — 자체 천문 엔진을 검증된 tyme4j(sxwnl 알고리즘)와 분 단위로 대조한다.
@@ -15,10 +26,9 @@ import kotlin.test.assertTrue
  *  - 내 엔진: `solarTermInstantUT()` = 순수 UT JD → 비교 시 +8h
  *  - 인덱스: tyme4j 0=동지, 내 termIndex = (tymeIndex + 18) % 24
  */
-class SolarTermGoldenTest {
+class SolarTermGoldenTest : StringSpec({
 
-    @Test
-    fun `1900~2050 전 절기가 tyme4j 와 분 단위 일치한다`() {
+    "1900~2050 전 절기가 tyme4j 와 분 단위 일치한다" {
         var maxDiffSeconds = 0.0
         var worstCase = ""
         var total = 0
@@ -43,11 +53,12 @@ class SolarTermGoldenTest {
 
         println("골든 대조 $total 절기 | 최대 차이 ${"%.2f".format(maxDiffSeconds)}초 @ $worstCase")
         // 분 단위 정밀도 목표: 최대 차이가 1분 이내.
-        assertTrue(maxDiffSeconds < SECONDS_PER_MINUTE, "최대 차이 ${maxDiffSeconds}초가 1분을 초과 @ $worstCase")
+        withClue("최대 차이 ${maxDiffSeconds}초가 1분을 초과 @ $worstCase") {
+            (maxDiffSeconds < SECONDS_PER_MINUTE).shouldBeTrue()
+        }
     }
 
-    @Test
-    fun `입춘 절입은 연주 경계라 초 단위까지 안정적이다`() {
+    "입춘 절입은 연주 경계라 초 단위까지 안정적이다" {
         // 입춘(연주 경계)은 자정 부근이면 연주를 바꾸므로 특히 정확해야 한다.
         var maxDiffSeconds = 0.0
         for (year in START_YEAR..END_YEAR) {
@@ -56,18 +67,8 @@ class SolarTermGoldenTest {
             maxDiffSeconds = maxOf(maxDiffSeconds, abs(myJd - tymeJd) * SECONDS_PER_DAY)
         }
         println("입춘 최대 차이 ${"%.2f".format(maxDiffSeconds)}초")
-        assertTrue(maxDiffSeconds < SECONDS_PER_MINUTE, "입춘 최대 차이 ${maxDiffSeconds}초")
+        withClue("입춘 최대 차이 ${maxDiffSeconds}초") {
+            (maxDiffSeconds < SECONDS_PER_MINUTE).shouldBeTrue()
+        }
     }
-
-    private companion object {
-        const val START_YEAR = 1900
-        const val END_YEAR = 2050
-        const val TERMS_PER_YEAR = 24
-        const val DONGJI_OFFSET = 18 // tyme4j 0=동지(270°) → 내 termIndex 18
-        const val IPCHUN_TYME_INDEX = 3
-        const val IPCHUN_TERM_INDEX = 21
-        const val BEIJING_OFFSET_DAYS = 8.0 / 24.0
-        const val SECONDS_PER_DAY = 86_400.0
-        const val SECONDS_PER_MINUTE = 60.0
-    }
-}
+})

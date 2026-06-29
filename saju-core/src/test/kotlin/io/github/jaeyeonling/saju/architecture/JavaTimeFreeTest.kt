@@ -2,7 +2,7 @@ package io.github.jaeyeonling.saju.architecture
 
 import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.verify.assertFalse
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
 
 /**
  * saju-core 의 프로덕션 코드가 java.time 에 의존하지 않음을 빌드 타임에 강제한다.
@@ -13,9 +13,8 @@ import kotlin.test.Test
  *
  * 시간대·진태양시·서머타임 보정은 전적으로 saju-korea 레이어의 책임이다.
  */
-class JavaTimeFreeTest {
-    @Test
-    fun `saju-core 프로덕션 코드는 java time 을 import 하지 않는다`() {
+class JavaTimeFreeTest : StringSpec({
+    "saju-core 프로덕션 코드는 java time 을 import 하지 않는다" {
         Konsist
             .scopeFromProduction("saju-core")
             .files
@@ -23,4 +22,4 @@ class JavaTimeFreeTest {
                 it.hasImport { import -> import.name.startsWith("java.time") }
             }
     }
-}
+})
