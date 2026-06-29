@@ -1,3 +1,6 @@
+// 달 위치 급수의 계수(Meeus Ch.47)는 한 줄로 둬야 공식 대조가 쉬워 max-line-length 를 면제한다.
+@file:Suppress("ktlint:standard:max-line-length")
+
 package io.github.jaeyeonling.saju.astronomy
 
 import kotlin.math.abs

@@ -8,15 +8,12 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
-# Domain lookup tables (yukhap/samhap/hidden-stems/golden) and enums carry per-item
-# myeongri/hanja comments inline; that is this project's core readability pattern.
-# So allow inline comments in argument/parameter lists and consecutive file+decl KDoc.
-# Core consistency (indent, import order, trailing comma, no wildcard imports) stays enforced.
+# 규칙 전역 disable 은 의존 규칙 충돌(if-else-wrapping requires discouraged-comment-location)을
+# 일으켜 ktlint 자체를 깨뜨린다. 그래서 도메인 인라인 주석을 의도적으로 쓰는 파일에는
+# @file:Suppress("ktlint:standard:discouraged-comment-location") 를 파일 단위로 단다.
 [*.{kt,kts}]
 ktlint_code_style = ktlint_official
 max_line_length = 120
-ktlint_standard_discouraged-comment-location = disabled
-ktlint_standard_no-consecutive-comments = disabled
 
 [*.{yml,yaml,toml,json}]
 indent_size = 2

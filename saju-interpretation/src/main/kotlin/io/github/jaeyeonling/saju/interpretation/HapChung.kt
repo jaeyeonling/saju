@@ -1,3 +1,6 @@
+// 삼합 그룹 등 도메인 룩업 테이블에 항목별 명리 주석을 인라인으로 단다(의도된 가독성 패턴).
+@file:Suppress("ktlint:standard:discouraged-comment-location")
+
 package io.github.jaeyeonling.saju.interpretation
 
 import io.github.jaeyeonling.saju.domain.Cheongan

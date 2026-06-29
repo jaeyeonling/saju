@@ -1,3 +1,6 @@
+// 불변식 케이스에 항목별 명리 주석을 인라인으로 단다(의도된 가독성 패턴).
+@file:Suppress("ktlint:standard:discouraged-comment-location")
+
 package io.github.jaeyeonling.saju.domain
 
 import io.kotest.assertions.throwables.shouldThrow

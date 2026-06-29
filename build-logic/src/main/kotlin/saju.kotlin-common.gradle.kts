@@ -13,14 +13,11 @@ repositories {
     mavenCentral()
 }
 
-// ktlintFormat 으로 ktlint_official 포맷(indent·import 순서·trailing comma·줄바꿈)을 전 파일에 적용해
-// 포맷 일관성을 유지한다. 다만 ktlint_official 의 discouraged-comment-location 규칙은 이 프로젝트의
-// 핵심 패턴(도메인 룩업 테이블·골든·enum 에 항목별 명리/한자 인라인 주석)과 충돌하는데,
-// 이 플러그인 버전에서 .editorconfig 규칙 disable·ignoreFailures 가 모두 동작하지 않는다.
-// 그래서 ktlintCheck 는 빌드 게이트에서 분리한다(필요 시 ./gradlew ktlintCheck 로 informational 실행).
-tasks.matching { it.name.startsWith("runKtlintCheck") }.configureEach {
-    enabled = false
-}
+// ktlint_official 포맷을 ktlintFormat 으로 전 파일에 적용하고, ktlintCheck 를 빌드 게이트로 강제한다.
+// ktlint_official 의 discouraged-comment-location 은 도메인 룩업 테이블·골든·enum 에 항목별
+// 명리/한자 인라인 주석을 다는 이 프로젝트의 핵심 패턴과 충돌하는데, 그런 파일에는
+// @file:Suppress("ktlint:standard:discouraged-comment-location") 를 명시해 의도를 드러낸다
+// (.editorconfig 전역 disable 은 이 플러그인 버전에서 동작하지 않으므로 파일 단위로 표식).
 
 kotlin {
     // 라이브러리 호환성을 위해 JDK 17 타깃. 로컬은 21이라도 toolchain 이 17을 보장.

@@ -80,7 +80,8 @@ class SajuDaeunGoldenTest : StringSpec({
         for (s in samples) {
             for (isMale in listOf(true, false)) {
                 val chart = Saju.fromLocalDateTime(s[0], s[1], s[2], s[3], 0, BEIJING_OFFSET)
-                val utJd = JulianDayConverter.fromGregorian(s[0], s[1], s[2], s[3] * 60 / 1440.0) - BEIJING_OFFSET / 24.0
+                val localJd = JulianDayConverter.fromGregorian(s[0], s[1], s[2], s[3] * 60 / 1440.0)
+                val utJd = localJd - BEIJING_OFFSET / 24.0
                 val daeun = Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count = 8)
                 val tag = "${s[0]}-${s[1]}-${s[2]} ${if (isMale) "남" else "여"}"
                 for (i in 1 until daeun.size) {

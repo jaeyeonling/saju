@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:discouraged-comment-location")
+
 package io.github.jaeyeonling.saju.domain
 
 /**

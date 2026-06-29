@@ -2,7 +2,7 @@ package io.github.jaeyeonling.saju.astronomy
 
 import kotlin.math.PI
 
-/** 천문 계산 공용 상수·헬퍼 (java.time-free, 순수 산술). */
+// 천문 계산 공용 상수·헬퍼 (java.time-free, 순수 산술).
 
 /** J2000.0 의 율리우스일 (2000-01-01 12:00 TT). */
 internal const val J2000_EPOCH = 2451545.0
