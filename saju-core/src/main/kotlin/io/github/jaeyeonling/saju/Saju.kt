@@ -15,6 +15,7 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
+import io.github.jaeyeonling.saju.domain.daysInGregorianMonth
 import kotlin.math.floor
 
 /**
@@ -135,22 +136,12 @@ public object Saju {
         }
         require(month in 1..MONTHS_PER_YEAR) { "월은 1~12: $month" }
         // 월별 말일·윤년까지 검증 — Meeus JD 공식은 순수 산술이라 2/31 을 3월로 굴려버린다.
-        // java.time(LocalDate.of) 은 saju-core 에서 금지(Konsist)라 윤년을 직접 산술로 판정한다.
-        val maxDay = daysInMonth(year, month)
+        // 공용 daysInGregorianMonth 로 음력 변환 경로(LunarConverter)와 동일 규칙을 공유한다.
+        val maxDay = daysInGregorianMonth(year, month)
         require(day in 1..maxDay) { "일은 1~$maxDay ($year-${month}월): $day" }
         require(hour in 0..MAX_HOUR) { "시는 0~23: $hour" }
         require(minute in 0..MAX_MINUTE) { "분은 0~59: $minute" }
     }
-
-    /** 그레고리력 월별 일수(윤년 반영). 입력 [month] 는 1..12 로 사전 검증된 값을 받는다. */
-    private fun daysInMonth(year: Int, month: Int): Int = when (month) {
-        2 -> if (isLeapYear(year)) DAYS_FEB_LEAP else DAYS_FEB_COMMON
-        4, 6, 9, 11 -> DAYS_SHORT_MONTH
-        else -> DAYS_LONG_MONTH
-    }
-
-    /** 그레고리력 윤년 규칙: 4의 배수이되 100의 배수는 제외, 400의 배수는 다시 윤년. */
-    private fun isLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
 
     private fun floorModDouble(value: Double, modulus: Double): Double = ((value % modulus) + modulus) % modulus
 
@@ -160,10 +151,6 @@ public object Saju {
     private const val MONTHS_PER_YEAR = 12
     private const val HOURS_PER_DAY = 24.0
     private const val HOURS_PER_BRANCH = 2
-    private const val DAYS_LONG_MONTH = 31
-    private const val DAYS_SHORT_MONTH = 30
-    private const val DAYS_FEB_COMMON = 28
-    private const val DAYS_FEB_LEAP = 29
     private const val MAX_HOUR = 23
     private const val MAX_MINUTE = 59
     private const val MAX_SECOND = 59
@@ -171,7 +158,10 @@ public object Saju {
     private const val SECONDS_PER_MINUTE = 60.0
     private const val SECONDS_PER_DAY = 86_400.0
 
-    /** 지원 입력 연도 범위 — 천문 리소스 정확도·음력 변환 구간과 정합. */
+    /**
+     * 지원 입력 연도 범위. 골든 벡터로 **정확도가 검증된 구간은 절기·4기둥 1900~2050, 음력 1900~2099**이며,
+     * 그 위(2051~2100)는 천문 다항식 외삽으로 분 단위 정밀도를 유지하나 골든 대조가 없는 구간이다.
+     */
     public const val SUPPORTED_MIN_YEAR: Int = 1900
     public const val SUPPORTED_MAX_YEAR: Int = 2100
 

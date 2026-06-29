@@ -37,6 +37,12 @@ class LunarRobustnessTest : StringSpec({
         shouldThrow<IllegalArgumentException> { LunarConverter.toLunar(2024, 0, 1) }
     }
 
+    "toLunar 양력 비존재일은 거부된다 (Saju 경로와 동일 규칙)" {
+        shouldThrow<IllegalArgumentException> { LunarConverter.toLunar(2023, 2, 30) } // 2월은 28일까지(평년)
+        shouldThrow<IllegalArgumentException> { LunarConverter.toLunar(2024, 2, 30) } // 윤년도 29일까지
+        shouldThrow<IllegalArgumentException> { LunarConverter.toLunar(2023, 4, 31) } // 4월은 30일까지
+    }
+
     "존재하지 않는 윤달 입력은 유용한 메시지로 거부된다" {
         // 2023 윤달은 2월뿐 — 윤7월은 없다.
         val ex = shouldThrow<IllegalArgumentException> {
