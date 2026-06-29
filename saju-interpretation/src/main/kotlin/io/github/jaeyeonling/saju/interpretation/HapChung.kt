@@ -27,16 +27,22 @@ public sealed interface HapChungRelation {
 }
 
 /**
- * 천간·지지 집합에서 합충 관계를 테이블 기반으로 탐지한다.
+ * 합충 탐지 전략 — 어떤 관계까지 모델링하느냐가 유파마다 달라 추상화한다.
+ * (형·파·방합·반합 포함 여부, 합화 성립 조건 등이 분기 지점)
+ */
+public interface HapChungStrategy {
+    public fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation>
+}
+
+/**
+ * 표준 합충 탐지 — **천간합** + 지지 **육합·육충·육해·삼합**.
  *
- * v1 탐지 범위: **천간합** + 지지 **육합·육충·육해·삼합**.
  * (형(刑)·파(破)·방합·반합은 학파별 이견이 커 미모델링 — 골든 레퍼런스 tyme4j도 동일 범위)
  */
-public object HapChungDetector {
+public object StandardHapChungStrategy : HapChungStrategy {
 
     /** 천간합 + 지지 육합/육충/육해/삼합을 찾는다. */
-    @JvmStatic
-    public fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation> {
+    override fun detect(stems: List<Cheongan>, branches: List<Jiji>): List<HapChungRelation> {
         val relations = mutableListOf<HapChungRelation>()
 
         // 천간합
