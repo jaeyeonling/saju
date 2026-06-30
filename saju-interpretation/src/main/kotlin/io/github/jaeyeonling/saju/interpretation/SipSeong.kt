@@ -5,17 +5,24 @@ import io.github.jaeyeonling.saju.domain.Ohaeng
 
 /**
  * 십성 오행 관계 5묶음 — 일간(나) 기준 다른 오행과의 관계. 정/편을 가르기 전의 큰 분류축이다.
+ *
+ * The five relational categories grouping the Ten Gods by Five-Element relation to the Day Master.
  */
-public enum class SipSeongGroup {
-    BIGEOP, // 비겁 比劫 — 나와 같은 오행(동료·경쟁·나를 돕는 힘)
-    SIKSANG, // 식상 食傷 — 내가 생하는 것(표현·산출)
-    JAESEONG, // 재성 財星 — 내가 극하는 것(재물)
-    GWANSEONG, // 관성 官星 — 나를 극하는 것(직업·권위·나를 누르는 힘)
-    INSEONG, // 인성 印星 — 나를 생하는 것(후원·학문·나를 돕는 힘)
+public enum class SipSeongGroup(
+    /** 한글 이름(비겁·식상·…). */
+    public val koreanName: String,
+    /** 한자(比劫·食傷·…). */
+    public val hanja: String,
+) {
+    BIGEOP("비겁", "比劫"), // 나와 같은 오행(동료·경쟁·나를 돕는 힘)
+    SIKSANG("식상", "食傷"), // 내가 생하는 것(표현·산출)
+    JAESEONG("재성", "財星"), // 내가 극하는 것(재물)
+    GWANSEONG("관성", "官星"), // 나를 극하는 것(직업·권위·나를 누르는 힘)
+    INSEONG("인성", "印星"), // 나를 생하는 것(후원·학문·나를 돕는 힘)
 }
 
 /**
- * 십성(十星/十神) — 일간(나) 대비 다른 글자의 관계 역할 10종.
+ * 십성(十星/十神) — 일간(나) 대비 다른 글자의 관계 역할 10종 (the Ten Gods: ten relational roles relative to the Day Master).
  *
  * 도출: **오행 관계 5묶음([group]) × 음양 동이([isSameEumyang])**.
  * - 오행: 같음=비겁, 내가 생=식상, 내가 극=재성, 나를 극=관성, 나를 생=인성

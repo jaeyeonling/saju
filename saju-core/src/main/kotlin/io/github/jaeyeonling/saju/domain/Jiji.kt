@@ -8,6 +8,8 @@ package io.github.jaeyeonling.saju.domain
  * - 육충(六沖) `(i+6)%12`: 자오·축미·인신·묘유·진술·사해
  * - 육합(六合) `(13-i)%12`: 자축·인해·묘술·진유·사신·오미
  * - 육해(六害) `(19-i)%12`: 자미·축오·인사·묘진·신해·유술
+ *
+ * Jiji (地支) = the twelve Earthly Branches (the twelve zodiac animals).
  */
 public enum class Jiji(
     public val ohaeng: Ohaeng,

@@ -1,8 +1,10 @@
-# bazi — 한국 사주 만세력 라이브러리
+# saju — 한국 사주 만세력 라이브러리
 
 생년월일시를 **사주팔자 8글자**(연·월·일·시 4기둥)로 변환하고, 대운·세운과 해석(십성·합충·신강신약·격국)을 제공하는 Kotlin/Java 라이브러리.
 
 > 중국식 만세력과 달리 **한국 사주 특유의 시간 보정**(진태양시·표준시 역사·서머타임·자시 학파)을 1급으로 다룬다.
+
+> 저장소명 `bazi`는 명리(사주)의 통칭 八字의 병음 별칭이다. 라이브러리·패키지·아티팩트 정체성은 모두 **`saju`**(한국어)로 통일한다.
 
 ## 빠른 시작
 
@@ -50,6 +52,8 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum 
 ```
 
 > 모든 도메인/해석 enum 은 `.koreanName`·`.hanja` 표시 라벨을 제공한다 — 한글 매핑을 직접 짤 필요가 없다.
+>
+> **식별자 규칙:** enum 상수·타입명은 한국어 발음을 **국어 개정 로마자**(Revised Romanization of Korean)로 옮긴 음차다(예: `Cheongan`=천간, `SipSeong`=십성, `EOKBU`=억부, `GEOLLOK`=건록). 같은 음절·한자어는 항상 같은 철자를 쓴다(ㅓ=eo, 종성 ㅂ=p, ㄴ+ㄹ 유음화=ll). 의미가 필요하면 `.koreanName`/`.hanja` 필드나 KDoc 영문 정의(예: `SipSeong` = Ten Gods)를 보라.
 
 > 입력은 **법정시(시계 시각)** 그대로. 진태양시 변환은 내부에서 처리한다.
 > 설치: 좌표 `io.github.jaeyeonling:saju-core:0.1.0`(+`saju-korea`·`saju-interpretation`). `maven-publish` 설정 완료 — Central 릴리스 전까지는 `./gradlew publishToMavenLocal` 후 `mavenLocal()` 의존으로, 또는 소스 빌드(`./gradlew build`)로 사용.

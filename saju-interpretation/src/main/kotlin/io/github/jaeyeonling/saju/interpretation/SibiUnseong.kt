@@ -5,6 +5,7 @@ import io.github.jaeyeonling.saju.domain.Jiji
 
 /**
  * 십이운성(十二運星) — 일간이 지지를 만났을 때의 에너지 12단계(인생 그래프).
+ * The twelve life stages — a growth-and-decline cycle (長生 birth → 養 nurture) the Day Stem passes through against each branch.
  * 순서는 표준 십이운성 순서와 동일(장생·목욕·관대·건록·제왕·쇠·병·사·묘·절·태·양).
  */
 public enum class SibiUnseong(

@@ -5,6 +5,8 @@ package io.github.jaeyeonling.saju.domain
  * 갑을=목, 병정=화, 무기=토, 경신=금, 임계=수. 짝수=양, 홀수=음.
  *
  * 일간(日干, 일주의 천간)이 사주 해석의 기준 '나'다.
+ *
+ * Cheongan (天干) = the ten Heavenly Stems. The Day Stem (일간) is the reference "self".
  */
 public enum class Cheongan(
     /** 한글 이름(갑·을·…). 라이브러리 표면의 표시 라벨 — 소비자가 별도 매핑을 다시 짤 필요가 없다. */

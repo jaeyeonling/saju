@@ -4,10 +4,20 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.SajuChart
 
-/** 용신 도출법 — 결과에 어느 법으로 뽑았는지 타입으로 담는다(문자열 아님). */
-public enum class YongsinMethod(public val koreanName: String) {
-    EOKBU("억부"),
-    JOHU("조후"),
+/**
+ * 용신 도출법 — 결과에 어느 법으로 뽑았는지 타입으로 담는다(문자열 아님).
+ *
+ * Method used to derive the Yongsin (用神, the "Useful God" — the favorable element/agent that balances the chart):
+ * EOKBU = suppress-or-support balancing, JOHU = seasonal climate adjustment.
+ */
+public enum class YongsinMethod(
+    /** 한글 이름(억부·조후). */
+    public val koreanName: String,
+    /** 한자(抑扶·調候). */
+    public val hanja: String,
+) {
+    EOKBU("억부", "抑扶"),
+    JOHU("조후", "調候"),
 }
 
 /** 용신 도출 결과. */

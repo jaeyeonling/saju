@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-rootProject.name = "bazi"
+rootProject.name = "saju"
 
 pluginManagement {
     includeBuild("build-logic")

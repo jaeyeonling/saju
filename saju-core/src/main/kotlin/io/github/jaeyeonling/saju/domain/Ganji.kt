@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.domain
 
 /**
- * 간지(干支) = 60갑자(六十甲子). 천간 10 × 지지 12 가 맞물려 60번 만에 순환한다.
+ * 간지(干支) = 60갑자(六十甲子) — one of the 60 sexagenary Stem-Branch pairs. 천간 10 × 지지 12 가 맞물려 60번 만에 순환한다.
  *
  * index 0 = 갑자(甲子), 1 = 을축(乙丑), … 59 = 계해(癸亥). index `i` → 천간 `i%10`, 지지 `i%12`.
  * [next] 로 순행/역행 시퀀스를 만든다(대운 계산에 쓰임).

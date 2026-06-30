@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.domain
 
 /**
- * 오행(五行) — 목·화·토·금·수. 동양 명리의 연산 규칙(상생·상극)을 담는다.
+ * 오행(五行) — 목·화·토·금·수 (the Five Elements / Wu Xing: Wood·Fire·Earth·Metal·Water). 동양 명리의 연산 규칙(상생·상극)을 담는다.
  *
  * 상생(相生): 木→火→土→金→水→木 (ordinal+1) — 나무가 불을 피우고, 불이 재(흙)를 남기고,
  *   흙이 쇠를 품고, 쇠에 물이 맺히고, 물이 나무를 키운다.

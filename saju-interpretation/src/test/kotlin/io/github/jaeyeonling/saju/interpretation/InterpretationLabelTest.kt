@@ -6,7 +6,8 @@ import io.kotest.matchers.string.shouldNotBeBlank
 
 /**
  * 해석 enum 표시 라벨 정합성 — 코어와 동일하게 koreanName/hanja 를 일관 제공한다.
- * GyeokgukType·YongsinMethod 만 koreanName 을 갖던 비일관을 해소한다.
+ * 모든 해석 enum(SipSeong·SipSeongGroup·SibiUnseong·SinStrengthVerdict·GyeokgukType·YongsinMethod)이
+ * koreanName+hanja 를 갖도록 통일했다(과거 GyeokgukType·YongsinMethod 는 koreanName 만, SipSeongGroup 은 라벨 필드가 없었음).
  */
 class InterpretationLabelTest : StringSpec({
 
@@ -28,16 +29,25 @@ class InterpretationLabelTest : StringSpec({
         SinStrengthVerdict.JUNGHWA.hanja shouldBe "中和"
     }
 
-    "기존 koreanName 보유 enum 도 그대로 유지된다 (회귀)" {
+    "격국·용신·십성묶음도 koreanName+hanja 를 일관 제공한다 (일관성 회귀)" {
         GyeokgukType.GEOLLOK.koreanName shouldBe "건록격"
+        GyeokgukType.GEOLLOK.hanja shouldBe "建祿格"
+        GyeokgukType.YANGIN.hanja shouldBe "羊刃格"
         YongsinMethod.EOKBU.koreanName shouldBe "억부"
+        YongsinMethod.EOKBU.hanja shouldBe "抑扶"
+        YongsinMethod.JOHU.hanja shouldBe "調候"
+        SipSeongGroup.BIGEOP.koreanName shouldBe "비겁"
+        SipSeongGroup.BIGEOP.hanja shouldBe "比劫"
     }
 
     "모든 해석 라벨은 비어있지 않다" {
         (
             SipSeong.entries.map { it.koreanName to it.hanja } +
+                SipSeongGroup.entries.map { it.koreanName to it.hanja } +
                 SibiUnseong.entries.map { it.koreanName to it.hanja } +
-                SinStrengthVerdict.entries.map { it.koreanName to it.hanja }
+                SinStrengthVerdict.entries.map { it.koreanName to it.hanja } +
+                GyeokgukType.entries.map { it.koreanName to it.hanja } +
+                YongsinMethod.entries.map { it.koreanName to it.hanja }
         ).forEach { (ko, ha) ->
             ko.shouldNotBeBlank()
             ha.shouldNotBeBlank()

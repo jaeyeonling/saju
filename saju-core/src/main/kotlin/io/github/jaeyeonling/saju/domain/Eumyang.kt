@@ -1,6 +1,6 @@
 package io.github.jaeyeonling.saju.domain
 
-/** 음양(陰陽). 십성의 정(正)/편(偏) 판정에서 동이(同異) 비교축으로 쓰인다. */
+/** 음양(陰陽) — Yin and Yang. 십성의 정(正)/편(偏) 판정에서 동이(同異) 비교축으로 쓰인다. */
 public enum class Eumyang(
     /** 한글 이름(양·음). */
     public val koreanName: String,

@@ -4,18 +4,28 @@ import io.github.jaeyeonling.saju.domain.HiddenStemTable
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
 
-/** 격국 유형 10종 — 문자열 대신 타입으로 담아 Java 소비자도 분기할 수 있다. */
-public enum class GyeokgukType(public val koreanName: String) {
-    GEOLLOK("건록격"),
-    YANGIN("양인격"),
-    SIKSIN("식신격"),
-    SANGGWAN("상관격"),
-    PYEONJAE("편재격"),
-    JEONGJAE("정재격"),
-    PYEONGWAN("편관격"),
-    JEONGGWAN("정관격"),
-    PYEONIN("편인격"),
-    JEONGIN("정인격"),
+/**
+ * 격국 유형 10종 — 문자열 대신 타입으로 담아 Java 소비자도 분기할 수 있다.
+ *
+ * Gyeokguk (格局) = chart structure/pattern: the dominant configuration of a chart, named after the
+ * Ten God that rules the month branch. Ten standard patterns.
+ */
+public enum class GyeokgukType(
+    /** 한글 이름(건록격·양인격·…). */
+    public val koreanName: String,
+    /** 한자(建祿格·羊刃格·…). */
+    public val hanja: String,
+) {
+    GEOLLOK("건록격", "建祿格"),
+    YANGIN("양인격", "羊刃格"), // 異表記 陽刃格 도 통용(양간 한정설). 전통·통용 표기인 羊刃格 채택.
+    SIKSIN("식신격", "食神格"),
+    SANGGWAN("상관격", "傷官格"),
+    PYEONJAE("편재격", "偏財格"),
+    JEONGJAE("정재격", "正財格"),
+    PYEONGWAN("편관격", "偏官格"),
+    JEONGGWAN("정관격", "正官格"),
+    PYEONIN("편인격", "偏印格"),
+    JEONGIN("정인격", "正印格"),
 }
 
 /** 격국 분류 결과. [basis] 는 사람이 읽는 근거 설명(디버그용)이고, [type] 이 기계가 분기하는 값이다. */

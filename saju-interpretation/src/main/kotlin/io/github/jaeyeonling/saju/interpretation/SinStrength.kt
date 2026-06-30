@@ -5,7 +5,7 @@ import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
 
-/** 신강신약 판정 결과. */
+/** 신강신약 판정 결과 — Day Master strength verdict (극신강→극신약 5단계). */
 public enum class SinStrengthVerdict(
     /** 한글 이름(극신강·신강·…). */
     public val koreanName: String,
