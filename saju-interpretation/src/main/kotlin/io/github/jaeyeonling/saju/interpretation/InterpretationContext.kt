@@ -26,10 +26,11 @@ public data class InterpretationContext(
      */
     public fun withHiddenStems(hiddenStems: HiddenStemTable): InterpretationContext =
         copy(
-            // 기존 억부 가중치(EokbuWeights)는 보존하고 테이블만 교체한다. 커스텀 신강 전략은 자체 관리하므로 그대로 둔다.
+            // 기존 억부 가중치(EokbuWeights)·통근 십이운성은 보존하고 테이블만 교체한다. 커스텀 신강 전략은 자체 관리하므로 그대로 둔다.
             sinStrength =
                 when (val current = sinStrength) {
-                    is EokbuSinStrengthStrategy -> EokbuSinStrengthStrategy(current.weights, hiddenStems)
+                    is EokbuSinStrengthStrategy ->
+                        EokbuSinStrengthStrategy(current.weights, hiddenStems, current.sibiUnseong)
                     else -> current
                 },
             gyeokguk =

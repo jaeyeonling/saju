@@ -16,6 +16,7 @@ import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 
 /**
  * 해석 대안 전략의 **정답 핀값**(golden) — "갈아끼울 것이 *올바르게* 있다"를 박제한다.
@@ -139,6 +140,70 @@ class StrategyVariationTest : StringSpec({
                 EokbuWeights.DEFAULT.copy(mainQi = 0.0, midQi = 0.0, residualQi = 0.0),
             ).evaluate(chart).supportRatio
         withClue("지장간 가중을 끄면 지원율이 달라져야") { noHidden shouldNotBe default }
+    }
+
+    "통근 가중 기본은 중립 — supportRatio·verdict 가 명시 1.0 가중과 동일(기존 보존)" {
+        val chart = sampleChart()
+        val default = EokbuSinStrengthStrategy.DEFAULT.evaluate(chart)
+        val neutral =
+            EokbuSinStrengthStrategy(
+                EokbuWeights.DEFAULT.copy(rootStrong = 1.0, rootWeak = 1.0, rootMid = 1.0),
+            ).evaluate(chart)
+        withClue("통근 셋 다 1.0이면 기본과 비트 동일") {
+            neutral.supportRatio shouldBe default.supportRatio
+            neutral.verdict shouldBe default.verdict
+        }
+        withClue("기본 basis 는 통근 중립을 표기") { default.basis shouldContain "통근 중립" }
+    }
+
+    "통근 강근 가중을 키우면 지원율이 증가한다 (방향성 보장)" {
+        // sampleChart 일간 갑은 시지 묘(卯)에서 제왕(강근), 묘 본기 을(乙)은 비겁(support).
+        // 통근을 support 에만 적용하므로 강근 배수를 키우면 지원율이 반드시 '증가'해야 한다(방향성).
+        val chart = sampleChart()
+        val default = EokbuSinStrengthStrategy.DEFAULT.evaluate(chart)
+        val tuned = EokbuSinStrengthStrategy(EokbuWeights.DEFAULT.copy(rootStrong = 3.0)).evaluate(chart)
+        withClue("강근 통근을 3배로 키우면 지원율이 증가(방향성)") {
+            (tuned.supportRatio > default.supportRatio) shouldBe true
+        }
+        withClue("튜닝된 basis 는 중립이 아니라 배수를 드러냄") { tuned.basis shouldContain "강근×3" }
+    }
+
+    "rootMid(else 분기) 가중이 통근 계산에 실제로 결선된다 (중간 단계 0.5)" {
+        // 모든 지지를 쇠(衰, 강근·묘 아닌 중간 단계)로 보는 전략 → rootMid 경로를 결정론적으로 탄다.
+        val chart = sampleChart()
+        val allSoe =
+            object : SibiUnseongStrategy {
+                override fun stageOf(
+                    dayMaster: Cheongan,
+                    branch: Jiji,
+                ): SibiUnseong = SibiUnseong.SOE
+            }
+        val neutral = EokbuSinStrengthStrategy(EokbuWeights.DEFAULT, sibiUnseong = allSoe).evaluate(chart)
+        val tuned =
+            EokbuSinStrengthStrategy(EokbuWeights.DEFAULT.copy(rootMid = 0.5), sibiUnseong = allSoe)
+                .evaluate(chart)
+        withClue("중간 단계로 보는 전략에서 rootMid=0.5 면 세력이 달라져야(else 분기 결선)") {
+            tuned.supportRatio shouldNotBe neutral.supportRatio
+        }
+    }
+
+    "주입된 십이운성 전략·rootWeak 가 통근 계산에 실제로 쓰인다 (묘지 0.5)" {
+        // 모든 지지를 묘(墓)로 보는 전략을 주입 → rootWeak 경로를 결정론적으로 탄다(차트 무관).
+        val chart = sampleChart()
+        val allMyo =
+            object : SibiUnseongStrategy {
+                override fun stageOf(
+                    dayMaster: Cheongan,
+                    branch: Jiji,
+                ): SibiUnseong = SibiUnseong.MYO
+            }
+        val neutral = EokbuSinStrengthStrategy(EokbuWeights.DEFAULT, sibiUnseong = allMyo).evaluate(chart)
+        val weak =
+            EokbuSinStrengthStrategy(EokbuWeights.DEFAULT.copy(rootWeak = 0.5), sibiUnseong = allMyo)
+                .evaluate(chart)
+        withClue("묘지로 보는 전략에서 rootWeak=0.5 면 세력이 줄어 비율이 달라져야") {
+            weak.supportRatio shouldNotBe neutral.supportRatio
+        }
     }
 
     "withHiddenStems 는 커스텀 테이블을 신강신약·격국에 함께 전파한다" {

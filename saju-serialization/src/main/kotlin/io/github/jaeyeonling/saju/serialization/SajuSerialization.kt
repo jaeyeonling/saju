@@ -87,12 +87,15 @@ public fun GyeokgukResult.toDto(): GyeokgukDto =
 public fun HapChungRelation.toDto(): HapChungDto =
     when (this) {
         is HapChungRelation.CheonganHap ->
-            HapChungDto("천간합", listOf(a.koreanName, b.koreanName), transformsTo.koreanName)
+            HapChungDto("천간합", listOf(a.koreanName, b.koreanName), transformsTo?.koreanName)
+        is HapChungRelation.CheonganChung -> HapChungDto("천간충", listOf(a.koreanName, b.koreanName))
         is HapChungRelation.JijiYukhap -> HapChungDto("육합", listOf(a.koreanName, b.koreanName))
         is HapChungRelation.JijiYukchung -> HapChungDto("육충", listOf(a.koreanName, b.koreanName))
         is HapChungRelation.JijiYukhae -> HapChungDto("육해", listOf(a.koreanName, b.koreanName))
         is HapChungRelation.JijiSamhap ->
             HapChungDto("삼합", members.map { it.koreanName }, transformsTo.koreanName)
+        is HapChungRelation.JijiBanghap ->
+            HapChungDto("방합", members.map { it.koreanName }, transformsTo.koreanName)
     }
 
 public fun InterpretationReport.toDto(): InterpretationReportDto =

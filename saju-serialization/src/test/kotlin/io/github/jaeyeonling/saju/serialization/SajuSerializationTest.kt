@@ -68,16 +68,30 @@ class SajuSerializationTest : StringSpec({
         back.ohaengWeightedCounts shouldBe dto.ohaengWeightedCounts
     }
 
-    "합충 sealed 5종이 각각 올바른 kind 로 평탄화된다 (전 분기 커버)" {
+    "합충 sealed 7종이 각각 올바른 kind 로 평탄화된다 (전 분기 커버)" {
         HapChungRelation.CheonganHap(Cheongan.GAP, Cheongan.GI, Ohaeng.TO).toDto().also {
             it.kind shouldBe "천간합"
             it.transformsTo shouldBe "토"
+        }
+        // 일간 합화 보류(合而不化) — transformsTo null 도 평탄화된다
+        HapChungRelation.CheonganHap(Cheongan.GAP, Cheongan.GI, null).toDto().also {
+            it.kind shouldBe "천간합"
+            it.transformsTo shouldBe null
+        }
+        HapChungRelation.CheonganChung(Cheongan.GAP, Cheongan.GYEONG).toDto().also {
+            it.kind shouldBe "천간충"
+            it.transformsTo shouldBe null
         }
         HapChungRelation.JijiYukhap(Jiji.JA, Jiji.CHUK).toDto().kind shouldBe "육합"
         HapChungRelation.JijiYukchung(Jiji.JA, Jiji.O).toDto().kind shouldBe "육충"
         HapChungRelation.JijiYukhae(Jiji.JA, Jiji.MI).toDto().kind shouldBe "육해"
         HapChungRelation.JijiSamhap(listOf(Jiji.SIN, Jiji.JA, Jiji.JIN), Ohaeng.SU).toDto().also {
             it.kind shouldBe "삼합"
+            it.members shouldHaveSize 3
+        }
+        HapChungRelation.JijiBanghap(listOf(Jiji.IN, Jiji.MYO, Jiji.JIN), Ohaeng.MOK).toDto().also {
+            it.kind shouldBe "방합"
+            it.transformsTo shouldBe "목"
             it.members shouldHaveSize 3
         }
     }

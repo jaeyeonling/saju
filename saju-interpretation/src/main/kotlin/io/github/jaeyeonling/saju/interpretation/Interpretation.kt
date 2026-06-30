@@ -49,7 +49,12 @@ public object Interpretation {
             yongsin = ctx.yongsin.derive(chart, strength),
             gyeokguk = ctx.gyeokguk.classify(chart),
             gongmang = Gongmang.of(chart.day.ganji),
-            hapChung = ctx.hapChung.detect(chart.stems(), chart.branches()),
+            hapChung =
+                ctx.hapChung.detect(
+                    chart.stems(),
+                    chart.branches(),
+                    pillars.indexOfFirst { it.position == PillarPosition.DAY },
+                ),
             ohaeng = OhaengDistribution.from(chart),
             sibiUnseong = pillars.associate { it.position to ctx.sibiUnseong.stageOf(chart.dayMaster, it.ji) },
             sipSeong = pillars.associate { it.position to PillarSipSeong.of(chart.dayMaster, it) },

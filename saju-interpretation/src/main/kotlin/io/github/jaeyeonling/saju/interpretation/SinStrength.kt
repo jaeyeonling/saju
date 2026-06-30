@@ -54,6 +54,9 @@ public interface SinStrengthStrategy {
  * @property mainQi 지장간 본기 가중(천간 1점 기준).
  * @property midQi 지장간 중기 가중.
  * @property residualQi 지장간 여기 가중.
+ * @property rootStrong 통근(通根) 강근 배수 — 일간이 그 지지에서 장생·건록·제왕일 때 지장간 세력을 곱한다(重).
+ * @property rootWeak 통근 약근 배수 — 일간이 묘(墓)지일 때(輕).
+ * @property rootMid 통근 중간 배수 — 그 외 십이운성 단계.
  * @property geuksinGang 극신강 컷오프(지원율 ≥).
  * @property sinGang 신강 컷오프.
  * @property junghwa 중화 컷오프.
@@ -64,6 +67,10 @@ public data class EokbuWeights(
     public val mainQi: Double = 1.0,
     public val midQi: Double = 0.4,
     public val residualQi: Double = 0.2,
+    // 통근 가중은 학파 의존이라 기본 중립(1.0) — 셋 다 1.0이면 기존 산식과 동일(verdict·용신 보존). 튜닝 시 차등.
+    public val rootStrong: Double = 1.0,
+    public val rootWeak: Double = 1.0,
+    public val rootMid: Double = 1.0,
     public val geuksinGang: Double = 0.70,
     public val sinGang: Double = 0.55,
     public val junghwa: Double = 0.45,
@@ -87,6 +94,7 @@ public class EokbuSinStrengthStrategy
     constructor(
         public val weights: EokbuWeights = EokbuWeights.DEFAULT,
         public val hiddenStems: HiddenStemTable = StandardHiddenStemTable,
+        public val sibiUnseong: SibiUnseongStrategy = EumPotaeStrategy,
     ) : SinStrengthStrategy {
         override fun evaluate(chart: SajuChart): SinStrength {
             val dayMaster = chart.dayMaster
@@ -107,15 +115,16 @@ public class EokbuSinStrengthStrategy
                     add(SipSeong.of(dayMaster, pillar.gan), pillarWeight, accumulate)
                 }
                 // 지장간 본기·중기·여기를 차등 가중으로 반영(연속 ratio → 5단계 verdict 모두 도달 가능).
+                // 통근 배수(rooting): 일간이 그 지지에서 강근/약근이면 적용(기본 1.0=중립). 방향성을 위해
+                // 일간을 '돕는' 지장간(비겁·인성)에만 곱한다 — add() 내부에서 isSupport 게이트.
                 val hidden = hiddenStems.of(pillar.ji)
-                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi, accumulate)
-                hidden.midQi?.let { add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi, accumulate) }
+                val rooting = rootingFactorOf(sibiUnseong.stageOf(dayMaster, pillar.ji))
+                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi, accumulate, rooting)
+                hidden.midQi?.let {
+                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi, accumulate, rooting)
+                }
                 hidden.residualQi?.let {
-                    add(
-                        SipSeong.of(dayMaster, it),
-                        pillarWeight * weights.residualQi,
-                        accumulate,
-                    )
+                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.residualQi, accumulate, rooting)
                 }
             }
 
@@ -131,20 +140,46 @@ public class EokbuSinStrengthStrategy
         ): String =
             "돕는 세력(비겁·인성) ${"%.1f".format(support)} / 전체 ${"%.1f".format(total)} = " +
                 "${"%.0f".format(ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
-                "지장간 정기${fmtWeight(weights.mainQi)}·중기${fmtWeight(weights.midQi)}·여기${fmtWeight(weights.residualQi)} 가중"
+                "지장간 정기${fmtWeight(weights.mainQi)}·중기${fmtWeight(weights.midQi)}·여기${fmtWeight(weights.residualQi)}" +
+                " 가중 · 통근 $rootingPolicy"
+
+        /** 통근 가중 정책 표시 — 셋 다 1.0이면 "중립", 아니면 강근·묘·기타 배수를 드러낸다(학파 의존). */
+        private val rootingPolicy: String
+            get() {
+                if (weights.rootStrong == 1.0 && weights.rootWeak == 1.0 && weights.rootMid == 1.0) return "중립"
+                return "강근×${fmtWeight(weights.rootStrong)}·묘×${fmtWeight(weights.rootWeak)}·" +
+                    "기타×${fmtWeight(weights.rootMid)}"
+            }
 
         /** 가중치 표시 — 정수면 정수로(2.0→"2"), 소수면 그대로(0.4→"0.4"). */
         private fun fmtWeight(w: Double): String =
             if (w == w.toLong().toDouble()) w.toLong().toString() else w.toString()
 
-        /** 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total, 묶음은 [SipSeong.group] 에 가산. */
+        /**
+         * 십이운성 단계 → 통근 배수. 강근(장생·건록·제왕)=重, 묘=輕, 나머지=중간.
+         * 기본 가중이 모두 1.0이라 중립 — 학파 의존이므로 [EokbuWeights] 튜닝으로만 차등이 켜진다.
+         */
+        private fun rootingFactorOf(stage: SibiUnseong): Double =
+            when (stage) {
+                SibiUnseong.JANGSAENG, SibiUnseong.GEOLLOK, SibiUnseong.JEWANG -> weights.rootStrong
+                SibiUnseong.MYO -> weights.rootWeak
+                else -> weights.rootMid
+            }
+
+        /**
+         * 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total, 묶음은 [SipSeong.group] 에 가산.
+         * 통근 배수 [rooting] 은 방향성을 위해 **support(비겁·인성)에만** 곱한다 — 재·관·식은 base weight.
+         * (기본 1.0이면 비트 동일 — 천간 호출은 rooting 미전달로 기존 동작 보존.)
+         */
         private inline fun add(
             sipSeong: SipSeong,
             weight: Double,
             accumulate: (Double, Double, SipSeongGroup) -> Unit,
+            rooting: Double = 1.0,
         ) {
-            val support = if (isSupport(sipSeong)) weight else 0.0
-            accumulate(support, weight, sipSeong.group)
+            val supporting = isSupport(sipSeong)
+            val effective = if (supporting) weight * rooting else weight
+            accumulate(if (supporting) effective else 0.0, effective, sipSeong.group)
         }
 
         // 일간을 돕는 세력 = 비겁(같은 오행) + 인성(나를 생함).

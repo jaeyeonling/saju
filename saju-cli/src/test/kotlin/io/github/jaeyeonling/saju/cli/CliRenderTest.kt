@@ -82,6 +82,19 @@ class CliRenderTest : StringSpec({
         }
     }
 
+    "합충 렌더 — 일간 낀 합은 합화 보류(→없음), 화하는 합은 →오행" {
+        // 1980-01-21 12시: 일간 계, 계무합(일간 낌 → 보류) + 방합 사오미→화(정상 화) 동시 노출.
+        val out = render(CliInput(1980, 1, 21, 12, 0), fixedYear)
+        val hapLine = out.lineSequence().first { it.contains("합충") }
+        withClue("일간 낀 계무합은 합화 보류라 →오행 없이 렌더:\n$hapLine") {
+            hapLine.contains("천간합(계-무)").shouldBeTrue()
+            hapLine.contains("천간합(계-무→").shouldBe(false)
+        }
+        withClue("방합은 정상 화라 →화 렌더:\n$hapLine") {
+            hapLine.contains("방합(사-오-미→화)").shouldBeTrue()
+        }
+    }
+
     "렌더는 같은 입력·연도에 같은 출력을 낸다 (결정론)" {
         render(CliInput.DEFAULT, fixedYear) shouldBe render(CliInput.DEFAULT, fixedYear)
     }

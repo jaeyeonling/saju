@@ -38,6 +38,22 @@ class DomainArithmeticTest : StringSpec({
         }
     }
 
+    "천간충 4쌍 — 갑경 을신 병임 정계, 무기는 충 없음" {
+        val expected =
+            mapOf(
+                Cheongan.GAP to Cheongan.GYEONG,
+                Cheongan.EUL to Cheongan.SIN,
+                Cheongan.BYEONG to Cheongan.IM,
+                Cheongan.JEONG to Cheongan.GYE,
+            )
+        for ((a, b) in expected) {
+            withClue("$a 의 천간충") { a.chungPartner() shouldBe b }
+            withClue("$b 의 천간충(대칭)") { b.chungPartner() shouldBe a }
+        }
+        withClue("무(토)는 충 없음") { Cheongan.MU.chungPartner() shouldBe null }
+        withClue("기(토)는 충 없음") { Cheongan.GI.chungPartner() shouldBe null }
+    }
+
     "지지 육충 6쌍 — 자오 축미 인신 묘유 진술 사해" {
         val pairs =
             listOf(
