@@ -42,6 +42,26 @@ class SajuSerializationTest : StringSpec({
         back.sibiUnseong shouldBe dto.sibiUnseong
     }
 
+    "신규 필드(십성·지장간·신살·가중오행)가 네 기둥으로 직렬화되고 라운드트립한다" {
+        // 己卯 일주: 일간 己 → 일주 천간 십성은 '나'라서 null. 일지 卯 본기 = 乙.
+        val report = Interpretation.of(chart)
+        val dto = report.toDto()
+        dto.sipSeong shouldContainKey "DAY"
+        dto.sipSeong.getValue("DAY").stem shouldBe null // 일간 자리
+        dto.sipSeong.getValue("DAY").branchMain.isNotBlank() shouldBe true
+        dto.hiddenStems shouldContainKey "DAY"
+        dto.hiddenStems.getValue("DAY").mainQi shouldBe "을" // 卯 본기 乙
+        dto.sinSal shouldContainKey "DAY"
+        // 가중은 표면 8글자에 지장간을 더하므로 항상 표면 합(8)보다 크다(지지마다 지장간 개수가 달라 정확값은 차트 의존).
+        (dto.ohaengWeightedCounts.values.sum() > dto.ohaengCounts.values.sum()) shouldBe true
+
+        val back = sajuJson.decodeFromString<InterpretationReportDto>(report.toJson())
+        back.sipSeong shouldBe dto.sipSeong
+        back.hiddenStems shouldBe dto.hiddenStems
+        back.sinSal shouldBe dto.sinSal
+        back.ohaengWeightedCounts shouldBe dto.ohaengWeightedCounts
+    }
+
     "합충 sealed 5종이 각각 올바른 kind 로 평탄화된다 (전 분기 커버)" {
         HapChungRelation.CheonganHap(Cheongan.GAP, Cheongan.GI, Ohaeng.TO).toDto().also {
             it.kind shouldBe "천간합"

@@ -2,11 +2,13 @@ package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Ganji
+import io.github.jaeyeonling.saju.domain.JijiHiddenStems
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.interpretation.GyeokgukResult
 import io.github.jaeyeonling.saju.interpretation.HapChungRelation
 import io.github.jaeyeonling.saju.interpretation.InterpretationReport
+import io.github.jaeyeonling.saju.interpretation.PillarSipSeong
 import io.github.jaeyeonling.saju.interpretation.SinStrength
 import io.github.jaeyeonling.saju.interpretation.YongsinResult
 import kotlinx.serialization.encodeToString
@@ -100,6 +102,26 @@ public fun InterpretationReport.toDto(): InterpretationReportDto =
         ohaengCounts = ohaeng.counts.entries.associate { (ohaeng, count) -> ohaeng.koreanName to count },
         dominantOhaeng = ohaeng.dominant().koreanName,
         sibiUnseong = sibiUnseong.entries.associate { (position, stage) -> position.name to stage.koreanName },
+        sipSeong = sipSeong.entries.associate { (position, ps) -> position.name to ps.toDto() },
+        hiddenStems = hiddenStems.entries.associate { (position, hidden) -> position.name to hidden.toDto() },
+        sinSal = sinSal.entries.associate { (position, list) -> position.name to list.map { it.koreanName } },
+        ohaengWeightedCounts =
+            ohaengWeighted.counts.entries.associate { (ohaeng, count) -> ohaeng.koreanName to count },
+    )
+
+public fun PillarSipSeong.toDto(): PillarSipSeongDto =
+    PillarSipSeongDto(
+        stem = stem?.koreanName,
+        branchMain = branchMain.koreanName,
+        branchMid = branchMid?.koreanName,
+        branchResidual = branchResidual?.koreanName,
+    )
+
+public fun JijiHiddenStems.toDto(): HiddenStemsDto =
+    HiddenStemsDto(
+        mainQi = mainQi.koreanName,
+        midQi = midQi?.koreanName,
+        residualQi = residualQi?.koreanName,
     )
 
 /** 해석 리포트를 JSON 문자열로. */
