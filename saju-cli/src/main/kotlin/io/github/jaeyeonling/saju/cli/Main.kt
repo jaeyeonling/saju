@@ -1,5 +1,6 @@
 package io.github.jaeyeonling.saju.cli
 
+import io.github.jaeyeonling.saju.Saju
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Eumyang
 import io.github.jaeyeonling.saju.domain.Jiji
@@ -13,6 +14,13 @@ import io.github.jaeyeonling.saju.interpretation.SinStrengthVerdict
 import io.github.jaeyeonling.saju.interpretation.SipSeong
 import io.github.jaeyeonling.saju.korea.Birthplace
 import io.github.jaeyeonling.saju.korea.KoreanSaju
+import io.github.jaeyeonling.saju.serialization.GanjiDto
+import io.github.jaeyeonling.saju.serialization.InterpretationReportDto
+import io.github.jaeyeonling.saju.serialization.SajuChartDto
+import io.github.jaeyeonling.saju.serialization.sajuJson
+import io.github.jaeyeonling.saju.serialization.toDto
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlin.system.exitProcess
 
 /** CLI 입력 — 생년월일시 + 출생지 경도 + 성별. */
@@ -42,23 +50,50 @@ internal fun parseArgs(args: Array<String>): CliInput =
         longitude = args.getOrNull(5)?.toDouble() ?: Birthplace.SEOUL.longitudeDeg,
     )
 
+/** `--` 플래그(--json, --female, --seun=YYYY) 파싱 결과. */
+internal data class CliFlags(
+    val json: Boolean,
+    val isMale: Boolean,
+    val seunYear: Int?,
+)
+
+/** args 에서 `--` 플래그만 추출 — 위치 인자와 무관하게 어디 와도 인식. */
+internal fun parseFlags(args: Array<String>): CliFlags {
+    val flags = args.filter { it.startsWith("--") }
+    return CliFlags(
+        json = flags.contains("--json"),
+        isMale = !flags.contains("--female"),
+        seunYear = flags.firstOrNull { it.startsWith("--seun=") }?.substringAfter('=')?.toIntOrNull(),
+    )
+}
+
 /**
  * 인자 → (출력 문자열, 종료 코드). 부작용 없는 순수 결정 — 인수 테스트 대상.
  * 인자 없음=데모, 5개 미만/파싱 실패/잘못된 입력=usage + 코드 2(조용한 폴백 금지).
  */
-internal fun runCli(args: Array<String>): Pair<String, Int> =
-    when {
-        args.isEmpty() -> render(CliInput.DEFAULT) to EXIT_OK // 인자 없음 = 데모
-        args.size < REQUIRED_ARGS -> usage("생년월일시 인자 ${REQUIRED_ARGS}개가 필요합니다 (받은 ${args.size}개)") to EXIT_USAGE
+internal fun runCli(args: Array<String>): Pair<String, Int> {
+    val flags = parseFlags(args)
+    val positional = args.filterNot { it.startsWith("--") }.toTypedArray()
+    return when {
+        positional.isEmpty() -> renderFor(CliInput.DEFAULT.copy(isMale = flags.isMale), flags) to EXIT_OK
+        positional.size < REQUIRED_ARGS ->
+            usage("생년월일시 인자 ${REQUIRED_ARGS}개가 필요합니다 (받은 ${positional.size}개)") to EXIT_USAGE
         else ->
             try {
-                render(parseArgs(args)) to EXIT_OK
+                renderFor(parseArgs(positional).copy(isMale = flags.isMale), flags) to EXIT_OK
             } catch (e: NumberFormatException) {
                 usage("숫자로 바꿀 수 없는 인자: ${e.message}") to EXIT_USAGE
             } catch (e: IllegalArgumentException) {
                 usage("잘못된 입력: ${e.message}") to EXIT_USAGE
             }
     }
+}
+
+/** 텍스트(기본) 또는 JSON 렌더 선택. */
+private fun renderFor(
+    input: CliInput,
+    flags: CliFlags,
+): String = if (flags.json) renderJson(input, flags.seunYear) else render(input)
 
 /** 사주 만세력 데모 CLI — 생년월일시 → 8글자 + 해석 + 대운 출력. */
 public fun main(args: Array<String>) {
@@ -71,9 +106,10 @@ private fun usage(reason: String): String =
     """
     [오류] $reason
 
-    사용법: saju <연> <월> <일> <시> <분> [경도]
+    사용법: saju <연> <월> <일> <시> <분> [경도] [--json] [--female] [--seun=YYYY]
       예) ./gradlew :saju-cli:run --args="1990 3 15 7 0"          # 서울 기본 경도
           ./gradlew :saju-cli:run --args="1990 3 15 7 0 129.08"   # 부산 경도
+          ./gradlew :saju-cli:run --args="1990 3 15 7 0 --json --seun=2026"  # 기계 판독용 JSON
     인자 없이 실행하면 데모(1990-03-15 07:00 서울)를 출력합니다.
     """.trimIndent()
 
@@ -224,3 +260,84 @@ private fun positionKorean(position: PillarPosition): String =
     }
 
 private fun pad(value: Int): String = value.toString().padStart(2, '0')
+
+private const val DAEUN_COUNT = 8
+
+/**
+ * --json 모드: 사주판·해석·대운·(선택)세운을 기계 판독용 JSON 한 덩어리로 출력(부작용 없는 순수 렌더).
+ * 사주판/해석은 saju-serialization DTO 를 재사용하고, 대운/세운만 CLI 가 얇게 매핑한다.
+ */
+internal fun renderJson(
+    input: CliInput,
+    seunYear: Int?,
+): String {
+    val chart =
+        KoreanSaju.fromCivilTime(input.year, input.month, input.day, input.hour, input.minute, input.longitude)
+    val offset =
+        KoreanSaju.trueSolarOffsetMinutes(input.year, input.month, input.day, input.hour, input.minute, input.longitude)
+    val daeun =
+        KoreanSaju.daeun(
+            input.year,
+            input.month,
+            input.day,
+            input.hour,
+            input.minute,
+            isMale = input.isMale,
+            longitudeDeg = input.longitude,
+            count = DAEUN_COUNT,
+        ).map { CliDaeunDto(it.startAge, it.ganji.toDto()) }
+    val seun = seunYear?.let { Saju.seun(it) }?.let { CliSeunDto(it.year, it.ganji.toDto()) }
+    val output =
+        CliJsonOutput(
+            input =
+                CliJsonInput(
+                    input.year,
+                    input.month,
+                    input.day,
+                    input.hour,
+                    input.minute,
+                    input.longitude,
+                    input.isMale,
+                ),
+            trueSolarOffsetMinutes = offset,
+            chart = chart.toDto(),
+            interpretation = Interpretation.of(chart).toDto(),
+            daeun = daeun,
+            seun = seun,
+        )
+    return sajuJson.encodeToString(output)
+}
+
+/** --json 출력 묶음. 사주판/해석은 라이브러리 DTO 재사용, 대운/세운은 CLI 전용 얇은 DTO. */
+@Serializable
+internal data class CliJsonOutput(
+    val input: CliJsonInput,
+    val trueSolarOffsetMinutes: Double,
+    val chart: SajuChartDto,
+    val interpretation: InterpretationReportDto,
+    val daeun: List<CliDaeunDto>,
+    val seun: CliSeunDto? = null,
+)
+
+@Serializable
+internal data class CliJsonInput(
+    val year: Int,
+    val month: Int,
+    val day: Int,
+    val hour: Int,
+    val minute: Int,
+    val longitude: Double,
+    val isMale: Boolean,
+)
+
+@Serializable
+internal data class CliDaeunDto(
+    val startAge: Int,
+    val ganji: GanjiDto,
+)
+
+@Serializable
+internal data class CliSeunDto(
+    val year: Int,
+    val ganji: GanjiDto,
+)
