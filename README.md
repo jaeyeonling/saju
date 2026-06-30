@@ -103,6 +103,7 @@ dependencies {
     implementation("io.github.jaeyeonling:saju-core:0.1.0")           // 천문 엔진 + 도메인 + 4기둥
     implementation("io.github.jaeyeonling:saju-korea:0.1.0")          // 한국 시간 보정 (권장 진입점)
     implementation("io.github.jaeyeonling:saju-interpretation:0.1.0") // 십성·신강신약·용신·격국
+    implementation("io.github.jaeyeonling:saju-group:0.1.0")          // (opt-in) 그룹 사주 합성
     implementation("io.github.jaeyeonling:saju-serialization:0.1.0")  // (opt-in) JSON 직렬화
 }
 ```
@@ -146,8 +147,9 @@ dependencies {
 | `saju-core` | 천문 엔진(태양·달·절기·삭) + 도메인(천간·지지·60갑자) + 4기둥/대운 + 음력 변환(무중치윤) | ❌ 금지(Konsist 강제) |
 | `saju-korea` | 한국 시간 보정(진태양시·표준시 연혁·서머타임·자시) | ✅ 사용 |
 | `saju-interpretation` | 십성·오행·합충·신살·신강신약·용신·격국 | ❌ 금지 |
+| `saju-group` | (opt-in) 여러 명을 합친 **그룹 사주** — 오행 균형·십성 역할·멤버간 합충·세운/대운 타임라인 | ❌ 금지 |
 | `saju-serialization` | (opt-in) JSON 직렬화 — kotlinx.serialization DTO + `toJson()`. 이 모듈을 의존할 때만 직렬화 런타임이 따라온다 | ✅ 사용 |
-| `saju-cli` | 데모/수동 검증 CLI | ✅ 사용 |
+| `saju-cli` | 데모/수동 검증 CLI (`saju group <members.json>` 서브커맨드 포함) | ✅ 사용 |
 
 핵심 데이터 흐름:
 
@@ -165,6 +167,7 @@ astronomy(순수 UT JD, 타임존 무지)
 | **한국 시간 보정** (진태양시·표준시 연혁·서머타임) | [korea/](saju-korea/src/main/kotlin/io/github/jaeyeonling/saju/korea/README.md) |
 | **기초 용어** (천간·지지·오행·60갑자·지장간) | [domain/](saju-core/src/main/kotlin/io/github/jaeyeonling/saju/domain/README.md) |
 | **해석 용어** (십성·신강신약·용신·격국·십이운성) | [interpretation/](saju-interpretation/src/main/kotlin/io/github/jaeyeonling/saju/interpretation/README.md) |
+| **그룹 사주** (여러 명 합성 — 오행 균형·역할·관계·타임라인) | [saju-group/](saju-group/README.md) |
 | **천문 엔진** (절기·삭을 왜·어떻게 계산하나) | [astronomy/](saju-core/src/main/kotlin/io/github/jaeyeonling/saju/astronomy/README.md) |
 
 ## 사용 예시

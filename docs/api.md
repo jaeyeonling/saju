@@ -132,3 +132,25 @@ Interpretation.of(chart, ctx)
 
 `SEOUL` `BUSAN` `DAEGU` `INCHEON` `GWANGJU` `DAEJEON` `ULSAN` `JEJU` `PYONGYANG` — 각 `.longitudeDeg`.
 프리셋에 없으면 경도(도)를 직접 넘긴다: `KoreanSaju.fromCivilTime(…, longitudeDeg = 127.5)`.
+
+---
+
+## 6. 그룹 사주 (`saju-group`, opt-in)
+
+여러 명을 합쳐 그룹 차원을 산출한다. 개인 계산은 위임하고 합성만 한다. 자세한 설명은 [saju-group/README](../saju-group/README.md).
+
+| 호출 | 입력 → 반환 | 비고 |
+|------|------------|------|
+| `GroupMember.of(id, alias, gender, birthYear, chart, daeun, seun=null, context=DEFAULT)` | → `GroupMember` | 사주판으로 해석을 계산해 멤버 구성 |
+| `GroupAnalysis.of(members, seunYear, context=DEFAULT)` | `List<GroupMember>` → `GroupReport` | 최소 2명·id 유일. 결정론 |
+
+`GroupReport` 4차원: `ohaeng`(오행 균형·결정론) · `sipseong`(역할·트리거) · `relations`(멤버간 합충 매트릭스) · `timeline`(세운/대운). 역할·관계 라벨은 통설 기반 도구 규칙(점술 정설 아님 — `report.disclaimer`).
+
+```kotlin
+val report = GroupAnalysis.of(members, seunYear = 2026)
+report.ohaeng.deficient          // 부족한 오행
+report.relations.graph.edges     // 협력/긴장 관계
+report.toJson()                  // (saju-serialization) JSON 직렬화
+```
+
+CLI: `saju group <members.json> [--json] [--seun=YYYY]`.

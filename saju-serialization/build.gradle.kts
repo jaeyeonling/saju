@@ -9,5 +9,6 @@ plugins {
 dependencies {
     api(project(":saju-core"))
     api(project(":saju-interpretation"))
+    api(project(":saju-group"))
     implementation(libs.kotlinx.serialization.json)
 }
