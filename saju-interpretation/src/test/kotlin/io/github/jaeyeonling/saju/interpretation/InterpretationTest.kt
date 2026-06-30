@@ -10,6 +10,7 @@ import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -37,10 +38,117 @@ class InterpretationTest : StringSpec({
         hap.transformsTo shouldBe Ohaeng.TO
     }
 
+    "일간 합화 가드가 파사드(Interpretation.of) 배선까지 적용된다" {
+        // 기축·을해·갑인·경오(모두 동일 음양 간지). 일간 갑 + 연간 기 → 일간 낀 합(보류),
+        // 월간 을 + 시간 경 → 비일간 합(정상 화). 일간 값(갑) 중복 없음.
+        val chart =
+            SajuChart(
+                year = Pillar(PillarPosition.YEAR, Ganji(Cheongan.GI, Jiji.CHUK)),
+                month = Pillar(PillarPosition.MONTH, Ganji(Cheongan.EUL, Jiji.HAE)),
+                day = Pillar(PillarPosition.DAY, Ganji(Cheongan.GAP, Jiji.IN)),
+                hour = Pillar(PillarPosition.HOUR, Ganji(Cheongan.GYEONG, Jiji.O)),
+            )
+        val haps = Interpretation.of(chart).hapChung.filterIsInstance<HapChungRelation.CheonganHap>()
+        val gapGi = haps.single { setOf(it.a, it.b) == setOf(Cheongan.GAP, Cheongan.GI) }
+        val eulGyeong = haps.single { setOf(it.a, it.b) == setOf(Cheongan.EUL, Cheongan.GYEONG) }
+        withClue("일간 갑이 낀 갑기합은 합화 보류(null)") { gapGi.transformsTo shouldBe null }
+        withClue("비일간 을경합은 정상 화(금)") { eulGyeong.transformsTo shouldBe Ohaeng.GEUM }
+    }
+
+    "일간 천간합 합화 가드 — 일간(위치)이 낀 합만 보류" {
+        // dayMasterIndex 미지정(-1): 갑기합 → 토(화한다)
+        StandardHapChungStrategy.detect(listOf(Cheongan.GAP, Cheongan.GI), emptyList())
+            .filterIsInstance<HapChungRelation.CheonganHap>().single()
+            .transformsTo shouldBe Ohaeng.TO
+        // 일간이 idx0(갑): 갑기합은 일간이 끼어 합화 보류 → null
+        StandardHapChungStrategy.detect(listOf(Cheongan.GAP, Cheongan.GI), emptyList(), dayMasterIndex = 0)
+            .filterIsInstance<HapChungRelation.CheonganHap>().single()
+            .transformsTo shouldBe null
+        // 일간이 idx2(병, 합과 무관한 위치): 갑기합은 그대로 화 → 토
+        StandardHapChungStrategy
+            .detect(listOf(Cheongan.GAP, Cheongan.GI, Cheongan.BYEONG), emptyList(), dayMasterIndex = 2)
+            .filterIsInstance<HapChungRelation.CheonganHap>().single()
+            .transformsTo shouldBe Ohaeng.TO
+    }
+
+    "일간 값이 중복돼도 비일간 합은 정상 화한다 (위치 기반 — 값 기반 오탐 회귀 방지)" {
+        // stems=[갑(연), 기(월), 갑(일=일간 idx2)]. 연갑+월기 합은 일주 안 낌 → 화(토). 월기+일갑 합은 일주 낌 → 보류.
+        val haps =
+            StandardHapChungStrategy
+                .detect(listOf(Cheongan.GAP, Cheongan.GI, Cheongan.GAP), emptyList(), dayMasterIndex = 2)
+                .filterIsInstance<HapChungRelation.CheonganHap>()
+        haps.size shouldBe 2
+        withClue("비일간 갑기합(연-월)은 정상 화(토)") { haps.count { it.transformsTo == Ohaeng.TO } shouldBe 1 }
+        withClue("일간 갑기합(월-일)은 합화 보류(null)") { haps.count { it.transformsTo == null } shouldBe 1 }
+    }
+
+    "천간충 — 갑경충 탐지, 갑기는 충 아님(합)" {
+        val chung = StandardHapChungStrategy.detect(listOf(Cheongan.GAP, Cheongan.GYEONG), emptyList())
+        withClue("갑경충") {
+            chung.filterIsInstance<HapChungRelation.CheonganChung>().single().let { rel ->
+                setOf(rel.a, rel.b) shouldBe setOf(Cheongan.GAP, Cheongan.GYEONG)
+            }
+        }
+        withClue("갑기는 합이지 충 아님") {
+            StandardHapChungStrategy
+                .detect(listOf(Cheongan.GAP, Cheongan.GI), emptyList())
+                .any { it is HapChungRelation.CheonganChung }
+                .shouldBeFalse()
+        }
+        withClue("무기(토)는 충 없음") {
+            StandardHapChungStrategy
+                .detect(listOf(Cheongan.MU, Cheongan.GI), emptyList())
+                .any { it is HapChungRelation.CheonganChung }
+                .shouldBeFalse()
+        }
+    }
+
     "지지 삼합 — 신자진 수국" {
         val relations = StandardHapChungStrategy.detect(emptyList(), listOf(Jiji.SIN, Jiji.JA, Jiji.JIN))
         val samhap = relations.filterIsInstance<HapChungRelation.JijiSamhap>().single()
         samhap.transformsTo shouldBe Ohaeng.SU
+    }
+
+    "지지 방합 4국 — 인묘진목·사오미화·신유술금·해자축수" {
+        val expected =
+            mapOf(
+                listOf(Jiji.IN, Jiji.MYO, Jiji.JIN) to Ohaeng.MOK,
+                listOf(Jiji.SA, Jiji.O, Jiji.MI) to Ohaeng.HWA,
+                listOf(Jiji.SIN, Jiji.YU, Jiji.SUL) to Ohaeng.GEUM,
+                listOf(Jiji.HAE, Jiji.JA, Jiji.CHUK) to Ohaeng.SU,
+            )
+        for ((members, ohaeng) in expected) {
+            val banghap =
+                StandardHapChungStrategy
+                    .detect(emptyList(), members)
+                    .filterIsInstance<HapChungRelation.JijiBanghap>()
+                    .single()
+            withClue("$members 방합") { banghap.transformsTo shouldBe ohaeng }
+        }
+    }
+
+    "부분집합(2글자)은 방합·삼합을 만들지 않는다 — 반방합/반합 미모델링" {
+        // 인묘(방합 부분 2글자)·인오(삼합 부분 2글자)는 완전 3집합이 아니라 성립 안 함.
+        StandardHapChungStrategy.detect(emptyList(), listOf(Jiji.IN, Jiji.MYO)).let { rels ->
+            withClue("인묘는 방합 아님") { rels.none { it is HapChungRelation.JijiBanghap }.shouldBeTrue() }
+        }
+        StandardHapChungStrategy.detect(emptyList(), listOf(Jiji.IN, Jiji.O)).let { rels ->
+            withClue("인오는 삼합 아님") { rels.none { it is HapChungRelation.JijiSamhap }.shouldBeTrue() }
+        }
+    }
+
+    "방합과 삼합은 글자가 겹치지 않아 동시 성립하지 않는다" {
+        // 인오술(삼합 화) 은 방합 아님, 인묘진(방합 목) 은 삼합 아님
+        val samhapBranches = listOf(Jiji.IN, Jiji.O, Jiji.SUL)
+        StandardHapChungStrategy.detect(emptyList(), samhapBranches).let { rels ->
+            withClue("인오술은 삼합만") { rels.any { it is HapChungRelation.JijiSamhap }.shouldBeTrue() }
+            withClue("인오술은 방합 아님") { rels.any { it is HapChungRelation.JijiBanghap }.shouldBeFalse() }
+        }
+        val banghapBranches = listOf(Jiji.IN, Jiji.MYO, Jiji.JIN)
+        StandardHapChungStrategy.detect(emptyList(), banghapBranches).let { rels ->
+            withClue("인묘진은 방합만") { rels.any { it is HapChungRelation.JijiBanghap }.shouldBeTrue() }
+            withClue("인묘진은 삼합 아님") { rels.any { it is HapChungRelation.JijiSamhap }.shouldBeFalse() }
+        }
     }
 
     "지지 육충·육합 탐지" {

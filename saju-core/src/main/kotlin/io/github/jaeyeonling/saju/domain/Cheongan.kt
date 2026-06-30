@@ -35,6 +35,19 @@ public enum class Cheongan(
     /** 천간합(天干合) 짝. 갑기·을경·병신·정임·무계 — `(ordinal+5)%10`. */
     public fun combinePartner(): Cheongan = fromIndex(ordinal + 5)
 
+    /**
+     * 천간충(天干沖) 짝. 갑경·을신·병임·정계 — ordinal 거리 6(상극 + 같은 음양 = 칠살 관계)의 정면충돌.
+     * 무·기(토)는 중앙 오행이라 방위가 없어 충 짝이 없다 → `null`.
+     *
+     * 극(剋)과 구분: 극은 음양이 교차해도 성립하나, 충은 같은 음양이라 더 격렬하다(갑·경 둘 다 양).
+     */
+    public fun chungPartner(): Cheongan? =
+        when {
+            ordinal < 4 -> fromIndex(ordinal + 6) // 갑0→경6·을1→신7·병2→임8·정3→계9
+            ordinal >= 6 -> fromIndex(ordinal - 6) // 경6→갑0·신7→을1·임8→병2·계9→정3
+            else -> null // 무4·기5(토) — 충 없음
+        }
+
     public companion object {
         @JvmStatic
         public fun fromIndex(index: Int): Cheongan = entries[floorMod(index, entries.size)]

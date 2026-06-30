@@ -76,7 +76,10 @@ public data class GyeokgukDto(
     public val basis: String,
 )
 
-/** 합충 한 건 — sealed 계열을 kind(천간합/육합/육충/육해/삼합)로 평탄화. transformsTo 는 천간합·삼합만 채워진다. */
+/**
+ * 합충 한 건 — sealed 계열을 kind(천간합/천간충/육합/육충/육해/삼합/방합)로 평탄화.
+ * transformsTo 는 천간합·삼합·방합에 채워진다. 단 천간합이 일간 낀 합이면 null(합화 보류, 合而不化).
+ */
 @Serializable
 public data class HapChungDto(
     public val kind: String,
