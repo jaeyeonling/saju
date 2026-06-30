@@ -1,7 +1,10 @@
 package io.github.jaeyeonling.saju.interpretation
 
 import io.github.jaeyeonling.saju.domain.Cheongan
+import io.github.jaeyeonling.saju.domain.JijiHiddenStems
 import io.github.jaeyeonling.saju.domain.Ohaeng
+import io.github.jaeyeonling.saju.domain.Pillar
+import io.github.jaeyeonling.saju.domain.PillarPosition
 
 /**
  * 십성 오행 관계 5묶음 — 일간(나) 기준 다른 오행과의 관계. 정/편을 가르기 전의 큰 분류축이다.
@@ -75,5 +78,39 @@ public enum class SipSeong(
                 target.controls() == day -> SipSeongGroup.GWANSEONG
                 else -> SipSeongGroup.INSEONG // target.generates() == day
             }
+    }
+}
+
+/**
+ * 한 기둥의 십성 묶음 — 천간 십성 + 지지가 품은 지장간(본·중·여)의 십성.
+ *
+ * 천간만 보면 표면적 관계만 보이지만, 지지 지장간까지 십성을 매기면 **숨은 재물·관계**가 드러난다
+ * (예: 지지 본기가 정재면 안정적 재물이 그 자리에 잠재). [stem] 이 null 이면 일주의 천간(=일간, '나')이다.
+ */
+public data class PillarSipSeong(
+    /** 천간의 십성. 일주 천간은 '나'라서 null. */
+    public val stem: SipSeong?,
+    /** 지지 본기(本氣)의 십성 — 항상 존재. */
+    public val branchMain: SipSeong,
+    /** 지지 중기(中氣)의 십성 — 없으면 null. */
+    public val branchMid: SipSeong?,
+    /** 지지 여기(餘氣)의 십성 — 없으면 null. */
+    public val branchResidual: SipSeong?,
+) {
+    public companion object {
+        /** 일간 [dayMaster] 기준 한 기둥([pillar])의 천간·지장간 십성. 일주 천간은 [stem]=null. */
+        @JvmStatic
+        public fun of(
+            dayMaster: Cheongan,
+            pillar: Pillar,
+        ): PillarSipSeong {
+            val hidden = JijiHiddenStems.of(pillar.ji)
+            return PillarSipSeong(
+                stem = if (pillar.position == PillarPosition.DAY) null else SipSeong.of(dayMaster, pillar.gan),
+                branchMain = SipSeong.of(dayMaster, hidden.mainQi),
+                branchMid = hidden.midQi?.let { SipSeong.of(dayMaster, it) },
+                branchResidual = hidden.residualQi?.let { SipSeong.of(dayMaster, it) },
+            )
+        }
     }
 }

@@ -40,6 +40,12 @@ class InterpretationLabelTest : StringSpec({
         SipSeongGroup.BIGEOP.hanja shouldBe "比劫"
     }
 
+    "신살 라벨이 ordinal 순서와 정합한다" {
+        SinSal.entries.map { it.koreanName } shouldBe
+            listOf("도화살", "역마살", "화개살", "천을귀인", "양인살", "문창귀인")
+        SinSal.DOHWA.hanja shouldBe "桃花殺"
+    }
+
     "모든 해석 라벨은 비어있지 않다" {
         (
             SipSeong.entries.map { it.koreanName to it.hanja } +
@@ -47,7 +53,8 @@ class InterpretationLabelTest : StringSpec({
                 SibiUnseong.entries.map { it.koreanName to it.hanja } +
                 SinStrengthVerdict.entries.map { it.koreanName to it.hanja } +
                 GyeokgukType.entries.map { it.koreanName to it.hanja } +
-                YongsinMethod.entries.map { it.koreanName to it.hanja }
+                YongsinMethod.entries.map { it.koreanName to it.hanja } +
+                SinSal.entries.map { it.koreanName to it.hanja }
         ).forEach { (ko, ha) ->
             ko.shouldNotBeBlank()
             ha.shouldNotBeBlank()

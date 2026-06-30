@@ -78,7 +78,29 @@ public data class HapChungDto(
     public val transformsTo: String? = null,
 )
 
-/** 해석 리포트 전체. gongmang=["신","유"], sibiUnseong={"YEAR":"건록",…}, ohaengCounts={"목":2,…}. */
+/** 한 기둥의 십성 — stem(천간 십성, 일주는 null=나) + 지장간 본/중/여 십성(한글). 없는 지장간은 null. */
+@Serializable
+public data class PillarSipSeongDto(
+    public val stem: String?,
+    public val branchMain: String,
+    public val branchMid: String? = null,
+    public val branchResidual: String? = null,
+)
+
+/** 한 지지의 지장간 — 본기/중기/여기(한글). 없으면 null. */
+@Serializable
+public data class HiddenStemsDto(
+    public val mainQi: String,
+    public val midQi: String? = null,
+    public val residualQi: String? = null,
+)
+
+/**
+ * 해석 리포트 전체. gongmang=["신","유"], sibiUnseong={"YEAR":"건록",…}, ohaengCounts={"목":2,…}.
+ *
+ * sipSeong/hiddenStems/sinSal/ohaengWeightedCounts 는 네 기둥(YEAR|MONTH|DAY|HOUR) 기준 부가 정보로,
+ * 기본값(빈 맵)을 둬 스키마를 깨지 않으면서 추가됐다(육친·신살·숨은 오행 — LLM 해석 레이어용).
+ */
 @Serializable
 public data class InterpretationReportDto(
     public val strength: SinStrengthDto,
@@ -89,4 +111,8 @@ public data class InterpretationReportDto(
     public val ohaengCounts: Map<String, Int>,
     public val dominantOhaeng: String,
     public val sibiUnseong: Map<String, String>,
+    public val sipSeong: Map<String, PillarSipSeongDto> = emptyMap(),
+    public val hiddenStems: Map<String, HiddenStemsDto> = emptyMap(),
+    public val sinSal: Map<String, List<String>> = emptyMap(),
+    public val ohaengWeightedCounts: Map<String, Int> = emptyMap(),
 )
