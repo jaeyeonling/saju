@@ -1,20 +1,39 @@
 # saju — 한국 사주 만세력 라이브러리
 
-생년월일시를 **사주팔자 8글자**(연·월·일·시 4기둥)로 변환하고, 대운·세운과 해석(십성·합충·신강신약·격국)을 제공하는 Kotlin/Java 라이브러리.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.1-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![JDK](https://img.shields.io/badge/JDK-17%2B-orange.svg)](https://adoptium.net)
+[![CI](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml)
 
-> 중국식 만세력과 달리 **한국 사주 특유의 시간 보정**(진태양시·표준시 역사·서머타임·자시 학파)을 1급으로 다룬다.
+생년월일시를 **사주팔자 8글자**로 변환하고, 그 위에 운세 흐름과 해석을 얹어 주는 Kotlin/Java 라이브러리.
+**사주 용어를 몰라도 입력만 넣으면 구조화된 결과(객체·JSON)를 받는다.**
 
-> 저장소명 `bazi`는 명리(사주)의 통칭 八字의 병음 별칭이다. 라이브러리·패키지·아티팩트 정체성은 모두 **`saju`**(한국어)로 통일한다.
+> 중국식 만세력과 달리 **한국 사주 특유의 시간 보정**(진태양시·표준시 역사·서머타임·자시)을 1급으로 다룬다.
+
+처음 보는 용어가 많다면 [사주란 무엇인가](#사주四柱란-무엇인가)부터. 한 줄로: 사주는 태어난 **연·월·일·시** 네 시점을 8글자로 적은 것이고, 그중 **일간(日干)** 이 해석의 기준 '나'다.
 
 ## 빠른 시작
 
-생년월일시 한 줄 → **사주 8글자 + 해석 + 대운**. 한국 보정(진태양시·표준시 연혁·서머타임)은 자동.
+**법정시(시계 시각) 그대로 넣으면 끝.** 진태양시·표준시 연혁·서머타임 같은 한국 보정은 라이브러리가 자동으로 처리한다.
 
 **① 설치 없이 바로 실행** (데모 CLI):
 
 ```bash
 ./gradlew :saju-cli:run --args="1990 3 15 7 0"   # 연 월 일 시 분
 ```
+
+`1990-03-15 07:00` (서울) → **사주 8글자**:
+
+```text
+        시주   일주   월주   연주
+천간     정     기     기     경
+지지     묘     묘     묘     오
+                └ 일간(나) = 기(己)
+```
+
+<details>
+<summary>해석·대운까지 한 번에 보기 (펼치기)</summary>
 
 ```text
 ════════ 사주 만세력 ════════
@@ -36,8 +55,9 @@
 ───── 대운 (남성) ─────
 7세 경진  17세 신사  27세 임오  37세 계미  47세 갑신  …
 ```
+</details>
 
-**② 코드로** (핵심 3줄):
+**② 코드로:**
 
 ```kotlin
 import io.github.jaeyeonling.saju.korea.KoreanSaju
@@ -46,17 +66,39 @@ import io.github.jaeyeonling.saju.interpretation.Interpretation
 val chart  = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0) // 생년월일시 → 사주판
 val report = Interpretation.of(chart)                     // 해석 한 번에
 
-chart.dayMaster                     // 일간(나) → Cheongan.GI         (.koreanName "기", .hanja "己")
-report.strength.verdict.koreanName  // 신강신약 → "중화"             (enum SinStrengthVerdict.JUNGHWA)
-report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum Ohaeng.HWA)
+chart.dayMaster.koreanName          // 일간(나) → "기"
+report.strength.verdict.koreanName  // 신강신약 → "중화"
+report.yongsin.yongsin.koreanName   // 용신     → "화"
 ```
 
-> 모든 도메인/해석 enum 은 `.koreanName`·`.hanja` 표시 라벨을 제공한다 — 한글 매핑을 직접 짤 필요가 없다.
->
-> **식별자 규칙:** enum 상수·타입명은 한국어 발음을 **국어 개정 로마자**(Revised Romanization of Korean)로 옮긴 음차다(예: `Cheongan`=천간, `SipSeong`=십성, `EOKBU`=억부, `GEOLLOK`=건록). 같은 음절·한자어는 항상 같은 철자를 쓴다(ㅓ=eo, 종성 ㅂ=p, ㄴ+ㄹ 유음화=ll). 의미가 필요하면 `.koreanName`/`.hanja` 필드나 KDoc 영문 정의(예: `SipSeong` = Ten Gods)를 보라.
+> 모든 도메인·해석 enum 은 `.koreanName`·`.hanja` 표시 라벨을 제공한다 — 한글 매핑을 직접 짤 필요가 없다.
 
-> 입력은 **법정시(시계 시각)** 그대로. 진태양시 변환은 내부에서 처리한다.
-> 설치: 좌표 `io.github.jaeyeonling:saju-core:0.1.0`(+`saju-korea`·`saju-interpretation`). `maven-publish` 설정 완료 — Central 릴리스 전까지는 `./gradlew publishToMavenLocal` 후 `mavenLocal()` 의존으로, 또는 소스 빌드(`./gradlew build`)로 사용.
+## 설치
+
+아직 Maven Central 미배포(`0.1.0`)다. 로컬 Maven 저장소에 게시해 쓴다:
+
+```bash
+./gradlew publishToMavenLocal   # 1. 로컬에 0.1.0 게시
+```
+
+```kotlin
+// 2. build.gradle.kts
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.jaeyeonling:saju-core:0.1.0")           // 천문 엔진 + 도메인 + 4기둥
+    implementation("io.github.jaeyeonling:saju-korea:0.1.0")          // 한국 시간 보정 (권장 진입점)
+    implementation("io.github.jaeyeonling:saju-interpretation:0.1.0") // 십성·신강신약·용신·격국
+    implementation("io.github.jaeyeonling:saju-serialization:0.1.0")  // (opt-in) JSON 직렬화
+}
+```
+
+> 의존성 없이 소스 빌드만으로도 쓸 수 있다: `./gradlew build`.
+>
+> 저장소명 `bazi`는 명리(사주)의 통칭 八字의 병음 별칭이다. 라이브러리·패키지·아티팩트 정체성은 모두 **`saju`**(한국어)로 통일한다.
 
 ## 사주(四柱)란 무엇인가
 
@@ -85,13 +127,6 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum 
 - **십성**(十星, `SipSeong`) — 일간 대비 다른 글자의 역할 10종(비견=경쟁자, 정재=재물, 정관=직장…).
 - **신강신약**(身強身弱) — 일간이 강한가 약한가. **용신**(用神) — 균형을 돕는 오행. **격국**(格局) — 사주의 짜임새 유형.
 - **대운**(大運) — 10년 단위로 바뀌는 인생의 큰 흐름. **세운**(歲運) — 해마다 바뀌는 그 해의 운.
-
-## 설계 원칙
-
-- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0). 회귀 검증은 체크인된 골든 벡터(외부 라이브러리 tyme4j 출력 동결), 절대 정확도는 Meeus 원전 단위 테스트(태양 황경 ~1″)로 확인.
-- **java.time-free 코어** — `saju-core`는 순수 계산(불변 도메인 + double 율리우스일). 시간대 보정은 `saju-korea` 가 전담. 이 격리가 "베이징 +8h 하드코딩" 오염을 구조적으로 차단한다.
-- **Java·Kotlin 친화** — 불변 `data class` + `@JvmStatic`/`@JvmOverloads`/`@JvmField`.
-- **무상태·스레드세이프** — 모든 진입점이 불변 데이터만 반환하고 공유 가변 상태가 없어, 웹 동시요청에서 락·인스턴스 풀 없이 호출할 수 있다. 천문 계수(VSOP87·ELP·장동)는 클래스 로드 시 1회만 파싱되어 상각되고, 동일 입력의 반복 조회는 소비자가 `(입력)→(결과)` 맵으로 자유롭게 캐싱하면 된다 — 라이브러리가 캐시(=상태)를 들지 않는 것이 무상태 강점을 지키기 위한 **의도된 설계**다.
 
 ## 모듈
 
@@ -136,7 +171,7 @@ import io.github.jaeyeonling.saju.lunar.LunarConverter
 val chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0)                       // 서울 기본
 val busan = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0, Birthplace.BUSAN.longitudeDeg)
 chart.dayMaster              // 일간(나) = Cheongan.GI       (.koreanName "기", .hanja "己")
-chart.year.ganji.koreanName // 연주 = "경오"               (.hanja "庚午")
+chart.year.ganji.koreanName  // 연주 = "경오"               (.hanja "庚午")
 chart.pillars()              // [연, 월, 일, 시] 네 기둥
 
 // ── 2. 해석 한 번에 ──
@@ -150,7 +185,7 @@ report.sibiUnseong                 // 십이운성 Map<PillarPosition, SibiUnseo
 // ── 3. 대운 (10년 단위 인생 흐름) ──
 val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
 daeun.first().startAge    // 7 (세부터 시작)
-daeun.first().ganji      // 경진
+daeun.first().ganji       // 경진
 
 // ── 4. 음력 생일 입력 / 음↔양 변환 ──
 val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)
@@ -185,32 +220,33 @@ report.getYongsin().getYongsin().getKoreanName();    // 용신 = "화"
 
 ### `Interpretation.of(chart)` 가 담는 7가지
 
-한 번의 호출로 아래 7개 해석이 한꺼번에 나온다:
+한 번의 호출로 **신강신약·용신·격국·공망·합충·오행분포·십이운성** 7종이 한꺼번에 나온다.
+각 필드의 타입·접근법은 **[API 치트시트](docs/api.md)** 에 한 장으로 정리돼 있다.
 
-| 필드 | 타입 | 의미 | 접근 예 |
-|------|------|------|---------|
-| `strength` | `SinStrength` | **신강신약** — 일간이 강한가 약한가 | `.verdict`(극신강~극신약) · `.supportRatio`(0~1, 0.45~0.55=중화·≥0.55 신강·<0.45 신약) |
-| `yongsin` | `YongsinResult` | **용신** — 균형을 돕는 오행 | `.yongsin`(오행) · `.method`(억부/조후) |
-| `gyeokguk` | `GyeokgukResult` | **격국** — 사주의 짜임새 유형 | `.type`(편관격 등) · `.basis` |
-| `gongmang` | `Pair<Jiji, Jiji>` | **공망** — 작용력이 빈 지지 2개 | `.first` · `.second` |
-| `hapChung` | `List<HapChungRelation>` | **합충** — 글자끼리의 결합·충돌 | `.size`, `filterIsInstance` |
-| `ohaeng` | `OhaengDistribution` | **오행 분포** — 8글자의 오행 개수 | `.count(목)` · `.dominant()` |
-| `sibiUnseong` | `Map<PillarPosition, SibiUnseong>` | **십이운성** — 기둥별 기운 단계 | `.getValue(YEAR)` |
+> ⚠️ **해석의 정확도 한계** — 신강신약·용신·격국은 정답 데이터셋이 없어 **결정론성만 보장**한다(정확도 보장 아님). 가중치·규칙의 근거는 각 KDoc에 명시돼 있다. 천문·도출(절기·4기둥)이 골든+Meeus로 검증되는 것과는 보증 수준이 다르다.
 
-> 전체 공개 API(진입점·타입·enum·학파 스위치)는 **[API 치트시트](docs/api.md)** 한 장으로.
+> **식별자 규칙** — enum 상수·타입명은 한국어 발음을 **국어 개정 로마자**(Revised Romanization)로 옮긴 음차다(예: `Cheongan`=천간, `SipSeong`=십성, `EOKBU`=억부, `GEOLLOK`=건록). 같은 음절·한자어는 항상 같은 철자를 쓴다(ㅓ=eo, 종성 ㅂ=p, ㄴ+ㄹ 유음화=ll). 의미가 필요하면 `.koreanName`/`.hanja` 필드나 KDoc 영문 정의(예: `SipSeong` = Ten Gods)를 보라.
 
 ## 빌드
 
 ```bash
-./gradlew build      # 컴파일 + 테스트 + 아키텍처 검증(java.time-free)
+./gradlew build           # 컴파일 + 테스트 + 아키텍처 검증(java.time-free) + 커버리지 게이트
 ./gradlew :saju-cli:run   # 데모: 생년월일시 → 8글자 + 해석 + 대운
 ```
 
-요구사항: JDK 17+ (toolchain 자동 프로비저닝). 로컬 검증은 JDK 21에서 수행.
+- 요구사항: JDK 17+ (toolchain 자동 프로비저닝). 로컬 검증은 JDK 21에서 수행.
+- 포맷은 ktlint — 커밋 전 `./gradlew ktlintFormat`, 검증은 `./gradlew ktlintCheck`(로컬 `build`에 포함).
 
-## 검증 (골든 회귀)
+## 설계 원칙
 
-자체 천문 엔진(VSOP87/Meeus)을 **외부 만세력 라이브러리 [tyme4j](https://github.com/6tail/tyme4j) 출력에서 추출해 체크인한 골든 벡터**(`*/src/test/resources/golden/`)와 대조해 회귀 검증한다. tyme4j 도 VSOP87 계열이라 자체 엔진과 수학 계보를 일부 공유하므로, 이 골든은 *두 구현의 분 단위 합치*를 박제한 것이다 — 정설 천문학에 대한 **절대 앵커는 Meeus 원전 단위 테스트**(태양 황경 ~1″)가 맡는다. 골든은 런타임·테스트 의존성 없이 회귀를 막는다:
+- **자체 천문 엔진** — 24절기·삭망을 VSOP87/Meeus 기반으로 직접 계산(런타임 의존성 0).
+- **java.time-free 코어** — `saju-core`는 순수 계산(불변 도메인 + double 율리우스일), 시간대 보정은 `saju-korea`가 전담. 이 격리가 "베이징 +8h 하드코딩" 오염을 구조적으로 차단한다.
+- **Java·Kotlin 친화** — 불변 `data class` + `@JvmStatic`/`@JvmOverloads`/`@JvmField`.
+- **무상태·스레드세이프** — 모든 진입점이 불변 데이터만 반환하고 공유 가변 상태가 없어, 웹 동시요청에서 락·인스턴스 풀 없이 호출할 수 있다.
+
+## 검증
+
+자체 천문 엔진(VSOP87/Meeus)을 **이중 검증**한다 — 외부 만세력 [tyme4j](https://github.com/6tail/tyme4j) 출력을 동결한 골든 벡터(`*/src/test/resources/golden/`)로 회귀를 막고, 천문 정확도의 절대 앵커는 Meeus 원전 단위 테스트(태양 황경 ~1″)가 맡는다. 골든은 런타임·테스트 의존성 없이 회귀를 잡는다.
 
 | 영역 | 골든 결과 |
 |------|-----------|
@@ -218,29 +254,25 @@ report.getYongsin().getYongsin().getKoreanName();    // 용신 = "화"
 | 4기둥(1900~2050, 609표본) | 연·월·일·시주 **완전 일치**(베이징 기준 — 한국 보정 경로는 `KoreanCorrectionTest` 가 별도 검증) |
 | 천간·지지·60갑자 속성 | 전수 일치 |
 | 십성 100조합 / 십이운성 120조합 / 지장간 | 일치 |
-| 대운 방향·간지 | 일치 (대운수는 3일=1세 기준 ±1; 양력새해 교차식 시작나이 정의와는 달라 최대 2세 차) |
-| 음↔양력 변환(1900~2050) | 대부분 정확, 자정경계 ±1일 극소수* |
+| 대운 방향·간지 | 일치 (대운수는 3일=1세 기준 ±1) |
+| 음↔양력 변환(1900~2050) | 대부분 정확, 자정경계 ±1일 극소수\* |
 
-*삭이 자정 ±5분에 드는 극경계는 자체 엔진과 tyme4j(둘 다 VSOP87 계열)의 한계로 중국 농력과 ±1일 갈릴 수 있다. 한국 기준(KASI, KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
+\* 삭이 자정 ±5분 극경계에 들면 자체 엔진·tyme4j(둘 다 VSOP87 계열) 한계로 ±1일 갈릴 수 있다. 한국 기준(KASI·KST)은 중국(베이징)과 의도적으로 다를 수 있다(예: 2017 윤달).
 
-**지원 입력 범위는 1900~2100**이다. 위 골든 검증 구간(절기·4기둥 1900~2050, 음력 1900~2099) 밖의 입력도 가드를 통과하며 천문 다항식 외삽으로 분 단위 정밀도를 기대하나, 골든 대조가 없는 구간임을 밝혀 둔다.
+**지원 입력 범위는 1900~2100.** 골든 검증 구간(절기·4기둥 1900~2050, 음력 1900~2099) 밖의 입력도 가드를 통과하며 천문 다항식 외삽으로 분 단위 정밀도를 기대하나, 골든 대조가 없는 구간이다.
 
-신강신약·용신·격국은 정답 데이터셋이 없어 결정론성만 보장하며(정확도 보장 아님), 가중치·규칙은 KDoc에 근거를 명시한다.
+> CI는 JDK 17·21 매트릭스에서 빌드+테스트+아키텍처 검증(java.time-free)+커버리지 게이트(LINE 80%/BRANCH 60%)를 돌린다. CodeQL 보안 스캔은 public 전환 시 자동 활성화된다.
 
 ## 로드맵
 
-- [x] **P0** 멀티모듈 스캐폴딩 + java.time-free 강제 + CI
-- [x] **P1** 천문 엔진(절기·황경·ΔT·균시차, ~1″ 정밀도)
-- [x] **P2** 기본 도메인(천간·지지·60갑자, 인덱스 산술)
-- [x] **P3** 4기둥 도출(연·월·일·시주)
-- [x] **P4** 한국 시간 보정(진태양시·표준시 연혁·서머타임)
-- [x] **P5** 대운·세운
-- [x] **P6** 해석: 십성·합충·공망·오행분포
-- [x] **P7** 학파 전략: 십이운성·신강신약·용신·격국 + 자시
-- [x] **P8** Java interop + CLI 데모 + 문서
-- [x] 음력 입력 지원(삭·무중치윤·음양력 변환, 한국/중국 기준)
-- [ ] Maven Central 릴리스 (`maven-publish`·POM·sources/javadoc jar 설정 완료 — GPG 서명·태그·Sonatype 자격증명 연결 대기)
+- [ ] Maven Central 릴리스 (예정)
+
+<details>
+<summary>완료된 마일스톤 (v0.1)</summary>
+
+코어(천문 엔진·24절기·삭·4기둥·대운/세운) · 한국 시간 보정(진태양시·표준시 연혁·서머타임·자시) · 해석(십성·합충·공망·오행분포·신강신약·용신·격국·십이운성) · 음력 입력(삭·무중치윤·음↔양력 변환, 한국/중국 기준) · Java interop · CLI 데모 · java.time-free 아키텍처 강제 + CI.
+</details>
 
 ## 라이선스
 
-[MIT](LICENSE). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조한다. 골든 테스트 벡터(`*/src/test/resources/golden/*.csv`)는 [tyme4j](https://github.com/6tail/tyme4j)(MIT) 출력을 동결한 테스트 픽스처로, 배포 산출물에는 포함되지 않는다. 자세한 제3자 고지는 [LICENSE](LICENSE) 참조.
+[MIT](LICENSE). 천문 알고리즘은 Jean Meeus _Astronomical Algorithms_ 및 공개 VSOP87 계수를 참조한다. 골든 테스트 벡터(`*/src/test/resources/golden/*.csv`)는 [tyme4j](https://github.com/6tail/tyme4j)(MIT) 출력을 동결한 테스트 픽스처로, 배포 산출물에는 포함되지 않는다. 제3자 고지 전문은 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) 참조.
