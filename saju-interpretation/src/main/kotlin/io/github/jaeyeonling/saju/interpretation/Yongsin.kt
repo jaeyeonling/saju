@@ -41,38 +41,71 @@ public interface YongsinStrategy {
 }
 
 /**
- * 억부(抑扶) 용신 — 신강이면 일간 기운을 빼는 오행(식상=내가 생하는 것), 신약이면 돕는 오행(인성=나를 생하는 것).
+ * 억부(抑扶) 용신 — 신강이면 과한 세력을 누르고, 신약이면 부족을 메우는 오행. **무엇이 과한가**로 분기한다.
  *
- * 단순화한 기본 구현(디자인 결정). 실제 억부는 가장 약한 길신을 고르는 등 더 정교하다.
+ * [심화 p219] 억부 분기표:
+ * - 신강: 비겁과다→관성(극제) / 인성과다→재성(재극인) / 균형→식상(설기)
+ * - 신약·중화: 관성과다→인성(설기+생조) / 재성과다→비겁(재 극) / 식상과다→인성(제어)
+ *
+ * 입력은 [SinStrength.groupScores](십성 5묶음 세력). 정설 정답 없는 영역이라 학파차가 있고, [basis] 로 근거를 노출한다.
+ * (groupScores 가 비면 균형/생조로 폴백 — 단순 구현과 동일 동작)
  */
 public object EokbuYongsinStrategy : YongsinStrategy {
     override fun derive(
         chart: SajuChart,
         strength: SinStrength,
     ): YongsinResult {
-        val dayOhaeng = chart.dayMaster.ohaeng
+        val day = chart.dayMaster.ohaeng
+        // 일간 기준 오행 역할 (상생상극 산술로 도출).
+        val bigeop = day // 비겁: 같은 오행
+        val siksang = day.generates() // 식상: 내가 생함
+        val jaeseong = day.controls() // 재성: 내가 극함
+        val gwanseong = day.controlledBy() // 관성: 나를 극함
+        val inseong = day.generatedBy() // 인성: 나를 생함
+
+        fun score(group: SipSeongGroup): Double = strength.groupScores[group] ?: 0.0
         val pct = "%.0f".format(strength.supportRatio * 100)
-        val (yongsin, basis) =
+
+        val (yongsin, reason) =
             if (strength.verdict.isStrong) {
-                val y = dayOhaeng.generates() // 신강 → 설기(식상)
-                y to "${strength.verdict.koreanName}($pct%) · 일간 ${label(dayOhaeng)} 설기 → 식상 ${label(y)}"
+                val bg = score(SipSeongGroup.BIGEOP)
+                val ins = score(SipSeongGroup.INSEONG)
+                when {
+                    bg > ins -> gwanseong to "비겁과다(비겁 ${f(bg)} > 인성 ${f(ins)}) → 관성 ${label(gwanseong)} 극제"
+                    ins > bg -> jaeseong to "인성과다(인성 ${f(ins)} > 비겁 ${f(bg)}) → 재성 ${label(jaeseong)} 재극인"
+                    else -> siksang to "비겁·인성 균형 → 식상 ${label(siksang)} 설기"
+                }
             } else {
-                val y = dayOhaeng.generatedBy() // 신약 → 생조(인성)
-                y to "${strength.verdict.koreanName}($pct%) · 일간 ${label(dayOhaeng)} 생조 → 인성 ${label(y)}"
+                val gw = score(SipSeongGroup.GWANSEONG)
+                val ja = score(SipSeongGroup.JAESEONG)
+                val sik = score(SipSeongGroup.SIKSANG)
+                val maxDrain = maxOf(gw, ja, sik)
+                when {
+                    maxDrain == 0.0 -> inseong to "일간 ${label(day)} 생조 → 인성 ${label(inseong)}"
+                    gw == maxDrain -> inseong to "관성과다(관성 ${f(gw)}) → 인성 ${label(inseong)} 설기·생조"
+                    ja == maxDrain -> bigeop to "재성과다(재성 ${f(ja)}) → 비겁 ${label(bigeop)} 재극"
+                    else -> inseong to "식상과다(식상 ${f(sik)}) → 인성 ${label(inseong)} 제어"
+                }
             }
-        return YongsinResult(yongsin, YongsinMethod.EOKBU, basis)
+        return YongsinResult(yongsin, YongsinMethod.EOKBU, "${strength.verdict.koreanName}($pct%) · $reason")
     }
 }
 
 /** 오행 표시 라벨 — "목(木)". */
 private fun label(ohaeng: Ohaeng): String = "${ohaeng.koreanName}(${ohaeng.hanja})"
 
+/** 세력 점수 표시 — "4.2". */
+private fun f(score: Double): String = "%.1f".format(score)
+
 /**
  * 조후(調候) 용신 — 신강신약과 무관하게 월령(계절)의 치우친 한난조습을 중화한다.
  *
  * 단순 한난 이분: 한(寒) 계열(봄·겨울 寅卯辰亥子丑)은 火로 데우고, 난조(暖燥) 계열(여름·가을)은 水로 식힌다.
- * (한목향양·금수상관 등 통념의 골격만 취한 단순화 — 일간별 정밀 조후표는 후속)
- * ※ 申酉(가을)→水 일괄 처리는 금수상관 火喜 등과 어긋날 수 있는 contestable 영역(정설 정답 아님).
+ * (한목향양·금수상관 등 통념의 골격만 취한 단순화 — 일간별 정밀 조후표(궁통보감 120)는 미도입)
+ *
+ * ※ 중간계절(봄 寅卯辰·가을 申酉戌)의 조후는 약하다 — [CompositeYongsinStrategy] 는 기후 극단(여름·겨울)에서만
+ *   조후를 우선하고 그 외엔 억부를 쓴다. 申酉(가을)→水 일괄 단정은 그 자체로 contestable 하나(금수상관 火喜 등),
+ *   합성 전략 경로에서는 가을 사주가 억부로 가므로 영향이 제한된다. [기초 p277] 조후 우선순위는 학파 의존(참고).
  */
 public object JohuYongsinStrategy : YongsinStrategy {
     override fun derive(
@@ -91,29 +124,33 @@ public object JohuYongsinStrategy : YongsinStrategy {
 }
 
 /**
- * 합성(合成) 용신 — 여러 용신법을 우선순위로 절충한다(한국 실무는 억부+조후 병용이 주류).
+ * 합성(合成) 용신 — **억부 우선, 조후 보완** [격국 p391].
  *
- * **세력**이 극단(극신강·극신약)이면 [primary](억부)가 급하고, 중화 근처면 [secondary](조후)로 보완한다.
- * 우선순위(어느 법을 먼저 보느냐)가 곧 학파 선택이다.
+ * 월령이 기후 극단(여름 巳午未·겨울 亥子丑)이면 한난조습 균형이 급하므로 [joho](조후)를 우선하고,
+ * 그 외(봄 寅卯辰·가을 申酉戌)는 [eokbu](억부)로 세력을 본다. 이로써 "가을 금월을 일괄 水로 보는"
+ * 조후의 과적용을 피한다 — 분기 축이 세력(verdict)이 아니라 **기후(월령)** 라야 조후의 본래 정의와 맞다.
  *
- * ※ 정설 조후위급은 '기후 극단'을 분기 기준으로 삼지만, 이 구현은 verdict(세력 극단)로 근사한 것이다
- *   — 세력 축과 기후 축은 직교하므로(자월 사주라도 세력은 중화일 수 있음) 명리 정설의 충실한 인코딩은 아니다.
+ * ※ 억부 vs 조후 우선순위는 학파마다 다르다(저자도 단정 회피, [기초 p277]) — 기후 극단 기준은 한 입장의 인코딩이다.
  */
 public class CompositeYongsinStrategy
     @JvmOverloads
     constructor(
-        private val primary: YongsinStrategy = EokbuYongsinStrategy,
-        private val secondary: YongsinStrategy = JohuYongsinStrategy,
+        private val eokbu: YongsinStrategy = EokbuYongsinStrategy,
+        private val joho: YongsinStrategy = JohuYongsinStrategy,
     ) : YongsinStrategy {
         override fun derive(
             chart: SajuChart,
             strength: SinStrength,
         ): YongsinResult =
-            if (strength.verdict == SinStrengthVerdict.GEUKSIN_GANG ||
-                strength.verdict == SinStrengthVerdict.GEUKSIN_YAK
-            ) {
-                primary.derive(chart, strength)
+            if (chart.month.ji in CLIMATE_EXTREME_BRANCHES) {
+                joho.derive(chart, strength)
             } else {
-                secondary.derive(chart, strength)
+                eokbu.derive(chart, strength)
             }
+
+        private companion object {
+            // 기후 극단 월령 — 여름(巳午未) 화왕·겨울(亥子丑) 수왕. 조후가 억부보다 급한 구간.
+            private val CLIMATE_EXTREME_BRANCHES =
+                setOf(Jiji.SA, Jiji.O, Jiji.MI, Jiji.HAE, Jiji.JA, Jiji.CHUK)
+        }
     }

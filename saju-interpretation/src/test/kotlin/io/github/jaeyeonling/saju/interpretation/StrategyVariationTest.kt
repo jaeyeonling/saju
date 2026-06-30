@@ -50,11 +50,57 @@ class StrategyVariationTest : StringSpec({
         withClue("유월(가을)→수") { johu(Jiji.YU) shouldBe Ohaeng.SU }
     }
 
-    "합성 용신 — 극단은 억부, 중화는 조후로 분기 (핀값)" {
-        val winter = chartWithMonth(Jiji.JA)
-        val composite = CompositeYongsinStrategy()
-        composite.derive(winter, SinStrength(0.5, SinStrengthVerdict.JUNGHWA)).method shouldBe YongsinMethod.JOHU
-        composite.derive(winter, SinStrength(0.9, SinStrengthVerdict.GEUKSIN_GANG)).method shouldBe YongsinMethod.EOKBU
+    "합성 용신 — 기후 극단(여름·겨울)은 조후, 중간계절(봄·가을)은 억부 (핀값)" {
+        // 분기 축이 세력(verdict)이 아니라 월령 기후 — '억부 우선, 조후 보완'의 인코딩.
+        fun method(monthJi: Jiji): YongsinMethod {
+            val chart = chartWithMonth(monthJi)
+            return CompositeYongsinStrategy().derive(chart, EokbuSinStrengthStrategy.DEFAULT.evaluate(chart)).method
+        }
+        withClue("자월(겨울)→조후") { method(Jiji.JA) shouldBe YongsinMethod.JOHU }
+        withClue("오월(여름)→조후") { method(Jiji.O) shouldBe YongsinMethod.JOHU }
+        withClue("인월(봄)→억부") { method(Jiji.IN) shouldBe YongsinMethod.EOKBU }
+        withClue("유월(가을)→억부 (申酉 일괄 水 회피)") { method(Jiji.YU) shouldBe YongsinMethod.EOKBU }
+    }
+
+    "억부 분기 — 신강/신약 × 과다 세력별 용신 (손계산 앵커)" {
+        // 일간 정(丁·火): 비겁=화, 식상=토, 재성=금, 관성=수, 인성=목.
+        val chart = fireDayChart()
+
+        fun yong(
+            verdict: SinStrengthVerdict,
+            groups: Map<SipSeongGroup, Double>,
+        ): Ohaeng = EokbuYongsinStrategy.derive(chart, SinStrength(0.5, verdict, "", groups)).yongsin
+
+        withClue("신강 비겁과다 → 관성(수)") {
+            val g = mapOf(SipSeongGroup.BIGEOP to 5.0, SipSeongGroup.INSEONG to 1.0)
+            yong(SinStrengthVerdict.SIN_GANG, g) shouldBe Ohaeng.SU
+        }
+        withClue("신강 인성과다 → 재성(금)") {
+            val g = mapOf(SipSeongGroup.BIGEOP to 1.0, SipSeongGroup.INSEONG to 5.0)
+            yong(SinStrengthVerdict.SIN_GANG, g) shouldBe Ohaeng.GEUM
+        }
+        withClue("신강 비겁·인성 균형 → 식상(토)") {
+            val g = mapOf(SipSeongGroup.BIGEOP to 3.0, SipSeongGroup.INSEONG to 3.0)
+            yong(SinStrengthVerdict.SIN_GANG, g) shouldBe Ohaeng.TO
+        }
+        withClue("신약 관성과다 → 인성(목)") {
+            yong(
+                SinStrengthVerdict.SIN_YAK,
+                mapOf(SipSeongGroup.GWANSEONG to 5.0, SipSeongGroup.JAESEONG to 1.0, SipSeongGroup.SIKSANG to 1.0),
+            ) shouldBe Ohaeng.MOK
+        }
+        withClue("신약 재성과다 → 비겁(화)") {
+            yong(
+                SinStrengthVerdict.SIN_YAK,
+                mapOf(SipSeongGroup.JAESEONG to 5.0, SipSeongGroup.GWANSEONG to 1.0, SipSeongGroup.SIKSANG to 1.0),
+            ) shouldBe Ohaeng.HWA
+        }
+        withClue("신약 식상과다 → 인성(목)") {
+            yong(
+                SinStrengthVerdict.SIN_YAK,
+                mapOf(SipSeongGroup.SIKSANG to 5.0, SipSeongGroup.GWANSEONG to 1.0, SipSeongGroup.JAESEONG to 1.0),
+            ) shouldBe Ohaeng.MOK
+        }
     }
 
     "투출 격국과 자평 격국은 투출 여부로 갈린다 (핀값)" {
@@ -168,6 +214,15 @@ private fun chartWithMonth(monthJi: Jiji): SajuChart =
         year = Pillar(PillarPosition.YEAR, Ganji.fromIndex(0)),
         month = Pillar(PillarPosition.MONTH, Ganji(Cheongan.fromIndex(monthJi.ordinal % 2), monthJi)),
         day = Pillar(PillarPosition.DAY, Ganji(Cheongan.GAP, Jiji.JA)),
+        hour = Pillar(PillarPosition.HOUR, Ganji.fromIndex(0)),
+    )
+
+// 일간을 정(丁·火)으로 고정 — 억부 분기는 dayMaster 오행 + 주입한 groupScores 로만 결정되므로 나머지 기둥은 무관.
+private fun fireDayChart(): SajuChart =
+    SajuChart(
+        year = Pillar(PillarPosition.YEAR, Ganji.fromIndex(0)),
+        month = Pillar(PillarPosition.MONTH, Ganji.fromIndex(0)),
+        day = Pillar(PillarPosition.DAY, Ganji(Cheongan.JEONG, Jiji.MYO)), // 정묘 — 일간 정(火)
         hour = Pillar(PillarPosition.HOUR, Ganji.fromIndex(0)),
     )
 

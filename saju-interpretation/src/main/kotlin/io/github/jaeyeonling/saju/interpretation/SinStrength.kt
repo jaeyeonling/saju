@@ -28,11 +28,15 @@ public enum class SinStrengthVerdict(
  *
  * [basis] 는 산출 근거(돕는 세력 점수·전체 점수·가중 정책). 용신이 이 판정에 종속되므로,
  * 근거를 노출해 "단순 합산"이 아니라 월령·지장간 차등 가중임을 드러낸다(소비자/LLM 검증용).
+ *
+ * [groupScores] 는 십성 5묶음(비겁·식상·재성·관성·인성)별 가중 세력 점수다. 억부 용신이
+ * "무엇이 과한가"로 분기할 때의 입력이며(예: 비겁과다→관성용), 합은 [전체 세력][basis]과 같다.
  */
 public data class SinStrength(
     public val supportRatio: Double,
     public val verdict: SinStrengthVerdict,
     public val basis: String = "",
+    public val groupScores: Map<SipSeongGroup, Double> = emptyMap(),
 )
 
 /**
@@ -88,38 +92,35 @@ public class EokbuSinStrengthStrategy
             val dayMaster = chart.dayMaster
             var support = 0.0
             var total = 0.0
+            val groupScores = SipSeongGroup.entries.associateWith { 0.0 }.toMutableMap()
+            // 세력 1점을 돕는 세력 합·전체 합·십성 묶음별 합에 동시 반영(한 곳에서 누적).
+            val accumulate: (Double, Double, SipSeongGroup) -> Unit = { s, t, g ->
+                support += s
+                total += t
+                groupScores[g] = groupScores.getValue(g) + t
+            }
 
             for (pillar in chart.pillars()) {
                 val pillarWeight = if (pillar.position == PillarPosition.MONTH) weights.month else 1.0
                 // 일주의 천간(나 자신)은 세력 계산에서 제외.
                 if (pillar.position != PillarPosition.DAY) {
-                    add(SipSeong.of(dayMaster, pillar.gan), pillarWeight) { s, t ->
-                        support += s
-                        total += t
-                    }
+                    add(SipSeong.of(dayMaster, pillar.gan), pillarWeight, accumulate)
                 }
                 // 지장간 본기·중기·여기를 차등 가중으로 반영(연속 ratio → 5단계 verdict 모두 도달 가능).
                 val hidden = hiddenStems.of(pillar.ji)
-                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi) { s, t ->
-                    support += s
-                    total += t
-                }
-                hidden.midQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi) { s, t ->
-                        support += s
-                        total += t
-                    }
-                }
+                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi, accumulate)
+                hidden.midQi?.let { add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi, accumulate) }
                 hidden.residualQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.residualQi) { s, t ->
-                        support += s
-                        total += t
-                    }
+                    add(
+                        SipSeong.of(dayMaster, it),
+                        pillarWeight * weights.residualQi,
+                        accumulate,
+                    )
                 }
             }
 
             val ratio = if (total > 0.0) support / total else NEUTRAL
-            return SinStrength(ratio, verdictOf(ratio), basisOf(support, total, ratio))
+            return SinStrength(ratio, verdictOf(ratio), basisOf(support, total, ratio), groupScores.toMap())
         }
 
         /** 산출 근거 — 돕는 세력 점수·전체 점수·가중 정책을 한 줄로(LLM 검증용). */
@@ -136,14 +137,14 @@ public class EokbuSinStrengthStrategy
         private fun fmtWeight(w: Double): String =
             if (w == w.toLong().toDouble()) w.toLong().toString() else w.toString()
 
-        /** 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total 에 가산. */
+        /** 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total, 묶음은 [SipSeong.group] 에 가산. */
         private inline fun add(
             sipSeong: SipSeong,
             weight: Double,
-            accumulate: (Double, Double) -> Unit,
+            accumulate: (Double, Double, SipSeongGroup) -> Unit,
         ) {
             val support = if (isSupport(sipSeong)) weight else 0.0
-            accumulate(support, weight)
+            accumulate(support, weight, sipSeong.group)
         }
 
         // 일간을 돕는 세력 = 비겁(같은 오행) + 인성(나를 생함).
