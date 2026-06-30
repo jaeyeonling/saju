@@ -46,13 +46,17 @@ public data class SajuChartDto(
     public val dayMaster: CheonganDto,
 )
 
-/** 신강신약 — verdict(영문 enum)·verdictKorean·supportRatio(0~1, 0.45~0.55=중화)·basis(산출 근거). */
+/**
+ * 신강신약 — verdict(영문 enum)·verdictKorean·supportRatio(0~1, 0.45~0.55=중화)·basis(산출 근거).
+ * groupScores 는 십성 5묶음(비겁·식상·재성·관성·인성)별 세력 점수 — 억부 용신 분기의 입력.
+ */
 @Serializable
 public data class SinStrengthDto(
     public val verdict: String,
     public val verdictKorean: String,
     public val supportRatio: Double,
     public val basis: String = "",
+    public val groupScores: Map<String, Double> = emptyMap(),
 )
 
 /** 용신 — ohaeng(한글)·method(영문 enum)·methodKorean·basis(왜 이 오행인가). */

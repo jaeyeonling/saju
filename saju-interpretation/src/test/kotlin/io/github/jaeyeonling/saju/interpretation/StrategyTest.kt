@@ -13,6 +13,7 @@ import io.github.jaeyeonling.saju.domain.SajuChart
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 
@@ -62,10 +63,22 @@ class StrategyTest : StringSpec({
         }
         val yongsin = EokbuYongsinStrategy.derive(chart, strength)
         withClue("억부 용신 basis: ${yongsin.basis}") {
-            yongsin.basis.shouldContain(if (strength.verdict.isStrong) "설기" else "생조")
+            yongsin.basis.shouldContain(strength.verdict.koreanName) // 판정 포함
+            yongsin.basis.shouldContain("→") // 분기 결과 표기
         }
         withClue("조후 용신 basis: ${JohuYongsinStrategy.derive(chart, strength).basis}") {
             JohuYongsinStrategy.derive(chart, strength).basis.shouldContain("조후")
+        }
+    }
+
+    "신강신약 groupScores 는 십성 5묶음 세력을 보존한다 (비겁+인성 / 전체 = 지원율)" {
+        val strength = EokbuSinStrengthStrategy.DEFAULT.evaluate(sampleChart())
+        strength.groupScores.keys shouldBe SipSeongGroup.entries.toSet()
+        val support =
+            strength.groupScores.getValue(SipSeongGroup.BIGEOP) + strength.groupScores.getValue(SipSeongGroup.INSEONG)
+        val total = strength.groupScores.values.sum()
+        withClue("비겁+인성 / 전체 = supportRatio") {
+            (support / total) shouldBe (strength.supportRatio plusOrMinus 1e-9)
         }
     }
 

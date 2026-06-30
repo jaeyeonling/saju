@@ -66,6 +66,7 @@ public fun SinStrength.toDto(): SinStrengthDto =
         verdictKorean = verdict.koreanName,
         supportRatio = supportRatio,
         basis = basis,
+        groupScores = groupScores.entries.associate { (group, score) -> group.koreanName to score },
     )
 
 public fun YongsinResult.toDto(): YongsinDto =

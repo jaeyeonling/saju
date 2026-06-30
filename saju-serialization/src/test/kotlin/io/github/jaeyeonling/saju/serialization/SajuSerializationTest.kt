@@ -39,6 +39,9 @@ class SajuSerializationTest : StringSpec({
         // 산출 근거(basis)가 신강신약·용신에 노출된다 — LLM 검증용.
         dto.strength.basis shouldContain "가중"
         dto.yongsin.basis.isNotBlank() shouldBe true
+        // 십성 5묶음 세력(억부 분기 입력)이 직렬화된다.
+        dto.strength.groupScores shouldContainKey "비겁"
+        dto.strength.groupScores.size shouldBe 5
 
         val back = sajuJson.decodeFromString<InterpretationReportDto>(report.toJson())
         back.gongmang shouldBe dto.gongmang
