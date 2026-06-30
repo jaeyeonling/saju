@@ -8,6 +8,7 @@ import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
+import io.github.jaeyeonling.saju.interpretation.HapChungRelation
 import io.github.jaeyeonling.saju.interpretation.Interpretation
 import io.github.jaeyeonling.saju.interpretation.InterpretationReport
 import io.github.jaeyeonling.saju.interpretation.OhaengDistribution
@@ -164,6 +165,8 @@ internal fun render(
         appendLine()
         append(renderPillars(chart, report))
         appendLine()
+        append(renderHiddenSipSeong(report))
+        appendLine()
         append(renderInterpretation(report))
         appendLine()
         append(renderSeun(seunYear, chart.dayMaster))
@@ -233,8 +236,11 @@ private fun renderInterpretation(report: InterpretationReport): String =
                 report.strength.verdict,
             )} (지원율 ${"%.0f".format(report.strength.supportRatio * 100)}%)",
         )
+        appendLine("         └ ${report.strength.basis}")
         appendLine("용신     : ${ohaengKorean(report.yongsin.yongsin)} (${report.yongsin.method.koreanName})")
+        appendLine("         └ ${report.yongsin.basis}")
         appendLine("격국     : ${report.gyeokguk.type.koreanName}")
+        appendLine("         └ ${report.gyeokguk.basis}")
         appendLine("공망     : ${jiKorean(report.gongmang.first)}${jiKorean(report.gongmang.second)}")
         val unseong =
             PillarPosition.entries.joinToString(" · ") {
@@ -245,13 +251,41 @@ private fun renderInterpretation(report: InterpretationReport): String =
         appendLine("오행(표면)   : ${ohaengLine(report.ohaeng)}")
         appendLine("오행(지장간) : ${ohaengLine(report.ohaengWeighted)}")
         if (report.hapChung.isNotEmpty()) {
-            appendLine("합충     : ${report.hapChung.size}건")
+            appendLine("합충     : ${hapChungLine(report.hapChung)}")
         }
         appendLine()
         appendLine(
             "· 신강신약=일간이 강한가 약한가 · 용신=균형을 돕는 오행 · 격국=사주의 짜임새 · " +
                 "공망=작용력이 빈 지지 · 십이운성=일간이 지지에서 갖는 기운 단계 · 신살=지지에 깃든 길흉 표식",
         )
+    }
+
+/** 합충 상세 — "천간합(신-병→수) · 육합(사-신)". serialization 의 toDto 평탄화를 재사용. */
+private fun hapChungLine(relations: List<HapChungRelation>): String =
+    relations.joinToString(" · ") { rel ->
+        val dto = rel.toDto()
+        "${dto.kind}(${dto.members.joinToString("-")}${dto.transformsTo?.let { "→$it" }.orEmpty()})"
+    }
+
+/** 지장간 십성 블록 — 기둥별 본·중·여 글자와 십성(숨은 육친). 시→연 순. */
+private fun renderHiddenSipSeong(report: InterpretationReport): String =
+    buildString {
+        appendLine("───── 지장간 십성 (숨은 육친) ─────")
+        for (pos in listOf(PillarPosition.HOUR, PillarPosition.DAY, PillarPosition.MONTH, PillarPosition.YEAR)) {
+            val hidden = report.hiddenStems.getValue(pos)
+            val ps = report.sipSeong.getValue(pos)
+            val midGan = hidden.midQi
+            val midSip = ps.branchMid
+            val resGan = hidden.residualQi
+            val resSip = ps.branchResidual
+            val parts =
+                buildList {
+                    add("${ganKorean(hidden.mainQi)}(${sipSeongKorean(ps.branchMain)})")
+                    if (midGan != null && midSip != null) add("${ganKorean(midGan)}(${sipSeongKorean(midSip)})")
+                    if (resGan != null && resSip != null) add("${ganKorean(resGan)}(${sipSeongKorean(resSip)})")
+                }
+            appendLine("${positionKorean(pos)}주 : ${parts.joinToString(" · ")}")
+        }
     }
 
 /** 네 기둥 신살 — 위치별로, 없으면 "-". */

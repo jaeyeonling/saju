@@ -46,20 +46,22 @@ public data class SajuChartDto(
     public val dayMaster: CheonganDto,
 )
 
-/** 신강신약 — verdict(영문 enum)·verdictKorean·supportRatio(0~1, 0.45~0.55=중화). */
+/** 신강신약 — verdict(영문 enum)·verdictKorean·supportRatio(0~1, 0.45~0.55=중화)·basis(산출 근거). */
 @Serializable
 public data class SinStrengthDto(
     public val verdict: String,
     public val verdictKorean: String,
     public val supportRatio: Double,
+    public val basis: String = "",
 )
 
-/** 용신 — ohaeng(한글)·method(영문 enum)·methodKorean. */
+/** 용신 — ohaeng(한글)·method(영문 enum)·methodKorean·basis(왜 이 오행인가). */
 @Serializable
 public data class YongsinDto(
     public val ohaeng: String,
     public val method: String,
     public val methodKorean: String,
+    public val basis: String = "",
 )
 
 /** 격국 — type(영문 enum)·typeKorean·basis(근거 설명). */

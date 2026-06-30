@@ -73,7 +73,10 @@ public class JapyeongGyeokgukStrategy
         override fun classify(chart: SajuChart): GyeokgukResult {
             val monthMainQi = hiddenStems.of(chart.month.ji).mainQi
             val sipSeong = SipSeong.of(chart.dayMaster, monthMainQi)
-            return GyeokgukResult(gyeokgukTypeOf(sipSeong), "월지(${chart.month.ji}) 본기 $monthMainQi 의 $sipSeong")
+            return GyeokgukResult(
+                gyeokgukTypeOf(sipSeong),
+                "월지(${chart.month.ji.koreanName}) 본기 ${monthMainQi.koreanName} → ${sipSeong.koreanName}",
+            )
         }
 
         public companion object {
@@ -105,11 +108,17 @@ public class TuchulGyeokgukStrategy
                 }
             return if (tuchul != null) {
                 val sipSeong = SipSeong.of(chart.dayMaster, tuchul)
-                GyeokgukResult(gyeokgukTypeOf(sipSeong), "월지(${chart.month.ji}) 투출 $tuchul 의 $sipSeong")
+                GyeokgukResult(
+                    gyeokgukTypeOf(sipSeong),
+                    "월지(${chart.month.ji.koreanName}) 투출 ${tuchul.koreanName} → ${sipSeong.koreanName}",
+                )
             } else {
                 val mainQi = monthHidden.mainQi
                 val sipSeong = SipSeong.of(chart.dayMaster, mainQi)
-                GyeokgukResult(gyeokgukTypeOf(sipSeong), "월지(${chart.month.ji}) 본기 $mainQi 의 $sipSeong (비겁外 투출 없음)")
+                GyeokgukResult(
+                    gyeokgukTypeOf(sipSeong),
+                    "월지(${chart.month.ji.koreanName}) 본기 ${mainQi.koreanName} → ${sipSeong.koreanName} (비겁外 투출 없음)",
+                )
             }
         }
 

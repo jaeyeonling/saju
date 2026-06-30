@@ -23,10 +23,16 @@ public enum class SinStrengthVerdict(
     public val isStrong: Boolean get() = this == GEUKSIN_GANG || this == SIN_GANG
 }
 
-/** 신강신약 평가 — 일간을 돕는 세력 비율과 판정. */
+/**
+ * 신강신약 평가 — 일간을 돕는 세력 비율과 판정.
+ *
+ * [basis] 는 산출 근거(돕는 세력 점수·전체 점수·가중 정책). 용신이 이 판정에 종속되므로,
+ * 근거를 노출해 "단순 합산"이 아니라 월령·지장간 차등 가중임을 드러낸다(소비자/LLM 검증용).
+ */
 public data class SinStrength(
     public val supportRatio: Double,
     public val verdict: SinStrengthVerdict,
+    public val basis: String = "",
 )
 
 /**
@@ -113,8 +119,22 @@ public class EokbuSinStrengthStrategy
             }
 
             val ratio = if (total > 0.0) support / total else NEUTRAL
-            return SinStrength(ratio, verdictOf(ratio))
+            return SinStrength(ratio, verdictOf(ratio), basisOf(support, total, ratio))
         }
+
+        /** 산출 근거 — 돕는 세력 점수·전체 점수·가중 정책을 한 줄로(LLM 검증용). */
+        private fun basisOf(
+            support: Double,
+            total: Double,
+            ratio: Double,
+        ): String =
+            "돕는 세력(비겁·인성) ${"%.1f".format(support)} / 전체 ${"%.1f".format(total)} = " +
+                "${"%.0f".format(ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
+                "지장간 정기${fmtWeight(weights.mainQi)}·중기${fmtWeight(weights.midQi)}·여기${fmtWeight(weights.residualQi)} 가중"
+
+        /** 가중치 표시 — 정수면 정수로(2.0→"2"), 소수면 그대로(0.4→"0.4"). */
+        private fun fmtWeight(w: Double): String =
+            if (w == w.toLong().toDouble()) w.toLong().toString() else w.toString()
 
         /** 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total 에 가산. */
         private inline fun add(
