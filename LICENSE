@@ -19,21 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
---------------------------------------------------------------------------------
-THIRD-PARTY NOTICES
-
-This project bundles or derives data from the following third-party sources,
-each under its own license. The MIT license above does not alter their terms.
-
-1. VSOP87 planetary theory (Bretagnon & Francou, Bureau des Longitudes).
-   Public-domain astronomical theory. Coefficient tables in
-   `saju-core/src/main/resources/io/github/jaeyeonling/saju/astronomy/` carry
-   their upstream provenance and license in their file headers
-   (commenthol/astronomia, MIT; Sonia Keys, MIT).
-
-2. Golden test vectors in `*/src/test/resources/golden/*.csv` were generated
-   by freezing the output of tyme4j (https://github.com/6tail/tyme4j, MIT) at
-   check-in time. They are test fixtures only and are not shipped in any
-   published artifact.
