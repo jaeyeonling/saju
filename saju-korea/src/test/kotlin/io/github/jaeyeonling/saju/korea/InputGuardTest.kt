@@ -43,6 +43,6 @@ class InputGuardTest : StringSpec({
         // 정자시: 23시→다음날 일주, 야자시: 당일 일주. 학파가 실제로 도달 가능해야 한다.
         val jeongjasi = Saju.fromLocalDateTime(2000, 1, 1, 23, 30, 9.0, SajuConfig(zishi = ZishiPolicy.JEONGJASI))
         val yajasi = Saju.fromLocalDateTime(2000, 1, 1, 23, 30, 9.0, SajuConfig(zishi = ZishiPolicy.YAJASI))
-        withClue("23시 일주가 자시 학파별로 달라야 한다") { jeongjasi.day.ganZhi shouldNotBe yajasi.day.ganZhi }
+        withClue("23시 일주가 자시 학파별로 달라야 한다") { jeongjasi.day.ganji shouldNotBe yajasi.day.ganji }
     }
 })

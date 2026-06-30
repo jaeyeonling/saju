@@ -4,7 +4,7 @@
 package io.github.jaeyeonling.saju.interpretation
 
 import io.github.jaeyeonling.saju.domain.Cheongan
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.JijiHiddenStems
 import io.github.jaeyeonling.saju.domain.Pillar
@@ -60,12 +60,12 @@ class StrategyTest : StringSpec({
                     for (h in 0 until 60 step 17) {
                         val chart =
                             SajuChart(
-                                Pillar(PillarPosition.YEAR, GanZhi.fromIndex(y)),
-                                Pillar(PillarPosition.MONTH, GanZhi.fromIndex(mo)),
-                                Pillar(PillarPosition.DAY, GanZhi.fromIndex(d)),
-                                Pillar(PillarPosition.HOUR, GanZhi.fromIndex(h)),
+                                Pillar(PillarPosition.YEAR, Ganji.fromIndex(y)),
+                                Pillar(PillarPosition.MONTH, Ganji.fromIndex(mo)),
+                                Pillar(PillarPosition.DAY, Ganji.fromIndex(d)),
+                                Pillar(PillarPosition.HOUR, Ganji.fromIndex(h)),
                             )
-                        verdicts.add(BueokSinStrengthStrategy.DEFAULT.evaluate(chart).verdict)
+                        verdicts.add(EokbuSinStrengthStrategy.DEFAULT.evaluate(chart).verdict)
                     }
                 }
             }
@@ -77,12 +77,12 @@ class StrategyTest : StringSpec({
         // 일간 갑목, 주변에 목·수(비겁·인성) 가득 → 신강.
         val strongWood =
             SajuChart(
-                year = Pillar(PillarPosition.YEAR, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자(목/수)
-                month = Pillar(PillarPosition.MONTH, GanZhi(Cheongan.GAB, Jiji.IN)), // 갑인(목/목)
-                day = Pillar(PillarPosition.DAY, GanZhi(Cheongan.GAB, Jiji.JA)), // 갑자
-                hour = Pillar(PillarPosition.HOUR, GanZhi(Cheongan.GYE, Jiji.HAE)), // 계해(수/수)
+                year = Pillar(PillarPosition.YEAR, Ganji(Cheongan.GAP, Jiji.JA)), // 갑자(목/수)
+                month = Pillar(PillarPosition.MONTH, Ganji(Cheongan.GAP, Jiji.IN)), // 갑인(목/목)
+                day = Pillar(PillarPosition.DAY, Ganji(Cheongan.GAP, Jiji.JA)), // 갑자
+                hour = Pillar(PillarPosition.HOUR, Ganji(Cheongan.GYE, Jiji.HAE)), // 계해(수/수)
             )
-        val strength = BueokSinStrengthStrategy.DEFAULT.evaluate(strongWood)
+        val strength = EokbuSinStrengthStrategy.DEFAULT.evaluate(strongWood)
         withClue("목 일간 + 목수 다수 → 신강이어야: ${strength.verdict} (${strength.supportRatio})") {
             strength.verdict.isStrong.shouldBeTrue()
         }
@@ -91,8 +91,8 @@ class StrategyTest : StringSpec({
 
 private fun sampleChart() =
     SajuChart(
-        year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
-        month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(20)),
-        day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(40)),
-        hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(10)),
+        year = Pillar(PillarPosition.YEAR, Ganji.fromIndex(0)),
+        month = Pillar(PillarPosition.MONTH, Ganji.fromIndex(20)),
+        day = Pillar(PillarPosition.DAY, Ganji.fromIndex(40)),
+        hour = Pillar(PillarPosition.HOUR, Ganji.fromIndex(10)),
     )

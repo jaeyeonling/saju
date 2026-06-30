@@ -49,7 +49,7 @@ public interface SinStrengthStrategy {
  * @property junghwa 중화 컷오프.
  * @property sinYak 신약 컷오프(미만은 극신약).
  */
-public data class BueokWeights(
+public data class EokbuWeights(
     public val month: Double = 2.0,
     public val mainQi: Double = 1.0,
     public val midQi: Double = 0.4,
@@ -62,20 +62,20 @@ public data class BueokWeights(
     public companion object {
         /** 한국 통설 기본 가중치. */
         @JvmField
-        public val DEFAULT: BueokWeights = BueokWeights()
+        public val DEFAULT: EokbuWeights = EokbuWeights()
     }
 }
 
 /**
  * 억부(抑扶) 기본 구현 — 일간을 돕는 세력(비겁·인성) vs 빼는 세력(식상·재성·관성)의 비율.
  *
- * 가중치는 [weights](기본 [BueokWeights.DEFAULT]), 지장간 분야표는 [hiddenStems](기본 [StandardHiddenStemTable]).
+ * 가중치는 [weights](기본 [EokbuWeights.DEFAULT]), 지장간 분야표는 [hiddenStems](기본 [StandardHiddenStemTable]).
  * 둘 다 생성자로 주입해 '전략 교체' 없이도 '같은 억부의 파라미터 튜닝'이 가능하다.
  */
-public class BueokSinStrengthStrategy
+public class EokbuSinStrengthStrategy
     @JvmOverloads
     constructor(
-        public val weights: BueokWeights = BueokWeights.DEFAULT,
+        public val weights: EokbuWeights = EokbuWeights.DEFAULT,
         public val hiddenStems: HiddenStemTable = StandardHiddenStemTable,
     ) : SinStrengthStrategy {
         override fun evaluate(chart: SajuChart): SinStrength {
@@ -128,7 +128,7 @@ public class BueokSinStrengthStrategy
 
         // 일간을 돕는 세력 = 비겁(같은 오행) + 인성(나를 생함).
         private fun isSupport(sipSeong: SipSeong): Boolean =
-            sipSeong.group == SipSeongGroup.BIGYEOP || sipSeong.group == SipSeongGroup.INSEONG
+            sipSeong.group == SipSeongGroup.BIGEOP || sipSeong.group == SipSeongGroup.INSEONG
 
         private fun verdictOf(ratio: Double): SinStrengthVerdict =
             when {
@@ -144,6 +144,6 @@ public class BueokSinStrengthStrategy
 
             /** 한국 통설 기본 전략(억부·표준 분야표). */
             @JvmField
-            public val DEFAULT: BueokSinStrengthStrategy = BueokSinStrengthStrategy()
+            public val DEFAULT: EokbuSinStrengthStrategy = EokbuSinStrengthStrategy()
         }
     }

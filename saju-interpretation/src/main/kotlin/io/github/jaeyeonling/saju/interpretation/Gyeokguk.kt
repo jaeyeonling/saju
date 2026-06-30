@@ -6,7 +6,7 @@ import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
 
 /** 격국 유형 10종 — 문자열 대신 타입으로 담아 Java 소비자도 분기할 수 있다. */
 public enum class GyeokgukType(public val koreanName: String) {
-    GEONLOK("건록격"),
+    GEOLLOK("건록격"),
     YANGIN("양인격"),
     SIKSIN("식신격"),
     SANGGWAN("상관격"),
@@ -37,7 +37,7 @@ public interface GyeokgukStrategy {
 /** 십성 → 격 유형. 본기가 비겁인 월지는 녹왕지(건록·양인지)라 건록/양인격으로 본다. */
 private fun gyeokgukTypeOf(sipSeong: SipSeong): GyeokgukType =
     when (sipSeong) {
-        SipSeong.BIGYEON -> GyeokgukType.GEONLOK
+        SipSeong.BIGYEON -> GyeokgukType.GEOLLOK
         SipSeong.GEOPJAE -> GyeokgukType.YANGIN
         SipSeong.SIKSIN -> GyeokgukType.SIKSIN
         SipSeong.SANGGWAN -> GyeokgukType.SANGGWAN
@@ -91,7 +91,7 @@ public class TuchulGyeokgukStrategy
             // 비겁이 아닌 투출만 격으로 채택(비겁 투출은 격이 아니다).
             val tuchul =
                 monthHidden.all().firstOrNull {
-                    it in visibleStems && SipSeong.of(chart.dayMaster, it).group != SipSeongGroup.BIGYEOP
+                    it in visibleStems && SipSeong.of(chart.dayMaster, it).group != SipSeongGroup.BIGEOP
                 }
             return if (tuchul != null) {
                 val sipSeong = SipSeong.of(chart.dayMaster, tuchul)

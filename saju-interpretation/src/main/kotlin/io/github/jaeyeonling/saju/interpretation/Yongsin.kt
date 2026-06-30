@@ -6,7 +6,7 @@ import io.github.jaeyeonling.saju.domain.SajuChart
 
 /** 용신 도출법 — 결과에 어느 법으로 뽑았는지 타입으로 담는다(문자열 아님). */
 public enum class YongsinMethod(public val koreanName: String) {
-    BUEOK("억부"),
+    EOKBU("억부"),
     JOHU("조후"),
 }
 
@@ -29,7 +29,7 @@ public interface YongsinStrategy {
  *
  * 단순화한 기본 구현(디자인 결정). 실제 억부는 가장 약한 길신을 고르는 등 더 정교하다.
  */
-public object BueokYongsinStrategy : YongsinStrategy {
+public object EokbuYongsinStrategy : YongsinStrategy {
     override fun derive(
         chart: SajuChart,
         strength: SinStrength,
@@ -41,7 +41,7 @@ public object BueokYongsinStrategy : YongsinStrategy {
             } else {
                 dayOhaeng.generatedBy() // 신약 → 생조(인성)
             }
-        return YongsinResult(yongsin, YongsinMethod.BUEOK)
+        return YongsinResult(yongsin, YongsinMethod.EOKBU)
     }
 }
 
@@ -78,7 +78,7 @@ public object JohuYongsinStrategy : YongsinStrategy {
 public class CompositeYongsinStrategy
     @JvmOverloads
     constructor(
-        private val primary: YongsinStrategy = BueokYongsinStrategy,
+        private val primary: YongsinStrategy = EokbuYongsinStrategy,
         private val secondary: YongsinStrategy = JohuYongsinStrategy,
     ) : YongsinStrategy {
         override fun derive(

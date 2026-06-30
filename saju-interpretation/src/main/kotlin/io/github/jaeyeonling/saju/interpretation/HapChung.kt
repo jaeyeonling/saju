@@ -98,7 +98,7 @@ public object StandardHapChungStrategy : HapChungStrategy {
 
     private val SAMHAP_GROUPS: List<Pair<List<Jiji>, Ohaeng>> =
         listOf(
-            listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
+            listOf(Jiji.SIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
             listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목
             listOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA, // 인오술 → 화
             listOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM, // 사유축 → 금

@@ -195,7 +195,7 @@ private fun renderDaeun(input: CliInput): String =
             )
         val label = if (input.isMale) "남성" else "여성"
         appendLine("───── 대운 ($label) ─────")
-        appendLine(daeun.joinToString("  ") { "${it.startAge}세 ${ganKorean(it.ganZhi.gan)}${jiKorean(it.ganZhi.ji)}" })
+        appendLine(daeun.joinToString("  ") { "${it.startAge}세 ${ganKorean(it.ganji.gan)}${jiKorean(it.ganji.ji)}" })
         appendLine("(대운 = 시작 나이부터 10년 단위로 바뀌는 인생의 큰 흐름)")
     }
 

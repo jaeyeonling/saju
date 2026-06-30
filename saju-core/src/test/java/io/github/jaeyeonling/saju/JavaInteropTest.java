@@ -3,7 +3,7 @@ package io.github.jaeyeonling.saju;
 import io.github.jaeyeonling.saju.astronomy.CalendarDate;
 import io.github.jaeyeonling.saju.derivation.SajuConfig;
 import io.github.jaeyeonling.saju.domain.Cheongan;
-import io.github.jaeyeonling.saju.domain.GanZhi;
+import io.github.jaeyeonling.saju.domain.Ganji;
 import io.github.jaeyeonling.saju.domain.SajuChart;
 import io.github.jaeyeonling.saju.domain.ZishiPolicy;
 import io.github.jaeyeonling.saju.lunar.CalendarBasis;
@@ -41,27 +41,27 @@ class JavaInteropTest {
         SajuChart jeong = Saju.fromLocalDateTime(1990, 3, 15, 23, 30, 9.0, SajuConfig.DEFAULT);
         SajuChart ya = Saju.fromLocalDateTime(1990, 3, 15, 23, 30, 9.0, yajasi);
         // 같은 23:30 입력에 정자시(기본)와 야자시는 일주가 달라야.
-        assertNotEquals(jeong.getDay().getGanZhi(), ya.getDay().getGanZhi());
+        assertNotEquals(jeong.getDay().getGanji(), ya.getDay().getGanji());
     }
 
     @Test
-    void ganZhiFactoryAndFieldAreStatic() {
+    void ganjiFactoryAndFieldAreStatic() {
         // @JvmStatic factory
-        GanZhi gapja = GanZhi.fromIndex(0);
-        assertEquals(Cheongan.GAB, gapja.getGan());
+        Ganji gapja = Ganji.fromIndex(0);
+        assertEquals(Cheongan.GAP, gapja.getGan());
 
         // @JvmField 정적 상수
-        List<GanZhi> all = GanZhi.ALL;
+        List<Ganji> all = Ganji.ALL;
         assertEquals(60, all.size());
 
         // 인스턴스 메서드
-        GanZhi next = gapja.next(1);
+        Ganji next = gapja.next(1);
         assertEquals(1, next.getIndex());
     }
 
     @Test
     void enumPropertiesAccessibleFromJava() {
-        Cheongan gab = Cheongan.GAB;
+        Cheongan gab = Cheongan.GAP;
         assertNotNull(gab.getOhaeng());
         assertNotNull(gab.getEumyang());
         // 천간합 갑→기

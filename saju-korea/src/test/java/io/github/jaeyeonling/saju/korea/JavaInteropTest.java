@@ -26,7 +26,7 @@ class JavaInteropTest {
         SajuChart jeong = KoreanSaju.fromCivilTime(1990, 3, 15, 23, 30, seoul, jeongCfg);
         SajuChart yaja = KoreanSaju.fromCivilTime(1990, 3, 15, 23, 30, seoul, yajaCfg);
         // 23:30 정자시 vs 야자시 일주가 갈려야.
-        assertNotEquals(jeong.getDay().getGanZhi(), yaja.getDay().getGanZhi());
+        assertNotEquals(jeong.getDay().getGanji(), yaja.getDay().getGanji());
 
         // @JvmField DEFAULT + enum.
         assertEquals(TrueSolarTimePolicy.FULL, KoreanSajuConfig.DEFAULT.getTrueSolarTime());

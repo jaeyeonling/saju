@@ -12,10 +12,10 @@ private fun assertChartMatches(row: List<String>) {
     val mine: SajuChart = Saju.fromLocalDateTime(year, month, day, hour, minute, BEIJING_OFFSET)
     val tag = "$year-$month-$day $hour:$minute"
 
-    withClue("연주 @ $tag") { mine.year.ganZhi.index shouldBe row[5].toInt() }
-    withClue("월주 @ $tag") { mine.month.ganZhi.index shouldBe row[6].toInt() }
-    withClue("일주 @ $tag") { mine.day.ganZhi.index shouldBe row[7].toInt() }
-    withClue("시주 @ $tag") { mine.hour.ganZhi.index shouldBe row[8].toInt() }
+    withClue("연주 @ $tag") { mine.year.ganji.index shouldBe row[5].toInt() }
+    withClue("월주 @ $tag") { mine.month.ganji.index shouldBe row[6].toInt() }
+    withClue("일주 @ $tag") { mine.day.ganji.index shouldBe row[7].toInt() }
+    withClue("시주 @ $tag") { mine.hour.ganji.index shouldBe row[8].toInt() }
 }
 
 /**

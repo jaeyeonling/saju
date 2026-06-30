@@ -66,7 +66,7 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"               (enum 
 지지    卯      卯      卯      午        ← 지지(地支) 12=12띠: 자축인묘진사오미신유술해  (Jiji)
 ```
 
-- **기둥 1개 = 천간 1글자 + 지지 1글자.** 천간(10)과 지지(12)의 짝이 60갑자(`GanZhi`)로 순환한다.
+- **기둥 1개 = 천간 1글자 + 지지 1글자.** 천간(10)과 지지(12)의 짝이 60갑자(`Ganji`)로 순환한다.
 - **일간(日干)** = 일주의 천간 = 해석의 기준 '**나**'. 위 예에서 `己`(기, 토).
 - 모든 글자는 **오행**(五行: 목·화·토·금·수, `Ohaeng`)과 **음양**(陰陽, `Eumyang`) 라벨을 가지며, 글자끼리 상생·상극·합·충 관계를 맺는다.
 
@@ -132,7 +132,7 @@ import io.github.jaeyeonling.saju.lunar.LunarConverter
 val chart = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0)                       // 서울 기본
 val busan = KoreanSaju.fromCivilTime(1990, 3, 15, 7, 0, Birthplace.BUSAN.longitudeDeg)
 chart.dayMaster              // 일간(나) = Cheongan.GI       (.koreanName "기", .hanja "己")
-chart.year.ganZhi.koreanName // 연주 = "경오"               (.hanja "庚午")
+chart.year.ganji.koreanName // 연주 = "경오"               (.hanja "庚午")
 chart.pillars()              // [연, 월, 일, 시] 네 기둥
 
 // ── 2. 해석 한 번에 ──
@@ -140,13 +140,13 @@ val report = Interpretation.of(chart)
 report.strength.verdict.koreanName // 신강신약 = "중화"      (enum SinStrengthVerdict.JUNGHWA)
 report.yongsin.yongsin.koreanName  // 용신 = "화"            (enum Ohaeng.HWA)
 report.gyeokguk.type.koreanName    // 격국 = "편관격"
-report.gongmang                    // 공망 = (Jiji.SHIN, Jiji.YU)
+report.gongmang                    // 공망 = (Jiji.SIN, Jiji.YU)
 report.sibiUnseong                 // 십이운성 Map<PillarPosition, SibiUnseong>
 
 // ── 3. 대운 (10년 단위 인생 흐름) ──
 val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
 daeun.first().startAge    // 7 (세부터 시작)
-daeun.first().ganZhi      // 경진
+daeun.first().ganji      // 경진
 
 // ── 4. 음력 생일 입력 / 음↔양 변환 ──
 val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)

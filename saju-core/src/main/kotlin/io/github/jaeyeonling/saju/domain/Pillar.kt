@@ -11,8 +11,8 @@ public enum class PillarPosition {
 /** 사주의 한 기둥 — 간지 한 쌍 + 위치. */
 public data class Pillar(
     public val position: PillarPosition,
-    public val ganZhi: GanZhi,
+    public val ganji: Ganji,
 ) {
-    public val gan: Cheongan get() = ganZhi.gan
-    public val ji: Jiji get() = ganZhi.ji
+    public val gan: Cheongan get() = ganji.gan
+    public val ji: Jiji get() = ganji.ji
 }

@@ -7,7 +7,7 @@ import io.github.jaeyeonling.saju.domain.Ohaeng
  * 십성 오행 관계 5묶음 — 일간(나) 기준 다른 오행과의 관계. 정/편을 가르기 전의 큰 분류축이다.
  */
 public enum class SipSeongGroup {
-    BIGYEOP, // 비겁 比劫 — 나와 같은 오행(동료·경쟁·나를 돕는 힘)
+    BIGEOP, // 비겁 比劫 — 나와 같은 오행(동료·경쟁·나를 돕는 힘)
     SIKSANG, // 식상 食傷 — 내가 생하는 것(표현·산출)
     JAESEONG, // 재성 財星 — 내가 극하는 것(재물)
     GWANSEONG, // 관성 官星 — 나를 극하는 것(직업·권위·나를 누르는 힘)
@@ -33,8 +33,8 @@ public enum class SipSeong(
     /** 한자(比肩·劫財·…). */
     public val hanja: String,
 ) {
-    BIGYEON(SipSeongGroup.BIGYEOP, true, "비견", "比肩"), // 나와 같은 오행·음양. 동료·경쟁자·자존심.
-    GEOPJAE(SipSeongGroup.BIGYEOP, false, "겁재", "劫財"), // 같은 오행, 다른 음양. 형제·동업·재물 다툼.
+    BIGYEON(SipSeongGroup.BIGEOP, true, "비견", "比肩"), // 나와 같은 오행·음양. 동료·경쟁자·자존심.
+    GEOPJAE(SipSeongGroup.BIGEOP, false, "겁재", "劫財"), // 같은 오행, 다른 음양. 형제·동업·재물 다툼.
     SIKSIN(SipSeongGroup.SIKSANG, true, "식신", "食神"), // 내가 생하는 것. 표현·먹을복·여유.
     SANGGWAN(SipSeongGroup.SIKSANG, false, "상관", "傷官"), // 내가 생하는 것(다른 음양). 재능·끼·반항.
     PYEONJAE(SipSeongGroup.JAESEONG, true, "편재", "偏財"), // 내가 극하는 것. 유동 재물·사업·큰돈.
@@ -62,7 +62,7 @@ public enum class SipSeong(
             target: Ohaeng,
         ): SipSeongGroup =
             when {
-                target == day -> SipSeongGroup.BIGYEOP
+                target == day -> SipSeongGroup.BIGEOP
                 day.generates() == target -> SipSeongGroup.SIKSANG
                 day.controls() == target -> SipSeongGroup.JAESEONG
                 target.controls() == day -> SipSeongGroup.GWANSEONG

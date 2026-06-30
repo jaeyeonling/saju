@@ -24,8 +24,8 @@ class SajuSerializationTest : StringSpec({
         dto.dayMaster.name shouldBe "기"
         dto.dayMaster.hanja shouldBe "己"
         dto.dayMaster.ohaeng shouldBe "토"
-        dto.day.ganZhi.name shouldBe "기묘"
-        dto.day.ganZhi.hanja shouldBe "己卯"
+        dto.day.ganji.name shouldBe "기묘"
+        dto.day.ganji.hanja shouldBe "己卯"
     }
 
     "해석 리포트가 한글 라벨 JSON 으로 직렬화되고 라운드트립한다" {
@@ -43,14 +43,14 @@ class SajuSerializationTest : StringSpec({
     }
 
     "합충 sealed 5종이 각각 올바른 kind 로 평탄화된다 (전 분기 커버)" {
-        HapChungRelation.CheonganHap(Cheongan.GAB, Cheongan.GI, Ohaeng.TO).toDto().also {
+        HapChungRelation.CheonganHap(Cheongan.GAP, Cheongan.GI, Ohaeng.TO).toDto().also {
             it.kind shouldBe "천간합"
             it.transformsTo shouldBe "토"
         }
         HapChungRelation.JijiYukhap(Jiji.JA, Jiji.CHUK).toDto().kind shouldBe "육합"
         HapChungRelation.JijiYukchung(Jiji.JA, Jiji.O).toDto().kind shouldBe "육충"
         HapChungRelation.JijiYukhae(Jiji.JA, Jiji.MI).toDto().kind shouldBe "육해"
-        HapChungRelation.JijiSamhap(listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN), Ohaeng.SU).toDto().also {
+        HapChungRelation.JijiSamhap(listOf(Jiji.SIN, Jiji.JA, Jiji.JIN), Ohaeng.SU).toDto().also {
             it.kind shouldBe "삼합"
             it.members shouldHaveSize 3
         }

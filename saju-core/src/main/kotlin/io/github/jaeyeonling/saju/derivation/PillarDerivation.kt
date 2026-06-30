@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.derivation
 
 import io.github.jaeyeonling.saju.domain.Cheongan
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.floorMod
 
@@ -17,7 +17,7 @@ public object PillarDerivation {
      * @param solarYear 입춘 절입을 반영해 보정된 연도(입춘 전 출생은 전년).
      */
     @JvmStatic
-    public fun yearPillar(solarYear: Int): GanZhi = GanZhi.fromIndex(solarYear - GAPJA_YEAR_BASE)
+    public fun yearPillar(solarYear: Int): Ganji = Ganji.fromIndex(solarYear - GAPJA_YEAR_BASE)
 
     /**
      * 월주(月柱) — 오호둔(五虎遁, 年上起月). 월지는 인(寅)月부터 고정, 월간은 연간에서 도출.
@@ -29,12 +29,12 @@ public object PillarDerivation {
     public fun monthPillar(
         yearGan: Cheongan,
         monthBranchOffset: Int,
-    ): GanZhi {
+    ): Ganji {
         val monthJi = Jiji.fromIndex(Jiji.IN.ordinal + monthBranchOffset)
         // 갑기년→병인월, 을경년→무인월, 병신년→경인월, 정임년→임인월, 무계년→갑인월
         val firstMonthGanIndex = (yearGan.ordinal % HEAVENLY_GROUP) * 2 + WOLDU_BASE
         val monthGan = Cheongan.fromIndex(firstMonthGanIndex + monthBranchOffset)
-        return GanZhi(monthGan, monthJi)
+        return Ganji(monthGan, monthJi)
     }
 
     /**
@@ -43,8 +43,8 @@ public object PillarDerivation {
      * @param julianDayNumber 출생 로컬 날짜의 율리우스일 번호 `floor(JD_자정 + 0.5)`.
      */
     @JvmStatic
-    public fun dayPillar(julianDayNumber: Long): GanZhi =
-        GanZhi.fromIndex(floorMod((julianDayNumber + DAY_OFFSET).toInt(), GanZhi.CYCLE))
+    public fun dayPillar(julianDayNumber: Long): Ganji =
+        Ganji.fromIndex(floorMod((julianDayNumber + DAY_OFFSET).toInt(), Ganji.CYCLE))
 
     /**
      * 시주(時柱) — 오자둔(五子遁, 日上起時). 시간은 일간에서 도출.
@@ -56,11 +56,11 @@ public object PillarDerivation {
     public fun hourPillar(
         dayGan: Cheongan,
         hourJi: Jiji,
-    ): GanZhi {
+    ): Ganji {
         // 갑기일→갑자시, 을경일→병자시, 병신일→무자시, 정임일→경자시, 무계일→임자시
         val firstHourGanIndex = (dayGan.ordinal % HEAVENLY_GROUP) * 2
         val hourGan = Cheongan.fromIndex(firstHourGanIndex + hourJi.ordinal)
-        return GanZhi(hourGan, hourJi)
+        return Ganji(hourGan, hourJi)
     }
 
     /** 1984년 = 갑자년(60갑자 index 0)이 되도록 하는 보정값. */
@@ -73,7 +73,7 @@ public object PillarDerivation {
     private const val WOLDU_BASE = 2
 
     /**
-     * 일주 60갑자 보정 상수. `GanZhi.fromIndex(jdn + DAY_OFFSET)` 가 실제 일진과 맞도록 골든으로 고정.
+     * 일주 60갑자 보정 상수. `Ganji.fromIndex(jdn + DAY_OFFSET)` 가 실제 일진과 맞도록 골든으로 고정.
      * (JDN 2451544 = 1999-12-31 자정 → 정묘일 등, 골든 벡터로 검증)
      */
     internal const val DAY_OFFSET = 49

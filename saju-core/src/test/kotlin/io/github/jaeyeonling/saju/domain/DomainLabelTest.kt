@@ -14,7 +14,7 @@ class DomainLabelTest : StringSpec({
     "천간 라벨이 ordinal 순서와 정합한다" {
         Cheongan.entries.map { it.koreanName } shouldBe
             listOf("갑", "을", "병", "정", "무", "기", "경", "신", "임", "계")
-        Cheongan.GAB.hanja shouldBe "甲"
+        Cheongan.GAP.hanja shouldBe "甲"
         Cheongan.GYE.hanja shouldBe "癸"
     }
 
@@ -26,10 +26,10 @@ class DomainLabelTest : StringSpec({
     }
 
     "60갑자 한글/한자 표기가 천간·지지 합성과 일치한다" {
-        GanZhi.fromIndex(0).koreanName shouldBe "갑자"
-        GanZhi.fromIndex(0).hanja shouldBe "甲子"
-        GanZhi.fromIndex(59).koreanName shouldBe "계해"
-        GanZhi(Cheongan.GYEONG, Jiji.O).koreanName shouldBe "경오"
+        Ganji.fromIndex(0).koreanName shouldBe "갑자"
+        Ganji.fromIndex(0).hanja shouldBe "甲子"
+        Ganji.fromIndex(59).koreanName shouldBe "계해"
+        Ganji(Cheongan.GYEONG, Jiji.O).koreanName shouldBe "경오"
     }
 
     "오행·음양 라벨이 정합한다" {

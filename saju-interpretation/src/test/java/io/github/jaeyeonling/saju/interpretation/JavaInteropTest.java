@@ -1,6 +1,6 @@
 package io.github.jaeyeonling.saju.interpretation;
 
-import io.github.jaeyeonling.saju.domain.GanZhi;
+import io.github.jaeyeonling.saju.domain.Ganji;
 import io.github.jaeyeonling.saju.domain.Pillar;
 import io.github.jaeyeonling.saju.domain.PillarPosition;
 import io.github.jaeyeonling.saju.domain.SajuChart;
@@ -15,10 +15,10 @@ class JavaInteropTest {
 
     private SajuChart sampleChart() {
         return new SajuChart(
-                new Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
-                new Pillar(PillarPosition.MONTH, GanZhi.fromIndex(20)),
-                new Pillar(PillarPosition.DAY, GanZhi.fromIndex(40)),
-                new Pillar(PillarPosition.HOUR, GanZhi.fromIndex(15)));
+                new Pillar(PillarPosition.YEAR, Ganji.fromIndex(0)),
+                new Pillar(PillarPosition.MONTH, Ganji.fromIndex(20)),
+                new Pillar(PillarPosition.DAY, Ganji.fromIndex(40)),
+                new Pillar(PillarPosition.HOUR, Ganji.fromIndex(15)));
     }
 
     @Test
@@ -34,7 +34,7 @@ class JavaInteropTest {
     void strategiesCallableFromJava() {
         // object → INSTANCE, class → DEFAULT 혼재 호출형 검증.
         SibiUnseongStrategy eum = EumPotaeStrategy.INSTANCE;
-        SinStrengthStrategy sin = BueokSinStrengthStrategy.DEFAULT;
+        SinStrengthStrategy sin = EokbuSinStrengthStrategy.DEFAULT;
         assertNotNull(eum);
         assertNotNull(sin);
 

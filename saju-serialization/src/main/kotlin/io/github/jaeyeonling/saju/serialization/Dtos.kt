@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 
 /** 60갑자 한 쌍 — name="경오", hanja="庚午", gan/ji 는 한글, index 는 0..59. */
 @Serializable
-public data class GanZhiDto(
+public data class GanjiDto(
     public val name: String,
     public val hanja: String,
     public val gan: String,
@@ -33,7 +33,7 @@ public data class CheonganDto(
 @Serializable
 public data class PillarDto(
     public val position: String,
-    public val ganZhi: GanZhiDto,
+    public val ganji: GanjiDto,
 )
 
 /** 사주판 8글자 + 일간. */

@@ -121,8 +121,8 @@ class KoreanCorrectionTest : StringSpec({
                 seoul,
                 KoreanSajuConfig(trueSolarTime = TrueSolarTimePolicy.NONE),
             )
-        withClue("보정 유무로 시주(시지 경계)가 달라져야: 보정=${corrected.hour.ganZhi} 무보정=${noCorrection.hour.ganZhi}") {
-            (corrected.hour.ganZhi != noCorrection.hour.ganZhi).shouldBeTrue()
+        withClue("보정 유무로 시주(시지 경계)가 달라져야: 보정=${corrected.hour.ganji} 무보정=${noCorrection.hour.ganji}") {
+            (corrected.hour.ganji != noCorrection.hour.ganji).shouldBeTrue()
         }
     }
 })

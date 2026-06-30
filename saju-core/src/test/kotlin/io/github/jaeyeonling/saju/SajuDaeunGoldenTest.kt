@@ -30,7 +30,7 @@ private fun assertDaeunMatches(row: List<String>): Int {
     val localJd = JulianDayConverter.fromGregorian(year, month, day, (hour * 60 + minute) / 1440.0)
     val utJd = localJd - BEIJING_OFFSET / 24.0
     val chart = Saju.fromLocalDateTime(year, month, day, hour, minute, BEIJING_OFFSET)
-    val mine = Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count = 8)
+    val mine = Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count = 8)
     val tag = "$year-$month-$day ${if (isMale) "남" else "여"}"
 
     // ① 방향
@@ -39,7 +39,7 @@ private fun assertDaeunMatches(row: List<String>): Int {
 
     // ② 간지 시퀀스 (첫 3개) — 동결된 정답 인덱스와 엄격 비교
     for (i in 0 until 3) {
-        withClue("대운[$i] 간지 @ $tag") { mine[i].ganZhi.index shouldBe expectedGz[i] }
+        withClue("대운[$i] 간지 @ $tag") { mine[i].ganji.index shouldBe expectedGz[i] }
     }
 
     // ③ 대운수(시작 나이) — 골든(3일=1세, 한국 전통과 동일 정의)과 ±1(round vs floor 차) 비교.
@@ -82,10 +82,10 @@ class SajuDaeunGoldenTest : StringSpec({
                 val chart = Saju.fromLocalDateTime(s[0], s[1], s[2], s[3], 0, BEIJING_OFFSET)
                 val localJd = JulianDayConverter.fromGregorian(s[0], s[1], s[2], s[3] * 60 / 1440.0)
                 val utJd = localJd - BEIJING_OFFSET / 24.0
-                val daeun = Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count = 8)
+                val daeun = Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count = 8)
                 val tag = "${s[0]}-${s[1]}-${s[2]} ${if (isMale) "남" else "여"}"
                 for (i in 1 until daeun.size) {
-                    val step = ((daeun[i].ganZhi.index - daeun[i - 1].ganZhi.index) % 60 + 60) % 60
+                    val step = ((daeun[i].ganji.index - daeun[i - 1].ganji.index) % 60 + 60) % 60
                     withClue("$tag 인접 대운[$i] 간지는 ±1 (순행1/역행59): step=$step") {
                         (step == 1 || step == 59).shouldBeTrue()
                     }

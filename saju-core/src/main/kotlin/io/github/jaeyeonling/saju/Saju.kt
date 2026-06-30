@@ -10,7 +10,7 @@ import io.github.jaeyeonling.saju.derivation.PillarDerivation
 import io.github.jaeyeonling.saju.derivation.SajuConfig
 import io.github.jaeyeonling.saju.derivation.Seun
 import io.github.jaeyeonling.saju.domain.Eumyang
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
@@ -51,7 +51,7 @@ public object Saju {
         val localJd = JulianDayConverter.fromGregorian(year, month, day, timeFraction)
         val utJd = localJd - utOffsetHours / HOURS_PER_DAY
 
-        val yearGanZhi =
+        val yearGanji =
             run {
                 // 연주: 경계 절기(입춘세수=입춘, 동지세수=동지) 절입 시각과 비교 — 학파별 보정은 정책에 위임.
                 val boundary = config.yearBoundary
@@ -60,30 +60,30 @@ public object Saju {
                 PillarDerivation.yearPillar(solarYear)
             }
 
-        val monthGanZhi =
+        val monthGanji =
             run {
                 // 월주: 출생 순간 황경 → 절기 월(입춘 315°부터 30°마다). 학파 무관(절기 기준 고정).
                 val longitudeFromIpchun =
                     normalizeDegrees(SolarLongitude.apparentLongitudeDegAtUT(utJd) - IPCHUN_LONGITUDE_DEG)
                 val monthOffset = floor(longitudeFromIpchun / DEGREES_PER_MONTH).toInt() % MONTHS_PER_YEAR
-                PillarDerivation.monthPillar(yearGanZhi.gan, monthOffset)
+                PillarDerivation.monthPillar(yearGanji.gan, monthOffset)
             }
 
         // 일주: 로컬 날짜의 율리우스일 번호. 자시 학파(정자시=23시 이후 다음날)는 정책에 위임.
         val zishiDateShift = config.zishi.dayPillarShift(hour)
         val julianDayNumber =
             floor(JulianDayConverter.fromGregorian(year, month, day, 0.0) + 0.5).toLong() + zishiDateShift
-        val dayGanZhi = PillarDerivation.dayPillar(julianDayNumber)
+        val dayGanji = PillarDerivation.dayPillar(julianDayNumber)
 
         // 시주: 시지(2시간 단위) + 일간. 시간(時干)은 위에서 정책대로 시프트된 일간을 따라간다.
         val hourJi = Jiji.fromIndex((hour + 1) / HOURS_PER_BRANCH)
-        val hourGanZhi = PillarDerivation.hourPillar(dayGanZhi.gan, hourJi)
+        val hourGanji = PillarDerivation.hourPillar(dayGanji.gan, hourJi)
 
         return SajuChart(
-            year = Pillar(PillarPosition.YEAR, yearGanZhi),
-            month = Pillar(PillarPosition.MONTH, monthGanZhi),
-            day = Pillar(PillarPosition.DAY, dayGanZhi),
-            hour = Pillar(PillarPosition.HOUR, hourGanZhi),
+            year = Pillar(PillarPosition.YEAR, yearGanji),
+            month = Pillar(PillarPosition.MONTH, monthGanji),
+            day = Pillar(PillarPosition.DAY, dayGanji),
+            hour = Pillar(PillarPosition.HOUR, hourGanji),
         )
     }
 
@@ -98,7 +98,7 @@ public object Saju {
     @JvmOverloads
     public fun daeun(
         utJd: Double,
-        monthPillar: GanZhi,
+        monthPillar: Ganji,
         yearStemEumyang: Eumyang,
         isMale: Boolean,
         count: Int = DEFAULT_DAEUN_COUNT,

@@ -29,7 +29,7 @@ class DomainGoldenTest : StringSpec({
     "60갑자 순서가 골든 벡터와 일치" {
         for (row in Golden.rows("domain_cycle.csv")) {
             val i = row[0].toInt()
-            val mine = GanZhi.fromIndex(i)
+            val mine = Ganji.fromIndex(i)
             withClue("60갑자 $i 천간") { mine.gan.ordinal shouldBe row[1].toInt() }
             withClue("60갑자 $i 지지") { mine.ji.ordinal shouldBe row[2].toInt() }
         }

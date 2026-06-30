@@ -29,8 +29,8 @@ class InterpretationLabelTest : StringSpec({
     }
 
     "기존 koreanName 보유 enum 도 그대로 유지된다 (회귀)" {
-        GyeokgukType.GEONLOK.koreanName shouldBe "건록격"
-        YongsinMethod.BUEOK.koreanName shouldBe "억부"
+        GyeokgukType.GEOLLOK.koreanName shouldBe "건록격"
+        YongsinMethod.EOKBU.koreanName shouldBe "억부"
     }
 
     "모든 해석 라벨은 비어있지 않다" {

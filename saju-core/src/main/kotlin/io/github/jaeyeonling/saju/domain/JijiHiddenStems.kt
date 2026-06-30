@@ -29,7 +29,7 @@ public data class JijiHiddenStems(
             listOf(
                 hidden(Cheongan.GYE), // 子 癸
                 hidden(Cheongan.GI, Cheongan.GYE, Cheongan.SIN), // 丑 기계신
-                hidden(Cheongan.GAB, Cheongan.BYEONG, Cheongan.MU), // 寅 갑병무
+                hidden(Cheongan.GAP, Cheongan.BYEONG, Cheongan.MU), // 寅 갑병무
                 hidden(Cheongan.EUL), // 卯 乙
                 hidden(Cheongan.MU, Cheongan.EUL, Cheongan.GYE), // 辰 무을계
                 hidden(Cheongan.BYEONG, Cheongan.GYEONG, Cheongan.MU), // 巳 병경무
@@ -38,7 +38,7 @@ public data class JijiHiddenStems(
                 hidden(Cheongan.GYEONG, Cheongan.IM, Cheongan.MU), // 申 경임무
                 hidden(Cheongan.SIN), // 酉 辛
                 hidden(Cheongan.MU, Cheongan.SIN, Cheongan.JEONG), // 戌 무신정
-                hidden(Cheongan.IM, Cheongan.GAB, null), // 亥 임갑
+                hidden(Cheongan.IM, Cheongan.GAP, null), // 亥 임갑
             )
 
         private fun hidden(

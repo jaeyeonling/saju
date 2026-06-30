@@ -37,7 +37,7 @@ public object Interpretation {
             strength = strength,
             yongsin = ctx.yongsin.derive(chart, strength),
             gyeokguk = ctx.gyeokguk.classify(chart),
-            gongmang = Gongmang.of(chart.day.ganZhi),
+            gongmang = Gongmang.of(chart.day.ganji),
             hapChung = ctx.hapChung.detect(chart.stems(), chart.branches()),
             ohaeng = OhaengDistribution.from(chart),
             sibiUnseong = chart.pillars().associate { it.position to ctx.sibiUnseong.stageOf(chart.dayMaster, it.ji) },

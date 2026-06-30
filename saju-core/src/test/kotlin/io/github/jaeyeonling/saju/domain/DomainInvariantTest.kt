@@ -11,17 +11,17 @@ class DomainInvariantTest : StringSpec({
 
     "무효 60갑자 조합은 생성 시점에 거부된다" {
         // 천간·지지 음양 불일치 = 60갑자에 없는 조합.
-        shouldThrow<IllegalArgumentException> { GanZhi(Cheongan.GAB, Jiji.CHUK) } // 갑(양)+축(음)
-        shouldThrow<IllegalArgumentException> { GanZhi(Cheongan.EUL, Jiji.JA) } // 을(음)+자(양)
+        shouldThrow<IllegalArgumentException> { Ganji(Cheongan.GAP, Jiji.CHUK) } // 갑(양)+축(음)
+        shouldThrow<IllegalArgumentException> { Ganji(Cheongan.EUL, Jiji.JA) } // 을(음)+자(양)
     }
 
     "사주판 기둥 위치 불일치는 생성 시점에 거부된다" {
         shouldThrow<IllegalArgumentException> {
             SajuChart(
-                year = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(0)), // year 슬롯에 시주를 넣음
-                month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(2)),
-                day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(4)),
-                hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(6)),
+                year = Pillar(PillarPosition.HOUR, Ganji.fromIndex(0)), // year 슬롯에 시주를 넣음
+                month = Pillar(PillarPosition.MONTH, Ganji.fromIndex(2)),
+                day = Pillar(PillarPosition.DAY, Ganji.fromIndex(4)),
+                hour = Pillar(PillarPosition.HOUR, Ganji.fromIndex(6)),
             )
         }
     }

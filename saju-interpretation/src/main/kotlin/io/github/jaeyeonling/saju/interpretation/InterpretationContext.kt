@@ -13,8 +13,8 @@ import io.github.jaeyeonling.saju.domain.HiddenStemTable
  */
 public data class InterpretationContext(
     public val sibiUnseong: SibiUnseongStrategy = EumPotaeStrategy,
-    public val sinStrength: SinStrengthStrategy = BueokSinStrengthStrategy.DEFAULT,
-    public val yongsin: YongsinStrategy = BueokYongsinStrategy,
+    public val sinStrength: SinStrengthStrategy = EokbuSinStrengthStrategy.DEFAULT,
+    public val yongsin: YongsinStrategy = EokbuYongsinStrategy,
     public val gyeokguk: GyeokgukStrategy = JapyeongGyeokgukStrategy.DEFAULT,
     public val hapChung: HapChungStrategy = StandardHapChungStrategy,
 ) {
@@ -26,10 +26,10 @@ public data class InterpretationContext(
      */
     public fun withHiddenStems(hiddenStems: HiddenStemTable): InterpretationContext =
         copy(
-            // 기존 억부 가중치(BueokWeights)는 보존하고 테이블만 교체한다. 커스텀 신강 전략은 자체 관리하므로 그대로 둔다.
+            // 기존 억부 가중치(EokbuWeights)는 보존하고 테이블만 교체한다. 커스텀 신강 전략은 자체 관리하므로 그대로 둔다.
             sinStrength =
                 when (val current = sinStrength) {
-                    is BueokSinStrengthStrategy -> BueokSinStrengthStrategy(current.weights, hiddenStems)
+                    is EokbuSinStrengthStrategy -> EokbuSinStrengthStrategy(current.weights, hiddenStems)
                     else -> current
                 },
             gyeokguk =

@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.derivation
 
 import io.github.jaeyeonling.saju.domain.Eumyang
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 
 /** 대운 진행 방향 — 양남음녀는 순행, 음남양녀는 역행. */
 public enum class DaeunDirection {
@@ -19,16 +19,16 @@ public enum class DaeunDirection {
     }
 }
 
-/** 대운(大運) — 10년 단위 큰 흐름. [startAge] 부터 시작하는 [ganZhi] 구간. */
+/** 대운(大運) — 10년 단위 큰 흐름. [startAge] 부터 시작하는 [ganji] 구간. */
 public data class Daeun(
     public val startAge: Int,
-    public val ganZhi: GanZhi,
+    public val ganji: Ganji,
 )
 
 /** 세운(歲運) — 그 해의 간지(입춘 기준 연주). */
 public data class Seun(
     public val year: Int,
-    public val ganZhi: GanZhi,
+    public val ganji: Ganji,
 )
 
 /**
@@ -39,7 +39,7 @@ public object DaeunCalculator {
     /** 월주에서 시작하는 대운 간지 시퀀스. 첫 대운은 월주의 다음/이전 간지. */
     @JvmStatic
     public fun sequence(
-        monthPillar: GanZhi,
+        monthPillar: Ganji,
         direction: DaeunDirection,
         startAge: Int,
         count: Int,

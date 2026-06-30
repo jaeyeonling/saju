@@ -101,7 +101,7 @@ public object KoreanSaju {
                 ts.second,
             )
         val utJd = trueSolarJd - trueSolarUtOffsetHours / HOURS_PER_DAY
-        return Saju.daeun(utJd, chart.month.ganZhi, chart.year.gan.eumyang, isMale, count, config.saju)
+        return Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count, config.saju)
     }
 
     /**

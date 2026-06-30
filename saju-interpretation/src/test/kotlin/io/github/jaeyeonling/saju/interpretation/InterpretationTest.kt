@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.interpretation
 
 import io.github.jaeyeonling.saju.domain.Cheongan
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.Pillar
@@ -24,19 +24,19 @@ class InterpretationTest : StringSpec({
     }
 
     "공망 — 갑자순 술해, 갑술순 신유" {
-        Gongmang.of(GanZhi.fromIndex(0)) shouldBe (Jiji.SUL to Jiji.HAE) // 갑자
-        Gongmang.of(GanZhi.fromIndex(5)) shouldBe (Jiji.SUL to Jiji.HAE) // 기사(같은 순)
-        Gongmang.of(GanZhi.fromIndex(10)) shouldBe (Jiji.SHIN to Jiji.YU) // 갑술
+        Gongmang.of(Ganji.fromIndex(0)) shouldBe (Jiji.SUL to Jiji.HAE) // 갑자
+        Gongmang.of(Ganji.fromIndex(5)) shouldBe (Jiji.SUL to Jiji.HAE) // 기사(같은 순)
+        Gongmang.of(Ganji.fromIndex(10)) shouldBe (Jiji.SIN to Jiji.YU) // 갑술
     }
 
     "천간합 — 갑기합토 탐지" {
-        val relations = StandardHapChungStrategy.detect(listOf(Cheongan.GAB, Cheongan.GI), emptyList())
+        val relations = StandardHapChungStrategy.detect(listOf(Cheongan.GAP, Cheongan.GI), emptyList())
         val hap = relations.filterIsInstance<HapChungRelation.CheonganHap>().single()
         hap.transformsTo shouldBe Ohaeng.TO
     }
 
     "지지 삼합 — 신자진 수국" {
-        val relations = StandardHapChungStrategy.detect(emptyList(), listOf(Jiji.SHIN, Jiji.JA, Jiji.JIN))
+        val relations = StandardHapChungStrategy.detect(emptyList(), listOf(Jiji.SIN, Jiji.JA, Jiji.JIN))
         val samhap = relations.filterIsInstance<HapChungRelation.JijiSamhap>().single()
         samhap.transformsTo shouldBe Ohaeng.SU
     }
@@ -51,10 +51,10 @@ class InterpretationTest : StringSpec({
     "오행 분포 합은 8글자" {
         val chart =
             SajuChart(
-                year = Pillar(PillarPosition.YEAR, GanZhi.fromIndex(0)),
-                month = Pillar(PillarPosition.MONTH, GanZhi.fromIndex(15)),
-                day = Pillar(PillarPosition.DAY, GanZhi.fromIndex(30)),
-                hour = Pillar(PillarPosition.HOUR, GanZhi.fromIndex(45)),
+                year = Pillar(PillarPosition.YEAR, Ganji.fromIndex(0)),
+                month = Pillar(PillarPosition.MONTH, Ganji.fromIndex(15)),
+                day = Pillar(PillarPosition.DAY, Ganji.fromIndex(30)),
+                hour = Pillar(PillarPosition.HOUR, Ganji.fromIndex(45)),
             )
         val distribution = OhaengDistribution.from(chart)
         distribution.counts.values.sum() shouldBe 8

@@ -1,6 +1,6 @@
 package io.github.jaeyeonling.saju.interpretation
 
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Jiji
 
 /**
@@ -12,9 +12,9 @@ import io.github.jaeyeonling.saju.domain.Jiji
 public object Gongmang {
     /** 일주 간지의 공망 두 지지. */
     @JvmStatic
-    public fun of(dayGanZhi: GanZhi): Pair<Jiji, Jiji> {
+    public fun of(dayGanji: Ganji): Pair<Jiji, Jiji> {
         // 旬首 = 일주 index − 일간 ordinal (그 순의 갑X 간지). 그 지지에서 +10, +11.
-        val sunHeadBranchIndex = mod(dayGanZhi.index - dayGanZhi.gan.ordinal, BRANCH_COUNT)
+        val sunHeadBranchIndex = mod(dayGanji.index - dayGanji.gan.ordinal, BRANCH_COUNT)
         return Jiji.fromIndex(sunHeadBranchIndex + GONGMANG_OFFSET_1) to
             Jiji.fromIndex(sunHeadBranchIndex + GONGMANG_OFFSET_2)
     }

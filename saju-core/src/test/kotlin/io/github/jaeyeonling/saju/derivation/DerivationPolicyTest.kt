@@ -15,9 +15,9 @@ class DerivationPolicyTest : StringSpec({
         val jeong = Saju.fromLocalDateTime(2000, 6, 1, 23, 30, 9.0, SajuConfig(zishi = ZishiPolicy.JEONGJASI))
         val ya = Saju.fromLocalDateTime(2000, 6, 1, 23, 30, 9.0, SajuConfig(zishi = ZishiPolicy.YAJASI))
 
-        withClue("일주가 학파별로 갈려야") { jeong.day.ganZhi shouldNotBe ya.day.ganZhi }
-        withClue("시간(時干)이 일간을 따라 갈려야") { jeong.hour.ganZhi.gan shouldNotBe ya.hour.ganZhi.gan }
-        withClue("시지는 둘 다 자(子)로 동일해야") { jeong.hour.ganZhi.ji shouldBe ya.hour.ganZhi.ji }
+        withClue("일주가 학파별로 갈려야") { jeong.day.ganji shouldNotBe ya.day.ganji }
+        withClue("시간(時干)이 일간을 따라 갈려야") { jeong.hour.ganji.gan shouldNotBe ya.hour.ganji.gan }
+        withClue("시지는 둘 다 자(子)로 동일해야") { jeong.hour.ganji.ji shouldBe ya.hour.ganji.ji }
     }
 
     "자시 핀값 — 23시 시지는 자(子), 정자시 일주는 야자시 일주의 다음 간지" {
@@ -26,7 +26,7 @@ class DerivationPolicyTest : StringSpec({
 
         withClue("23시는 자시(子)") { jeong.hour.ji shouldBe Jiji.JA }
         withClue("23시는 자시(子) — 학파 공통") { ya.hour.ji shouldBe Jiji.JA }
-        withClue("정자시 일주 = 야자시 일주의 다음 간지(다음날)") { jeong.day.ganZhi shouldBe ya.day.ganZhi.next(1) }
+        withClue("정자시 일주 = 야자시 일주의 다음 간지(다음날)") { jeong.day.ganji shouldBe ya.day.ganji.next(1) }
     }
 
     "자정 직후(0시)는 자시이고 일주는 이미 당일 — 학파 무관" {
@@ -34,7 +34,7 @@ class DerivationPolicyTest : StringSpec({
         val ya = Saju.fromLocalDateTime(2000, 6, 2, 0, 30, 9.0, SajuConfig(zishi = ZishiPolicy.YAJASI))
 
         withClue("0시도 자시(子)") { jeong.hour.ji shouldBe Jiji.JA }
-        withClue("0시는 어느 학파든 일주 동일(이미 날짜가 넘어감)") { jeong.day.ganZhi shouldBe ya.day.ganZhi }
+        withClue("0시는 어느 학파든 일주 동일(이미 날짜가 넘어감)") { jeong.day.ganji shouldBe ya.day.ganji }
     }
 
     "연주 경계 — 1월 중순은 입춘설에서 전년, 동지설에서 당년" {
@@ -42,7 +42,7 @@ class DerivationPolicyTest : StringSpec({
         val ipchun = Saju.fromLocalDateTime(2000, 1, 15, 12, 0, 9.0, SajuConfig(yearBoundary = YearBoundary.IPCHUN))
         val dongji = Saju.fromLocalDateTime(2000, 1, 15, 12, 0, 9.0, SajuConfig(yearBoundary = YearBoundary.DONGJI))
 
-        withClue("연주가 세수(歲首) 학파별로 갈려야") { ipchun.year.ganZhi shouldNotBe dongji.year.ganZhi }
+        withClue("연주가 세수(歲首) 학파별로 갈려야") { ipchun.year.ganji shouldNotBe dongji.year.ganji }
     }
 
     "대운수 환산 — 반올림과 버림이 경계에서 1세 갈린다" {

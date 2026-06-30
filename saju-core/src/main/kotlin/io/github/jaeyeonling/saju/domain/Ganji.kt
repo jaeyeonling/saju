@@ -6,7 +6,7 @@ package io.github.jaeyeonling.saju.domain
  * index 0 = 갑자(甲子), 1 = 을축(乙丑), … 59 = 계해(癸亥). index `i` → 천간 `i%10`, 지지 `i%12`.
  * [next] 로 순행/역행 시퀀스를 만든다(대운 계산에 쓰임).
  */
-public data class GanZhi(
+public data class Ganji(
     public val gan: Cheongan,
     public val ji: Jiji,
 ) {
@@ -28,15 +28,15 @@ public data class GanZhi(
     public val hanja: String get() = "${gan.hanja}${ji.hanja}"
 
     /** [n] 만큼 순행(양수)/역행(음수)한 간지. */
-    public fun next(n: Int): GanZhi = fromIndex(index + n)
+    public fun next(n: Int): Ganji = fromIndex(index + n)
 
     public companion object {
         public const val CYCLE: Int = 60
 
         @JvmStatic
-        public fun fromIndex(index: Int): GanZhi {
+        public fun fromIndex(index: Int): Ganji {
             val normalized = floorMod(index, CYCLE)
-            return GanZhi(Cheongan.fromIndex(normalized), Jiji.fromIndex(normalized))
+            return Ganji(Cheongan.fromIndex(normalized), Jiji.fromIndex(normalized))
         }
 
         /**
@@ -44,7 +44,7 @@ public data class GanZhi(
          * (KMP 승격 시 kotlinx-collections-immutable 또는 expect/actual 로 교체)
          */
         @JvmField
-        public val ALL: List<GanZhi> = java.util.Collections.unmodifiableList((0 until CYCLE).map { fromIndex(it) })
+        public val ALL: List<Ganji> = java.util.Collections.unmodifiableList((0 until CYCLE).map { fromIndex(it) })
 
         // i%10==gan, i%12==ji 를 만족하는 0..59 (유효 60갑자 조합은 최대 6스텝 내 발견).
         private fun sexagenaryIndex(

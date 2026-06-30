@@ -22,7 +22,7 @@
 | 호출 | 반환 |
 |------|------|
 | `Saju.fromLocalDateTime(y, mo, d, h, mi, utOffsetHours, config=DEFAULT, second=0)` | `SajuChart` |
-| `Saju.daeun(utJd, monthGanZhi, yearStemEumyang, isMale, count=8)` | `List<Daeun>` |
+| `Saju.daeun(utJd, monthGanji, yearStemEumyang, isMale, count=8)` | `List<Daeun>` |
 | `Saju.seun(year)` | `Seun` (그 해의 세운) |
 
 > 모든 진입점은 `@JvmStatic`·`@JvmOverloads` — Java 에서 기본값 인자 생략 가능. 잘못된 날짜·경도는 `IllegalArgumentException` 으로 즉시 거부(fail-fast).
@@ -36,10 +36,10 @@ SajuChart ─ year / month / day / hour : Pillar
           ├ dayMaster : Cheongan          (= day.gan, 해석 기준 '나')
           └ pillars() / stems() / branches()
 
-Pillar    ─ position : PillarPosition · ganZhi : GanZhi · gan : Cheongan · ji : Jiji
-GanZhi    ─ gan · ji · index(0~59);  fromIndex(i) · next(n) · ALL · CYCLE(=60)
-Daeun     ─ startAge : Int · ganZhi : GanZhi
-Seun      ─ year : Int · ganZhi : GanZhi
+Pillar    ─ position : PillarPosition · ganji : Ganji · gan : Cheongan · ji : Jiji
+Ganji    ─ gan · ji · index(0~59);  fromIndex(i) · next(n) · ALL · CYCLE(=60)
+Daeun     ─ startAge : Int · ganji : Ganji
+Seun      ─ year : Int · ganji : Ganji
 CalendarDate ─ year · month · day · hour · minute · second   (음→양 결과)
 LunarDate    ─ year · month · day · isLeapMonth               (양→음 결과)
 ```
@@ -105,7 +105,7 @@ Interpretation.of(chart, ctx)
 | `TrueSolarTimePolicy` | `NONE` / `LONGITUDE_ONLY` / `FULL` | `FULL`(경도+균시차) |
 | `ZishiPolicy` | `JEONGJASI` / `YAJASI` | `JEONGJASI`(정자시) |
 | `YearBoundary` | `IPCHUN` / `DONGJI` | `IPCHUN`(입춘세수) |
-| 용신 전략 | `BueokYongsinStrategy` / `JohuYongsinStrategy` | 억부 |
+| 용신 전략 | `EokbuYongsinStrategy` / `JohuYongsinStrategy` | 억부 |
 | 십이운성 전략 | `EumPotaeStrategy` / `YangPotaeStrategy` | 음포태 |
 | 격국 전략 | `JapyeongGyeokgukStrategy` / `TuchulGyeokgukStrategy` | 자평 |
 

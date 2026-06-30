@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.domain.Cheongan
-import io.github.jaeyeonling.saju.domain.GanZhi
+import io.github.jaeyeonling.saju.domain.Ganji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.interpretation.GyeokgukResult
@@ -27,8 +27,8 @@ public val sajuJson: Json =
         encodeDefaults = true
     }
 
-public fun GanZhi.toDto(): GanZhiDto =
-    GanZhiDto(
+public fun Ganji.toDto(): GanjiDto =
+    GanjiDto(
         name = koreanName,
         hanja = hanja,
         gan = gan.koreanName,
@@ -44,7 +44,7 @@ public fun Cheongan.toDto(): CheonganDto =
         eumyang = eumyang.koreanName,
     )
 
-public fun Pillar.toDto(): PillarDto = PillarDto(position = position.name, ganZhi = ganZhi.toDto())
+public fun Pillar.toDto(): PillarDto = PillarDto(position = position.name, ganji = ganji.toDto())
 
 public fun SajuChart.toDto(): SajuChartDto =
     SajuChartDto(

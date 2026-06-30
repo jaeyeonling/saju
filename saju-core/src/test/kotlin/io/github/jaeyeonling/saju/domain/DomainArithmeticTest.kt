@@ -26,7 +26,7 @@ class DomainArithmeticTest : StringSpec({
     "천간합 5쌍 — 갑기 을경 병신 정임 무계" {
         val expected =
             mapOf(
-                Cheongan.GAB to Cheongan.GI,
+                Cheongan.GAP to Cheongan.GI,
                 Cheongan.EUL to Cheongan.GYEONG,
                 Cheongan.BYEONG to Cheongan.SIN,
                 Cheongan.JEONG to Cheongan.IM,
@@ -43,7 +43,7 @@ class DomainArithmeticTest : StringSpec({
             listOf(
                 Jiji.JA to Jiji.O,
                 Jiji.CHUK to Jiji.MI,
-                Jiji.IN to Jiji.SHIN,
+                Jiji.IN to Jiji.SIN,
                 Jiji.MYO to Jiji.YU,
                 Jiji.JIN to Jiji.SUL,
                 Jiji.SA to Jiji.HAE,
@@ -61,7 +61,7 @@ class DomainArithmeticTest : StringSpec({
                 Jiji.IN to Jiji.HAE,
                 Jiji.MYO to Jiji.SUL,
                 Jiji.JIN to Jiji.YU,
-                Jiji.SA to Jiji.SHIN,
+                Jiji.SA to Jiji.SIN,
                 Jiji.O to Jiji.MI,
             )
         for ((a, b) in pairs) {
@@ -77,7 +77,7 @@ class DomainArithmeticTest : StringSpec({
                 Jiji.CHUK to Jiji.O,
                 Jiji.IN to Jiji.SA,
                 Jiji.MYO to Jiji.JIN,
-                Jiji.SHIN to Jiji.HAE,
+                Jiji.SIN to Jiji.HAE,
                 Jiji.YU to Jiji.SUL,
             )
         for ((a, b) in pairs) {
@@ -87,17 +87,17 @@ class DomainArithmeticTest : StringSpec({
     }
 
     "60갑자 라운드트립 — fromIndex(i)_index == i" {
-        for (i in 0 until GanZhi.CYCLE) {
-            withClue("60갑자 index $i") { GanZhi.fromIndex(i).index shouldBe i }
+        for (i in 0 until Ganji.CYCLE) {
+            withClue("60갑자 index $i") { Ganji.fromIndex(i).index shouldBe i }
         }
-        GanZhi.ALL.size shouldBe GanZhi.CYCLE
+        Ganji.ALL.size shouldBe Ganji.CYCLE
     }
 
     "60갑자 경계 — 0=갑자 59=계해, 순환" {
-        GanZhi.fromIndex(0) shouldBe GanZhi(Cheongan.GAB, Jiji.JA)
-        GanZhi.fromIndex(59) shouldBe GanZhi(Cheongan.GYE, Jiji.HAE)
+        Ganji.fromIndex(0) shouldBe Ganji(Cheongan.GAP, Jiji.JA)
+        Ganji.fromIndex(59) shouldBe Ganji(Cheongan.GYE, Jiji.HAE)
         // 60 순환, 음수 역행
-        GanZhi.fromIndex(60) shouldBe GanZhi.fromIndex(0)
-        GanZhi.fromIndex(0).next(-1) shouldBe GanZhi.fromIndex(59)
+        Ganji.fromIndex(60) shouldBe Ganji.fromIndex(0)
+        Ganji.fromIndex(0).next(-1) shouldBe Ganji.fromIndex(59)
     }
 })

@@ -24,7 +24,7 @@ public enum class Jiji(
     SA(Ohaeng.HWA, "사", "巳"), // 뱀
     O(Ohaeng.HWA, "오", "午"), // 말
     MI(Ohaeng.TO, "미", "未"), // 양
-    SHIN(Ohaeng.GEUM, "신", "申"), // 원숭이
+    SIN(Ohaeng.GEUM, "신", "申"), // 원숭이
     YU(Ohaeng.GEUM, "유", "酉"), // 닭
     SUL(Ohaeng.TO, "술", "戌"), // 개
     HAE(Ohaeng.SU, "해", "亥"), // 돼지

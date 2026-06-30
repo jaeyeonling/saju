@@ -12,7 +12,7 @@ public enum class Cheongan(
     /** 한자(甲·乙·…). */
     public val hanja: String,
 ) {
-    GAB("갑", "甲"),
+    GAP("갑", "甲"),
     EUL("을", "乙"),
     BYEONG("병", "丙"),
     JEONG("정", "丁"),
