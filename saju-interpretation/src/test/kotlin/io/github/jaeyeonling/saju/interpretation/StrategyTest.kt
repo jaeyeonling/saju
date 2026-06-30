@@ -14,6 +14,7 @@ import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 
 class StrategyTest : StringSpec({
 
@@ -49,6 +50,23 @@ class StrategyTest : StringSpec({
         val gyeokguk = ctx.gyeokguk.classify(chart)
         ctx.gyeokguk.classify(chart) shouldBe gyeokguk
         withClue("격국 이름: ${gyeokguk.type.koreanName}") { gyeokguk.type.koreanName.endsWith("격").shouldBeTrue() }
+    }
+
+    "신강신약·용신 결과는 산출 근거(basis)를 노출한다" {
+        val chart = sampleChart()
+        val strength = EokbuSinStrengthStrategy.DEFAULT.evaluate(chart)
+        withClue("신강신약 basis: ${strength.basis}") {
+            strength.basis.shouldContain("월령")
+            strength.basis.shouldContain("가중")
+            strength.basis.shouldContain("%")
+        }
+        val yongsin = EokbuYongsinStrategy.derive(chart, strength)
+        withClue("억부 용신 basis: ${yongsin.basis}") {
+            yongsin.basis.shouldContain(if (strength.verdict.isStrong) "설기" else "생조")
+        }
+        withClue("조후 용신 basis: ${JohuYongsinStrategy.derive(chart, strength).basis}") {
+            JohuYongsinStrategy.derive(chart, strength).basis.shouldContain("조후")
+        }
     }
 
     "신강신약 5단계가 모두 도달 가능하다 (JUNGHWA dead code 회귀)" {

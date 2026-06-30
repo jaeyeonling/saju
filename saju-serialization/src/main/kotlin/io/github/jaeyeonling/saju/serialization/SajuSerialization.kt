@@ -65,6 +65,7 @@ public fun SinStrength.toDto(): SinStrengthDto =
         verdict = verdict.name,
         verdictKorean = verdict.koreanName,
         supportRatio = supportRatio,
+        basis = basis,
     )
 
 public fun YongsinResult.toDto(): YongsinDto =
@@ -72,6 +73,7 @@ public fun YongsinResult.toDto(): YongsinDto =
         ohaeng = yongsin.koreanName,
         method = method.name,
         methodKorean = method.koreanName,
+        basis = basis,
     )
 
 public fun GyeokgukResult.toDto(): GyeokgukDto =

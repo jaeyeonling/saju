@@ -36,6 +36,9 @@ class SajuSerializationTest : StringSpec({
         dto.ohaengCounts.values.sum() shouldBe 8 // 천간 4 + 지지 4
         dto.strength.verdictKorean.isNotBlank() shouldBe true
         dto.yongsin.methodKorean.isNotBlank() shouldBe true
+        // 산출 근거(basis)가 신강신약·용신에 노출된다 — LLM 검증용.
+        dto.strength.basis shouldContain "가중"
+        dto.yongsin.basis.isNotBlank() shouldBe true
 
         val back = sajuJson.decodeFromString<InterpretationReportDto>(report.toJson())
         back.gongmang shouldBe dto.gongmang

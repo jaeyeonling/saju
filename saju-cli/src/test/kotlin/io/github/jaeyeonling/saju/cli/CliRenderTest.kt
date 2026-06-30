@@ -56,6 +56,15 @@ class CliRenderTest : StringSpec({
         withClue("가중 오행 줄 누락:\n$out") { out.contains("오행(지장간)").shouldBeTrue() }
     }
 
+    "렌더 출력에 용신·신강신약 근거와 지장간 십성 블록이 노출된다" {
+        val out = render(CliInput.DEFAULT, fixedYear)
+        withClue("신강신약 근거(가중) 누락:\n$out") { out.contains("가중").shouldBeTrue() }
+        withClue("용신 근거(설기/생조) 누락:\n$out") {
+            (out.contains("설기") || out.contains("생조")).shouldBeTrue()
+        }
+        withClue("지장간 십성 블록 누락:\n$out") { out.contains("지장간 십성").shouldBeTrue() }
+    }
+
     "1990-3-15 7시 서울 — 일간 라벨이 한글·한자로 매핑된다" {
         // 알려진 결과: 일간 기(己), 오행 토(土)·음(陰). 라벨 ordinal 매핑 골든.
         val out = render(CliInput.DEFAULT, fixedYear)

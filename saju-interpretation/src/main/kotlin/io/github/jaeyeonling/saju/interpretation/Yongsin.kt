@@ -20,10 +20,16 @@ public enum class YongsinMethod(
     JOHU("조후", "調候"),
 }
 
-/** 용신 도출 결과. */
+/**
+ * 용신 도출 결과.
+ *
+ * [basis] 는 산출 근거(왜 이 오행인가). 용신은 LLM 이 가장 자신 있게 틀리는 지점이라,
+ * 근거를 함께 노출해 모델이 결론만 보고 추론을 지어내는 걸 막는다([GyeokgukResult] 의 basis 와 같은 역할).
+ */
 public data class YongsinResult(
     public val yongsin: Ohaeng,
     public val method: YongsinMethod,
+    public val basis: String = "",
 )
 
 /** 용신 도출 전략. 억부·조후·병약 등 방법이 다중이라 전략화한다. */
@@ -45,15 +51,21 @@ public object EokbuYongsinStrategy : YongsinStrategy {
         strength: SinStrength,
     ): YongsinResult {
         val dayOhaeng = chart.dayMaster.ohaeng
-        val yongsin =
+        val pct = "%.0f".format(strength.supportRatio * 100)
+        val (yongsin, basis) =
             if (strength.verdict.isStrong) {
-                dayOhaeng.generates() // 신강 → 설기(식상)
+                val y = dayOhaeng.generates() // 신강 → 설기(식상)
+                y to "${strength.verdict.koreanName}($pct%) · 일간 ${label(dayOhaeng)} 설기 → 식상 ${label(y)}"
             } else {
-                dayOhaeng.generatedBy() // 신약 → 생조(인성)
+                val y = dayOhaeng.generatedBy() // 신약 → 생조(인성)
+                y to "${strength.verdict.koreanName}($pct%) · 일간 ${label(dayOhaeng)} 생조 → 인성 ${label(y)}"
             }
-        return YongsinResult(yongsin, YongsinMethod.EOKBU)
+        return YongsinResult(yongsin, YongsinMethod.EOKBU, basis)
     }
 }
+
+/** 오행 표시 라벨 — "목(木)". */
+private fun label(ohaeng: Ohaeng): String = "${ohaeng.koreanName}(${ohaeng.hanja})"
 
 /**
  * 조후(調候) 용신 — 신강신약과 무관하게 월령(계절)의 치우친 한난조습을 중화한다.
@@ -67,12 +79,14 @@ public object JohuYongsinStrategy : YongsinStrategy {
         chart: SajuChart,
         strength: SinStrength,
     ): YongsinResult {
-        val yongsin =
+        val (yongsin, season) =
             when (chart.month.ji) {
-                Jiji.IN, Jiji.MYO, Jiji.JIN, Jiji.HAE, Jiji.JA, Jiji.CHUK -> Ohaeng.HWA // 한(寒) → 火
-                else -> Ohaeng.SU // 난조(暖燥) → 水
+                Jiji.IN, Jiji.MYO, Jiji.JIN, Jiji.HAE, Jiji.JA, Jiji.CHUK -> Ohaeng.HWA to "한(寒)" // → 火
+                else -> Ohaeng.SU to "난조(暖燥)" // → 水
             }
-        return YongsinResult(yongsin, YongsinMethod.JOHU)
+        val ji = chart.month.ji
+        val basis = "월지 ${ji.koreanName}(${ji.hanja})=$season 계절 → 조후로 ${label(yongsin)}"
+        return YongsinResult(yongsin, YongsinMethod.JOHU, basis)
     }
 }
 
