@@ -17,6 +17,10 @@ jobs:
   analyze:
     name: Analyze (java-kotlin)
     runs-on: ubuntu-latest
+    # private 레포는 code scanning 결과 업로드가 막힌다(GitHub Advanced Security 필요).
+    # 그래서 private 동안에는 job 을 건너뛰고(중립, 실패 X 없음), public 전환 시
+    # 워크플로 수정 없이 자동으로 활성화된다.
+    if: ${{ github.event.repository.private == false }}
     permissions:
       security-events: write
       actions: read
