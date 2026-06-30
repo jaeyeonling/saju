@@ -108,9 +108,18 @@ private fun renderFor(
     return if (flags.json) renderJson(input, seunYear) else render(input, seunYear)
 }
 
-/** 사주 만세력 데모 CLI — 생년월일시 → 8글자 + 해석 + 세운 + 대운 출력. */
+/**
+ * 사주 만세력 데모 CLI — 생년월일시 → 8글자 + 해석 + 세운 + 대운 출력.
+ * 첫 인자가 `group` 이면 그룹 사주(여러 멤버 합성) 서브커맨드로 분기한다.
+ */
 public fun main(args: Array<String>) {
-    val (output, exitCode) = runCli(args, java.time.Year.now().value)
+    val currentYear = java.time.Year.now().value
+    val (output, exitCode) =
+        if (args.firstOrNull() == "group") {
+            runGroupCli(args, currentYear) { path -> java.io.File(path).readText() }
+        } else {
+            runCli(args, currentYear)
+        }
     if (exitCode == EXIT_OK) print(output) else System.err.println(output)
     if (exitCode != EXIT_OK) exitProcess(exitCode)
 }
