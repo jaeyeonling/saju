@@ -60,7 +60,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # ktlint 는 도메인 인라인 주석 패턴과 충돌해 빌드 게이트에서 분리돼 있다.
-      # CI 에서는 informational 로 돌려 포맷 드리프트를 가시화한다(실패해도 CI 는 통과).
-      - name: ktlint (informational)
+      # ktlint 는 build job(./gradlew build → check → ktlintCheck)에서 이미 게이트로 강제된다.
+      # 이 잡은 ktlint 위반 위치를 한데 모아 빠르게 보여주는 보조 리포트다(게이트는 build job 담당).
+      - name: ktlint (보조 리포트)
         run: ./gradlew ktlintCheck --continue || true
