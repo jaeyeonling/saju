@@ -1,9 +1,9 @@
 [versions]
-kotlin = "2.1.20"
+kotlin = "2.4.0"
 junit = "5.11.4"
 konsist = "0.17.3"
 kotest = "5.9.1"
-kotlinxSerialization = "1.8.0"
+kotlinxSerialization = "1.11.0"
 ktlint = "12.1.2"
 
 [libraries]
