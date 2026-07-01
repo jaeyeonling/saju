@@ -1,0 +1,396 @@
+public final class io/github/jaeyeonling/saju/group/BrokenChain {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/domain/Ohaeng;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/domain/Ohaeng;)Lio/github/jaeyeonling/saju/group/BrokenChain;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/BrokenChain;Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/domain/Ohaeng;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/BrokenChain;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getSource ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun getTarget ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/CurrentDaeun {
+	public fun <init> (Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component4 ()I
+	public final fun copy (Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;I)Lio/github/jaeyeonling/saju/group/CurrentDaeun;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/CurrentDaeun;Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;IILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/CurrentDaeun;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAge ()I
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getStartAge ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/DaeunTransition {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()I
+	public final fun component4 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component5 ()I
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;I)Lio/github/jaeyeonling/saju/group/DaeunTransition;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/DaeunTransition;Ljava/lang/String;Ljava/lang/String;ILio/github/jaeyeonling/saju/domain/Ganji;IILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/DaeunTransition;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAge ()I
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getMemberId ()Ljava/lang/String;
+	public final fun getStartAge ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/Gender : java/lang/Enum {
+	public static final field Companion Lio/github/jaeyeonling/saju/group/Gender$Companion;
+	public static final field FEMALE Lio/github/jaeyeonling/saju/group/Gender;
+	public static final field MALE Lio/github/jaeyeonling/saju/group/Gender;
+	public static final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
+	public static fun values ()[Lio/github/jaeyeonling/saju/group/Gender;
+}
+
+public final class io/github/jaeyeonling/saju/group/Gender$Companion {
+	public final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
+}
+
+public final class io/github/jaeyeonling/saju/group/GraphEdge {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/RelationLabel;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/RelationLabel;)Lio/github/jaeyeonling/saju/group/GraphEdge;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GraphEdge;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/RelationLabel;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GraphEdge;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFrom ()Ljava/lang/String;
+	public final fun getLabel ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public final fun getTo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GraphNode {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Ohaeng;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Ohaeng;)Lio/github/jaeyeonling/saju/group/GraphNode;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GraphNode;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Ohaeng;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GraphNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getDominant ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun getId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupAnalysis {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/group/GroupAnalysis;
+	public static final fun of (Ljava/util/List;I)Lio/github/jaeyeonling/saju/group/GroupReport;
+	public static final fun of (Ljava/util/List;ILio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupReport;
+	public static synthetic fun of$default (Ljava/util/List;ILio/github/jaeyeonling/saju/group/GroupContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupReport;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupContext {
+	public static final field Companion Lio/github/jaeyeonling/saju/group/GroupContext$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/group/GroupContext;
+	public static final field DEFAULT_DEFICIT_FACTOR D
+	public static final field DEFAULT_EXCESS_FACTOR D
+	public static final field DEFAULT_TRANSITION_WINDOW I
+	public fun <init> ()V
+	public fun <init> (DDILio/github/jaeyeonling/saju/interpretation/InterpretationContext;)V
+	public synthetic fun <init> (DDILio/github/jaeyeonling/saju/interpretation/InterpretationContext;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()I
+	public final fun component4 ()Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+	public final fun copy (DDILio/github/jaeyeonling/saju/interpretation/InterpretationContext;)Lio/github/jaeyeonling/saju/group/GroupContext;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupContext;DDILio/github/jaeyeonling/saju/interpretation/InterpretationContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeficitFactor ()D
+	public final fun getExcessFactor ()D
+	public final fun getInterpretation ()Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+	public final fun getTransitionWindow ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupContext$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupMember {
+	public static final field Companion Lio/github/jaeyeonling/saju/group/GroupMember$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/group/Gender;
+	public final fun component4 ()I
+	public final fun component5 ()Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public final fun component6 ()Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Lio/github/jaeyeonling/saju/derivation/Seun;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupMember;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getBirthYear ()I
+	public final fun getChart ()Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public final fun getDaeun ()Ljava/util/List;
+	public final fun getGender ()Lio/github/jaeyeonling/saju/group/Gender;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getReport ()Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public final fun getSeun ()Lio/github/jaeyeonling/saju/derivation/Seun;
+	public fun hashCode ()I
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupMember$Companion {
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static synthetic fun of$default (Lio/github/jaeyeonling/saju/group/GroupMember$Companion;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupReport {
+	public fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/group/OhaengBalance;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/group/SipseongRoles;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/group/RelationMatrix;
+	public final fun component5 ()Lio/github/jaeyeonling/saju/group/GroupTimeline;
+	public final fun component6 ()Lio/github/jaeyeonling/saju/group/GroupContext;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/GroupReport;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupReport;Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContext ()Lio/github/jaeyeonling/saju/group/GroupContext;
+	public final fun getDisclaimer ()Ljava/lang/String;
+	public final fun getMemberIds ()Ljava/util/List;
+	public final fun getOhaeng ()Lio/github/jaeyeonling/saju/group/OhaengBalance;
+	public final fun getRelations ()Lio/github/jaeyeonling/saju/group/RelationMatrix;
+	public final fun getSipseong ()Lio/github/jaeyeonling/saju/group/SipseongRoles;
+	public final fun getTimeline ()Lio/github/jaeyeonling/saju/group/GroupTimeline;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupReportKt {
+	public static final field GROUP_DISCLAIMER Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupRole : java/lang/Enum {
+	public static final field ACHIEVER Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static final field COORDINATOR Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static final field Companion Lio/github/jaeyeonling/saju/group/GroupRole$Companion;
+	public static final field EXECUTOR Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static final field LEADER Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static final field PLANNER Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun getTopGroup ()Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static final fun ofTop (Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;)Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/GroupRole;
+	public static fun values ()[Lio/github/jaeyeonling/saju/group/GroupRole;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupRole$Companion {
+	public final fun ofTop (Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;)Lio/github/jaeyeonling/saju/group/GroupRole;
+}
+
+public final class io/github/jaeyeonling/saju/group/GroupTimeline {
+	public fun <init> (ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun component4 ()Ljava/util/Map;
+	public final fun component5 ()Ljava/util/List;
+	public final fun copy (ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupTimeline;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupTimeline;ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupTimeline;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCurrentDaeun ()Ljava/util/Map;
+	public final fun getDaeunTransitions ()Ljava/util/List;
+	public final fun getGroupSeun ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getMemberSeunSipseong ()Ljava/util/Map;
+	public final fun getYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/MemberPair {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationLabel;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationLabel;)Lio/github/jaeyeonling/saju/group/MemberPair;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/MemberPair;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationLabel;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/MemberPair;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Ljava/lang/String;
+	public final fun getB ()Ljava/lang/String;
+	public final fun getNetLabel ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public final fun getRelations ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/MemberSeun {
+	public fun <init> (Ljava/lang/String;Lio/github/jaeyeonling/saju/interpretation/SipSeong;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun copy (Ljava/lang/String;Lio/github/jaeyeonling/saju/interpretation/SipSeong;)Lio/github/jaeyeonling/saju/group/MemberSeun;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/MemberSeun;Ljava/lang/String;Lio/github/jaeyeonling/saju/interpretation/SipSeong;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/MemberSeun;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlias ()Ljava/lang/String;
+	public final fun getSipSeong ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/OhaengBalance {
+	public fun <init> (Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/Map;)V
+	public final fun component1 ()Ljava/util/Map;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/Map;
+	public final fun copy (Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/Map;)Lio/github/jaeyeonling/saju/group/OhaengBalance;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/OhaengBalance;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/OhaengBalance;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBrokenChains ()Ljava/util/List;
+	public final fun getDeficient ()Ljava/util/List;
+	public final fun getDominantByMember ()Ljava/util/Map;
+	public final fun getExcessive ()Ljava/util/List;
+	public final fun getGroupVector ()Ljava/util/Map;
+	public final fun getNormalized ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/PairRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/group/RelationKind;Lio/github/jaeyeonling/saju/group/RelationLabel;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/group/RelationKind;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/group/RelationKind;Lio/github/jaeyeonling/saju/group/RelationLabel;Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/PairRelation;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/PairRelation;Lio/github/jaeyeonling/saju/group/RelationKind;Lio/github/jaeyeonling/saju/group/RelationLabel;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/PairRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDetail ()Ljava/lang/String;
+	public final fun getKind ()Lio/github/jaeyeonling/saju/group/RelationKind;
+	public final fun getLabel ()Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/RelationGraph {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/RelationGraph;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/RelationGraph;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/RelationGraph;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEdges ()Ljava/util/List;
+	public final fun getNodes ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/RelationKind : java/lang/Enum {
+	public static final field BANHAP Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field CHEONGAN_HAP Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field CHUNG Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field HAE Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field HYEONG Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field PA Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field SAMHAP Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static final field YUKHAP Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/RelationKind;
+	public static fun values ()[Lio/github/jaeyeonling/saju/group/RelationKind;
+}
+
+public final class io/github/jaeyeonling/saju/group/RelationLabel : java/lang/Enum {
+	public static final field COMPLEMENT Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static final field COMPLEX Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static final field COOPERATION Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static final field FRICTION Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static final field NEUTRAL Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static final field TENSION Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun getWeight ()I
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/RelationLabel;
+	public static fun values ()[Lio/github/jaeyeonling/saju/group/RelationLabel;
+}
+
+public final class io/github/jaeyeonling/saju/group/RelationMatrix {
+	public fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationGraph;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/group/RelationGraph;
+	public final fun copy (Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationGraph;)Lio/github/jaeyeonling/saju/group/RelationMatrix;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/RelationMatrix;Ljava/util/List;Lio/github/jaeyeonling/saju/group/RelationGraph;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/RelationMatrix;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGraph ()Lio/github/jaeyeonling/saju/group/RelationGraph;
+	public final fun getPairs ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/RoleTrigger {
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;Lio/github/jaeyeonling/saju/group/TriggerKind;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/group/TriggerKind;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;Lio/github/jaeyeonling/saju/group/TriggerKind;Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/RoleTrigger;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/RoleTrigger;Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;Lio/github/jaeyeonling/saju/group/TriggerKind;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/RoleTrigger;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGroup ()Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public final fun getKind ()Lio/github/jaeyeonling/saju/group/TriggerKind;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/SipseongRoles {
+	public fun <init> (Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/Map;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/List;
+	public final fun copy (Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/SipseongRoles;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/SipseongRoles;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/SipseongRoles;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeficit ()Ljava/util/List;
+	public final fun getExcess ()Ljava/util/List;
+	public final fun getGroup5 ()Ljava/util/Map;
+	public final fun getGroupDistribution ()Ljava/util/Map;
+	public final fun getRoleComposition ()Ljava/util/Map;
+	public final fun getTriggers ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/group/TriggerKind : java/lang/Enum {
+	public static final field DEFICIT Lio/github/jaeyeonling/saju/group/TriggerKind;
+	public static final field EXCESS Lio/github/jaeyeonling/saju/group/TriggerKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/TriggerKind;
+	public static fun values ()[Lio/github/jaeyeonling/saju/group/TriggerKind;
+}
+

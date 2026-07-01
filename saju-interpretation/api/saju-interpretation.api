@@ -1,0 +1,523 @@
+public final class io/github/jaeyeonling/saju/interpretation/CompositeYongsinStrategy : io/github/jaeyeonling/saju/interpretation/YongsinStrategy {
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;)V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun derive (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/SinStrength;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EokbuSinStrengthStrategy : io/github/jaeyeonling/saju/interpretation/SinStrengthStrategy {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/EokbuSinStrengthStrategy$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/interpretation/EokbuSinStrengthStrategy;
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;)V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;Lio/github/jaeyeonling/saju/domain/HiddenStemTable;)V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;Lio/github/jaeyeonling/saju/domain/HiddenStemTable;Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;Lio/github/jaeyeonling/saju/domain/HiddenStemTable;Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun evaluate (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+	public final fun getHiddenStems ()Lio/github/jaeyeonling/saju/domain/HiddenStemTable;
+	public final fun getSibiUnseong ()Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;
+	public final fun getWeights ()Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EokbuSinStrengthStrategy$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EokbuWeights {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/EokbuWeights$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;
+	public fun <init> ()V
+	public fun <init> (DDDDDDDDDDD)V
+	public synthetic fun <init> (DDDDDDDDDDDILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component10 ()D
+	public final fun component11 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun component7 ()D
+	public final fun component8 ()D
+	public final fun component9 ()D
+	public final fun copy (DDDDDDDDDDD)Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;DDDDDDDDDDDILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/EokbuWeights;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGeuksinGang ()D
+	public final fun getJunghwa ()D
+	public final fun getMainQi ()D
+	public final fun getMidQi ()D
+	public final fun getMonth ()D
+	public final fun getResidualQi ()D
+	public final fun getRootMid ()D
+	public final fun getRootStrong ()D
+	public final fun getRootWeak ()D
+	public final fun getSinGang ()D
+	public final fun getSinYak ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EokbuWeights$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EokbuYongsinStrategy : io/github/jaeyeonling/saju/interpretation/YongsinStrategy {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/EokbuYongsinStrategy;
+	public fun derive (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/SinStrength;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/EumPotaeStrategy : io/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/EumPotaeStrategy;
+	public fun stageOf (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/Gongmang {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/Gongmang;
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/Ganji;)Lkotlin/Pair;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/GyeokgukResult {
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getType ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/GyeokgukStrategy {
+	public abstract fun classify (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/GyeokgukType : java/lang/Enum {
+	public static final field GEOLLOK Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field JEONGGWAN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field JEONGIN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field JEONGJAE Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field PYEONGWAN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field PYEONIN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field PYEONJAE Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field SANGGWAN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field SIKSIN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static final field YANGIN Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/GyeokgukType;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganChung : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganChung;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganChung;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganChung;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getB ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganHap : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ohaeng;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ohaeng;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganHap;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganHap;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ohaeng;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$CheonganHap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getB ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getTransformsTo ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiBanghap : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun copy (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiBanghap;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiBanghap;Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiBanghap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMembers ()Ljava/util/List;
+	public final fun getTransformsTo ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiSamhap : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun copy (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiSamhap;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiSamhap;Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Ohaeng;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiSamhap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMembers ()Ljava/util/List;
+	public final fun getTransformsTo ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukchung : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukchung;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukchung;Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukchung;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getB ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhae : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhae;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhae;Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhae;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getB ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhap : io/github/jaeyeonling/saju/interpretation/HapChungRelation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhap;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhap;Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Jiji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/HapChungRelation$JijiYukhap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getA ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getB ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/HapChungStrategy {
+	public abstract fun detect (Ljava/util/List;Ljava/util/List;I)Ljava/util/List;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/HapChungStrategy$DefaultImpls {
+	public static synthetic fun detect$default (Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;Ljava/util/List;Ljava/util/List;IILjava/lang/Object;)Ljava/util/List;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/Interpretation {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/Interpretation;
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;)Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public static synthetic fun of$default (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/InterpretationContext {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/InterpretationContext$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;
+	public final fun component5 ()Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;
+	public final fun copy (Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;)Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGyeokguk ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukStrategy;
+	public final fun getHapChung ()Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;
+	public final fun getSibiUnseong ()Lio/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy;
+	public final fun getSinStrength ()Lio/github/jaeyeonling/saju/interpretation/SinStrengthStrategy;
+	public final fun getYongsin ()Lio/github/jaeyeonling/saju/interpretation/YongsinStrategy;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun withHiddenStems (Lio/github/jaeyeonling/saju/domain/HiddenStemTable;)Lio/github/jaeyeonling/saju/interpretation/InterpretationContext;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/InterpretationContext$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/InterpretationReport {
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/SinStrength;Lio/github/jaeyeonling/saju/interpretation/YongsinResult;Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;Lkotlin/Pair;Ljava/util/List;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/interpretation/SinStrength;Lio/github/jaeyeonling/saju/interpretation/YongsinResult;Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;Lkotlin/Pair;Ljava/util/List;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+	public final fun component10 ()Ljava/util/Map;
+	public final fun component11 ()Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+	public final fun component4 ()Lkotlin/Pair;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun component7 ()Ljava/util/Map;
+	public final fun component8 ()Ljava/util/Map;
+	public final fun component9 ()Ljava/util/Map;
+	public final fun copy (Lio/github/jaeyeonling/saju/interpretation/SinStrength;Lio/github/jaeyeonling/saju/interpretation/YongsinResult;Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;Lkotlin/Pair;Ljava/util/List;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;)Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Lio/github/jaeyeonling/saju/interpretation/SinStrength;Lio/github/jaeyeonling/saju/interpretation/YongsinResult;Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;Lkotlin/Pair;Ljava/util/List;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGongmang ()Lkotlin/Pair;
+	public final fun getGyeokguk ()Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+	public final fun getHapChung ()Ljava/util/List;
+	public final fun getHiddenStems ()Ljava/util/Map;
+	public final fun getOhaeng ()Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun getOhaengWeighted ()Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun getSibiUnseong ()Ljava/util/Map;
+	public final fun getSinSal ()Ljava/util/Map;
+	public final fun getSipSeong ()Ljava/util/Map;
+	public final fun getStrength ()Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+	public final fun getYongsin ()Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/JapyeongGyeokgukStrategy : io/github/jaeyeonling/saju/interpretation/GyeokgukStrategy {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/JapyeongGyeokgukStrategy$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/interpretation/JapyeongGyeokgukStrategy;
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/HiddenStemTable;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/domain/HiddenStemTable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun classify (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/JapyeongGyeokgukStrategy$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/JohuYongsinStrategy : io/github/jaeyeonling/saju/interpretation/YongsinStrategy {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/JohuYongsinStrategy;
+	public fun derive (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/SinStrength;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/OhaengDistribution {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution$Companion;
+	public fun <init> (Ljava/util/Map;)V
+	public final fun component1 ()Ljava/util/Map;
+	public final fun copy (Ljava/util/Map;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;Ljava/util/Map;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun count (Lio/github/jaeyeonling/saju/domain/Ohaeng;)I
+	public final fun dominant ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun getCounts ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public static final fun weighted (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/OhaengDistribution$Companion {
+	public final fun from (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+	public final fun weighted (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/OhaengDistribution;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/PillarSipSeong {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun copy (Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;)Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;Lio/github/jaeyeonling/saju/interpretation/SipSeong;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBranchMain ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun getBranchMid ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun getBranchResidual ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public final fun getStem ()Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public fun hashCode ()I
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Pillar;)Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/PillarSipSeong$Companion {
+	public final fun of (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Pillar;)Lio/github/jaeyeonling/saju/interpretation/PillarSipSeong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SibiUnseong : java/lang/Enum {
+	public static final field BYEONG Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field GEOLLOK Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field GWANDAE Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field JANGSAENG Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field JEOL Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field JEWANG Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field MOGYOK Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field MYO Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field SA Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field SOE Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field TAE Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static final field YANG Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy {
+	public abstract fun stageOf (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SinSal : java/lang/Enum {
+	public static final field CHEONEUL Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static final field DOHWA Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static final field HWAGAE Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static final field MUNCHANG Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static final field YANGIN Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static final field YEOKMA Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public final fun getBasis ()Lio/github/jaeyeonling/saju/interpretation/SinSalBasis;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SinSal;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SinSal;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SinSalBasis : java/lang/Enum {
+	public static final field DAY_BRANCH Lio/github/jaeyeonling/saju/interpretation/SinSalBasis;
+	public static final field DAY_STEM Lio/github/jaeyeonling/saju/interpretation/SinSalBasis;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SinSalBasis;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SinSalBasis;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SinSalFinder {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/SinSalFinder;
+	public static final fun find (Lio/github/jaeyeonling/saju/domain/SajuChart;)Ljava/util/Map;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SinStrength {
+	public fun <init> (DLio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (DLio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/Map;
+	public final fun copy (DLio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;Ljava/lang/String;Ljava/util/Map;)Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/SinStrength;DLio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGroupScores ()Ljava/util/Map;
+	public final fun getSupportRatio ()D
+	public final fun getVerdict ()Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/SinStrengthStrategy {
+	public abstract fun evaluate (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/SinStrength;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SinStrengthVerdict : java/lang/Enum {
+	public static final field GEUKSIN_GANG Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static final field GEUKSIN_YAK Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static final field JUNGHWA Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static final field SIN_GANG Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static final field SIN_YAK Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun isStrong ()Z
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SinStrengthVerdict;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SipSeong : java/lang/Enum {
+	public static final field BIGYEON Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/SipSeong$Companion;
+	public static final field GEOPJAE Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field JEONGGWAN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field JEONGIN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field JEONGJAE Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field PYEONGWAN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field PYEONIN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field PYEONJAE Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field SANGGWAN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static final field SIKSIN Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getGroup ()Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun isSameEumyang ()Z
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SipSeong$Companion {
+	public final fun of (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/interpretation/SipSeong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/SipSeongGroup : java/lang/Enum {
+	public static final field BIGEOP Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static final field GWANSEONG Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static final field INSEONG Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static final field JAESEONG Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static final field SIKSANG Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/SipSeongGroup;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/StandardHapChungStrategy : io/github/jaeyeonling/saju/interpretation/HapChungStrategy {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/StandardHapChungStrategy;
+	public fun detect (Ljava/util/List;Ljava/util/List;I)Ljava/util/List;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/TuchulGyeokgukStrategy : io/github/jaeyeonling/saju/interpretation/GyeokgukStrategy {
+	public static final field Companion Lio/github/jaeyeonling/saju/interpretation/TuchulGyeokgukStrategy$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/interpretation/TuchulGyeokgukStrategy;
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/HiddenStemTable;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/domain/HiddenStemTable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun classify (Lio/github/jaeyeonling/saju/domain/SajuChart;)Lio/github/jaeyeonling/saju/interpretation/GyeokgukResult;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/TuchulGyeokgukStrategy$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/YangPotaeStrategy : io/github/jaeyeonling/saju/interpretation/SibiUnseongStrategy {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/interpretation/YangPotaeStrategy;
+	public fun stageOf (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/interpretation/SibiUnseong;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/YongsinMethod : java/lang/Enum {
+	public static final field EOKBU Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+	public static final field JOHU Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+	public static fun values ()[Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+}
+
+public final class io/github/jaeyeonling/saju/interpretation/YongsinResult {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;Ljava/lang/String;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;Ljava/lang/String;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/interpretation/YongsinResult;Lio/github/jaeyeonling/saju/domain/Ohaeng;Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getMethod ()Lio/github/jaeyeonling/saju/interpretation/YongsinMethod;
+	public final fun getYongsin ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/interpretation/YongsinStrategy {
+	public abstract fun derive (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/SinStrength;)Lio/github/jaeyeonling/saju/interpretation/YongsinResult;
+}
+
