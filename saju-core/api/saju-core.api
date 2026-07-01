@@ -1,0 +1,391 @@
+public final class io/github/jaeyeonling/saju/Saju {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/Saju;
+	public static final field SUPPORTED_MAX_YEAR I
+	public static final field SUPPORTED_MIN_YEAR I
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Z)Ljava/util/List;
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZI)Ljava/util/List;
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;)Ljava/util/List;
+	public static synthetic fun daeun$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Ljava/util/List;
+	public static final fun fromLocalDateTime (IIIIID)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun fromLocalDateTime (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun fromLocalDateTime (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;I)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static synthetic fun fromLocalDateTime$default (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;IILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun requireValidCivilDateTime (IIIII)V
+	public static final fun seun (I)Lio/github/jaeyeonling/saju/derivation/Seun;
+}
+
+public final class io/github/jaeyeonling/saju/astronomy/CalendarDate {
+	public static final field HOURS_PER_DAY D
+	public static final field MINUTES_PER_DAY D
+	public static final field MINUTES_PER_HOUR D
+	public static final field SECONDS_PER_DAY D
+	public static final field SECONDS_PER_MINUTE D
+	public final field day I
+	public final field dayFraction D
+	public final field month I
+	public final field year I
+	public fun <init> (IIID)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()D
+	public final fun copy (IIID)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/astronomy/CalendarDate;IIIDILjava/lang/Object;)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHour ()I
+	public final fun getMinute ()I
+	public final fun getSecond ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/astronomy/Ephemeris {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/astronomy/Ephemeris;
+	public static final fun equationOfTimeMinutes (D)D
+}
+
+public final class io/github/jaeyeonling/saju/astronomy/JulianDayConverter {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/astronomy/JulianDayConverter;
+	public static final fun fromGregorian (III)D
+	public static final fun fromGregorian (IIID)D
+	public static synthetic fun fromGregorian$default (IIIDILjava/lang/Object;)D
+	public static final fun toGregorian (D)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/Daeun {
+	public fun <init> (ILio/github/jaeyeonling/saju/domain/Ganji;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun copy (ILio/github/jaeyeonling/saju/domain/Ganji;)Lio/github/jaeyeonling/saju/derivation/Daeun;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/derivation/Daeun;ILio/github/jaeyeonling/saju/domain/Ganji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/derivation/Daeun;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getStartAge ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/DaeunCalculator {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/derivation/DaeunCalculator;
+	public static final fun sequence (Lio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/derivation/DaeunDirection;II)Ljava/util/List;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/DaeunDirection : java/lang/Enum {
+	public static final field BACKWARD Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public static final field Companion Lio/github/jaeyeonling/saju/derivation/DaeunDirection$Companion;
+	public static final field FORWARD Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/Eumyang;Z)Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public static fun values ()[Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/DaeunDirection$Companion {
+	public final fun of (Lio/github/jaeyeonling/saju/domain/Eumyang;Z)Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy {
+	public static final field Companion Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy$Companion;
+	public static final field FLOOR Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;
+	public static final field THREE_DAYS_ONE_YEAR Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;
+	public abstract fun startAge (D)I
+}
+
+public final class io/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/derivation/PillarDerivation {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/derivation/PillarDerivation;
+	public static final fun dayPillar (J)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public static final fun hourPillar (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public static final fun monthPillar (Lio/github/jaeyeonling/saju/domain/Cheongan;I)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public static final fun yearPillar (I)Lio/github/jaeyeonling/saju/domain/Ganji;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/SajuConfig {
+	public static final field Companion Lio/github/jaeyeonling/saju/derivation/SajuConfig$Companion;
+	public static final field DEFAULT Lio/github/jaeyeonling/saju/derivation/SajuConfig;
+	public fun <init> ()V
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/ZishiPolicy;)V
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/ZishiPolicy;Lio/github/jaeyeonling/saju/derivation/YearBoundary;)V
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/ZishiPolicy;Lio/github/jaeyeonling/saju/derivation/YearBoundary;Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/domain/ZishiPolicy;Lio/github/jaeyeonling/saju/derivation/YearBoundary;Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/ZishiPolicy;Lio/github/jaeyeonling/saju/derivation/YearBoundary;Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;)Lio/github/jaeyeonling/saju/derivation/SajuConfig;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/derivation/SajuConfig;Lio/github/jaeyeonling/saju/domain/ZishiPolicy;Lio/github/jaeyeonling/saju/derivation/YearBoundary;Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/derivation/SajuConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDaeunStartAge ()Lio/github/jaeyeonling/saju/derivation/DaeunStartAgePolicy;
+	public final fun getYearBoundary ()Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+	public final fun getZishi ()Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/SajuConfig$Companion {
+}
+
+public final class io/github/jaeyeonling/saju/derivation/Seun {
+	public fun <init> (ILio/github/jaeyeonling/saju/domain/Ganji;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun copy (ILio/github/jaeyeonling/saju/domain/Ganji;)Lio/github/jaeyeonling/saju/derivation/Seun;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/derivation/Seun;ILio/github/jaeyeonling/saju/domain/Ganji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/derivation/Seun;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/derivation/YearBoundary : java/lang/Enum {
+	public static final field DONGJI Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+	public static final field IPCHUN Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getTermIndex ()I
+	public final fun getYearShiftWhenAfter ()I
+	public final fun getYearShiftWhenBefore ()I
+	public final fun resolveYear (IZ)I
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+	public static fun values ()[Lio/github/jaeyeonling/saju/derivation/YearBoundary;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Cheongan : java/lang/Enum {
+	public static final field BYEONG Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field Companion Lio/github/jaeyeonling/saju/domain/Cheongan$Companion;
+	public static final field EUL Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field GAP Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field GI Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field GYE Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field GYEONG Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field IM Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field JEONG Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field MU Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final field SIN Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun chungPartner ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun combinePartner ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getEumyang ()Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun getOhaeng ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Cheongan;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Cheongan$Companion {
+	public final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Cheongan;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Eumyang : java/lang/Enum {
+	public static final field EUM Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public static final field YANG Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun isYang ()Z
+	public final fun opposite ()Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Eumyang;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Ganji {
+	public static final field ALL Ljava/util/List;
+	public static final field CYCLE I
+	public static final field Companion Lio/github/jaeyeonling/saju/domain/Ganji$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Jiji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public fun equals (Ljava/lang/Object;)Z
+	public static final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getGan ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getIndex ()I
+	public final fun getJi ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun next (I)Lio/github/jaeyeonling/saju/domain/Ganji;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Ganji$Companion {
+	public final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Ganji;
+}
+
+public abstract interface class io/github/jaeyeonling/saju/domain/HiddenStemTable {
+	public abstract fun of (Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Jiji : java/lang/Enum {
+	public static final field CHUK Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field Companion Lio/github/jaeyeonling/saju/domain/Jiji$Companion;
+	public static final field HAE Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field IN Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field JA Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field JIN Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field MI Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field MYO Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field O Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field SA Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field SIN Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field SUL Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final field YU Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getEumyang ()Lio/github/jaeyeonling/saju/domain/Eumyang;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun getOhaeng ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun harmPartner ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun opposite ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun sixCombinePartner ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Jiji;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Jiji;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Jiji$Companion {
+	public final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Jiji;
+}
+
+public final class io/github/jaeyeonling/saju/domain/JijiHiddenStems {
+	public static final field Companion Lio/github/jaeyeonling/saju/domain/JijiHiddenStems$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)V
+	public final fun all ()Ljava/util/List;
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Cheongan;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMainQi ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getMidQi ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getResidualQi ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public fun hashCode ()I
+	public static final fun of (Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/domain/JijiHiddenStems$Companion {
+	public final fun of (Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Ohaeng : java/lang/Enum {
+	public static final field GEUM Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static final field HWA Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static final field MOK Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static final field SIZE I
+	public static final field SU Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static final field TO Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun controlledBy ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun controls ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun generatedBy ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun generates ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Ohaeng;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Pillar {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/PillarPosition;Lio/github/jaeyeonling/saju/domain/Ganji;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/PillarPosition;Lio/github/jaeyeonling/saju/domain/Ganji;)Lio/github/jaeyeonling/saju/domain/Pillar;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/PillarPosition;Lio/github/jaeyeonling/saju/domain/Ganji;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/Pillar;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGan ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getJi ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getPosition ()Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/domain/PillarPosition : java/lang/Enum {
+	public static final field DAY Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public static final field HOUR Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public static final field MONTH Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public static final field YEAR Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/PillarPosition;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/PillarPosition;
+}
+
+public final class io/github/jaeyeonling/saju/domain/SajuChart {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;)V
+	public final fun branches ()Ljava/util/List;
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;Lio/github/jaeyeonling/saju/domain/Pillar;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDay ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun getDayMaster ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun getHour ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun getMonth ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public final fun getYear ()Lio/github/jaeyeonling/saju/domain/Pillar;
+	public fun hashCode ()I
+	public final fun pillars ()Ljava/util/List;
+	public final fun stems ()Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/domain/StandardHiddenStemTable : io/github/jaeyeonling/saju/domain/HiddenStemTable {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/domain/StandardHiddenStemTable;
+	public fun of (Lio/github/jaeyeonling/saju/domain/Jiji;)Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;
+}
+
+public abstract class io/github/jaeyeonling/saju/domain/ZishiPolicy : java/lang/Enum {
+	public static final field JEONGJASI Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+	public static final field YAJASI Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun dayPillarShift (I)J
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/ZishiPolicy;
+}
+
+public final class io/github/jaeyeonling/saju/lunar/CalendarBasis : java/lang/Enum {
+	public static final field CHINA Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+	public static final field KOREA Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getUtOffsetHours ()D
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+	public static fun values ()[Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+}
+
+public final class io/github/jaeyeonling/saju/lunar/LunarConverter {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/lunar/LunarConverter;
+	public static final fun toLunar (III)Lio/github/jaeyeonling/saju/lunar/LunarDate;
+	public static final fun toLunar (IIILio/github/jaeyeonling/saju/lunar/CalendarBasis;)Lio/github/jaeyeonling/saju/lunar/LunarDate;
+	public static synthetic fun toLunar$default (IIILio/github/jaeyeonling/saju/lunar/CalendarBasis;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/lunar/LunarDate;
+	public static final fun toSolar (III)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public static final fun toSolar (IIIZ)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public static final fun toSolar (IIIZLio/github/jaeyeonling/saju/lunar/CalendarBasis;)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public static synthetic fun toSolar$default (IIIZLio/github/jaeyeonling/saju/lunar/CalendarBasis;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+}
+
+public final class io/github/jaeyeonling/saju/lunar/LunarDate {
+	public final field day I
+	public final field isLeapMonth Z
+	public final field month I
+	public final field year I
+	public fun <init> (IIIZ)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Z
+	public final fun copy (IIIZ)Lio/github/jaeyeonling/saju/lunar/LunarDate;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/lunar/LunarDate;IIIZILjava/lang/Object;)Lio/github/jaeyeonling/saju/lunar/LunarDate;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

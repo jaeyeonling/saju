@@ -10,6 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# 최소 권한 — CI 는 소스 읽기만 필요하다(GITHUB_TOKEN least-privilege).
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
