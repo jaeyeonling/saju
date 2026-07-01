@@ -165,6 +165,7 @@ public final class io/github/jaeyeonling/saju/domain/Cheongan : java/lang/Enum {
 	public static final field SIN Lio/github/jaeyeonling/saju/domain/Cheongan;
 	public final fun chungPartner ()Lio/github/jaeyeonling/saju/domain/Cheongan;
 	public final fun combinePartner ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun combinedOhaeng ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
 	public static final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Cheongan;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public final fun getEumyang ()Lio/github/jaeyeonling/saju/domain/Eumyang;
@@ -335,6 +336,11 @@ public final class io/github/jaeyeonling/saju/domain/SajuChart {
 	public final fun pillars ()Ljava/util/List;
 	public final fun stems ()Ljava/util/List;
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Samhap {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/domain/Samhap;
+	public final fun getGROUPS ()Ljava/util/List;
 }
 
 public final class io/github/jaeyeonling/saju/domain/StandardHiddenStemTable : io/github/jaeyeonling/saju/domain/HiddenStemTable {

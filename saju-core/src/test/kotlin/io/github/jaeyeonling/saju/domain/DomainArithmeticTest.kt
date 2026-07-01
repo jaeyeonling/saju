@@ -2,6 +2,8 @@ package io.github.jaeyeonling.saju.domain
 
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
 /** 명리 규칙을 인덱스 산술로 구현한 enum 들의 정확성을 하드코딩 기대값으로 검증한다. */
@@ -54,6 +56,25 @@ class DomainArithmeticTest : StringSpec({
         withClue("기(토)는 충 없음") { Cheongan.GI.chungPartner() shouldBe null }
     }
 
+    "천간합 변화오행 10천간 — 갑기합토·을경합금·병신합수·정임합목·무계합화 (ordinal % 5)" {
+        val expected =
+            mapOf(
+                Cheongan.GAP to Ohaeng.TO,
+                Cheongan.GI to Ohaeng.TO,
+                Cheongan.EUL to Ohaeng.GEUM,
+                Cheongan.GYEONG to Ohaeng.GEUM,
+                Cheongan.BYEONG to Ohaeng.SU,
+                Cheongan.SIN to Ohaeng.SU,
+                Cheongan.JEONG to Ohaeng.MOK,
+                Cheongan.IM to Ohaeng.MOK,
+                Cheongan.MU to Ohaeng.HWA,
+                Cheongan.GYE to Ohaeng.HWA,
+            )
+        for ((stem, ohaeng) in expected) {
+            withClue("$stem 의 천간합 변화오행") { stem.combinedOhaeng() shouldBe ohaeng }
+        }
+    }
+
     "지지 육충 6쌍 — 자오 축미 인신 묘유 진술 사해" {
         val pairs =
             listOf(
@@ -99,6 +120,21 @@ class DomainArithmeticTest : StringSpec({
         for ((a, b) in pairs) {
             withClue("$a 육해") { a.harmPartner() shouldBe b }
             withClue("$b 육해(대칭)") { b.harmPartner() shouldBe a }
+        }
+    }
+
+    "삼합 4조 정규 테이블 — 신자진→수·해묘미→목·인오술→화·사유축→금 (내부 글자 순서 고정)" {
+        // 내부 글자 순서는 JijiSamhap.members 직렬화 페이로드로 관측되므로 정확히 고정한다.
+        val expected =
+            listOf(
+                listOf(Jiji.SIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU,
+                listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK,
+                listOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA,
+                listOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM,
+            )
+        Samhap.GROUPS shouldHaveSize expected.size
+        for (group in expected) {
+            withClue("삼합 ${group.second}") { Samhap.GROUPS shouldContain group }
         }
     }
 
