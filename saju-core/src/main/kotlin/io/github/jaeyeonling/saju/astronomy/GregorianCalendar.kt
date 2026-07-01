@@ -1,10 +1,8 @@
-package io.github.jaeyeonling.saju.domain
+// 그레고리력(proleptic Gregorian) 순수 산술 — java.time-free.
+// CalendarDate·JulianDayConverter(양력↔율리우스일)와 같은 계층에 두어 '달력 지식'을 한곳에 모은다.
+// 양력 입력 진입점(Saju·LunarConverter)이 동일 규칙으로 day 상한을 검증하도록 공유한다.
 
-/** 음수에도 양의 나머지를 주는 floor modulo (KMP 친화 — Math.floorMod 대신 자체 구현). */
-internal fun floorMod(
-    value: Int,
-    modulus: Int,
-): Int = ((value % modulus) + modulus) % modulus
+package io.github.jaeyeonling.saju.astronomy
 
 /** 그레고리력 윤년 규칙: 4의 배수이되 100의 배수는 제외, 400의 배수는 다시 윤년. */
 internal fun isGregorianLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0

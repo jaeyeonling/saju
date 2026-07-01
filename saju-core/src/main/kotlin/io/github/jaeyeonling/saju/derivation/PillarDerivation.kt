@@ -31,9 +31,8 @@ public object PillarDerivation {
         monthBranchOffset: Int,
     ): Ganji {
         val monthJi = Jiji.fromIndex(Jiji.IN.ordinal + monthBranchOffset)
-        // 갑기년→병인월, 을경년→무인월, 병신년→경인월, 정임년→임인월, 무계년→갑인월
-        val firstMonthGanIndex = (yearGan.ordinal % HEAVENLY_GROUP) * 2 + WOLDU_BASE
-        val monthGan = Cheongan.fromIndex(firstMonthGanIndex + monthBranchOffset)
+        // 오호둔(五虎遁): 월간은 연간의 인월 천간에서 시작해 월지 오프셋만큼 순행.
+        val monthGan = Cheongan.fromIndex(yearGan.monthStartStem().ordinal + monthBranchOffset)
         return Ganji(monthGan, monthJi)
     }
 
@@ -57,20 +56,13 @@ public object PillarDerivation {
         dayGan: Cheongan,
         hourJi: Jiji,
     ): Ganji {
-        // 갑기일→갑자시, 을경일→병자시, 병신일→무자시, 정임일→경자시, 무계일→임자시
-        val firstHourGanIndex = (dayGan.ordinal % HEAVENLY_GROUP) * 2
-        val hourGan = Cheongan.fromIndex(firstHourGanIndex + hourJi.ordinal)
+        // 오자둔(五子遁): 시간은 일간의 자시 천간에서 시작해 시지 오프셋만큼 순행.
+        val hourGan = Cheongan.fromIndex(dayGan.hourStartStem().ordinal + hourJi.ordinal)
         return Ganji(hourGan, hourJi)
     }
 
     /** 1984년 = 갑자년(60갑자 index 0)이 되도록 하는 보정값. */
     private const val GAPJA_YEAR_BASE = 4
-
-    /** 오호둔/오자둔에서 천간을 5그룹(갑기·을경·병신·정임·무계)으로 묶는 주기. */
-    private const val HEAVENLY_GROUP = 5
-
-    /** 오호둔 정월(인월) 천간 시작 보정: 갑기년 → 병(丙, index 2)인월. */
-    private const val WOLDU_BASE = 2
 
     /**
      * 일주 60갑자 보정 상수. `Ganji.fromIndex(jdn + DAY_OFFSET)` 가 실제 일진과 맞도록 골든으로 고정.

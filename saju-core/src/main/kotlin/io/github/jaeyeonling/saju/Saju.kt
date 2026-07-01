@@ -2,6 +2,7 @@ package io.github.jaeyeonling.saju
 
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.astronomy.SolarLongitude
+import io.github.jaeyeonling.saju.astronomy.daysInGregorianMonth
 import io.github.jaeyeonling.saju.astronomy.normalizeDegrees
 import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.derivation.DaeunCalculator
@@ -15,7 +16,6 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
-import io.github.jaeyeonling.saju.domain.daysInGregorianMonth
 import kotlin.math.floor
 
 /**

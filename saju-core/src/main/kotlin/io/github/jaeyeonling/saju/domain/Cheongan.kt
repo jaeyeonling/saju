@@ -51,9 +51,31 @@ public enum class Cheongan(
             else -> null // 무4·기5(토) — 충 없음
         }
 
+    /**
+     * 오호둔(五虎遁, 年上起月) — 이 천간이 **연간(年干)**일 때 정월(寅月)의 천간.
+     * 갑기년→병인월·을경년→무인월·병신년→경인월·정임년→임인월·무계년→갑인월. `(ordinal%5)*2+2`.
+     *
+     * 월간은 여기서 시작해 월지 오프셋만큼 순행한다(월간 = `fromIndex(monthStartStem().ordinal + 월지오프셋)`).
+     */
+    public fun monthStartStem(): Cheongan = fromIndex((ordinal % FIVE_STEM_GROUP) * 2 + WOLDU_BASE)
+
+    /**
+     * 오자둔(五子遁, 日上起時) — 이 천간이 **일간(日干)**일 때 자시(子時)의 천간.
+     * 갑기일→갑자시·을경일→병자시·병신일→무자시·정임일→경자시·무계일→임자시. `(ordinal%5)*2`.
+     *
+     * 시간은 여기서 시작해 시지 오프셋만큼 순행한다(시간 = `fromIndex(hourStartStem().ordinal + 시지ordinal)`).
+     */
+    public fun hourStartStem(): Cheongan = fromIndex((ordinal % FIVE_STEM_GROUP) * 2)
+
     public companion object {
         /** 천간합 변화 오행 룩업 — 갑기합토·을경합금·병신합수·정임합목·무계합화 (ordinal % 5). */
         private val COMBINED_OHAENG = listOf(Ohaeng.TO, Ohaeng.GEUM, Ohaeng.SU, Ohaeng.MOK, Ohaeng.HWA)
+
+        /** 천간 5그룹(갑기·을경·병신·정임·무계) 주기 — 오호둔/오자둔이 공유. */
+        private const val FIVE_STEM_GROUP = 5
+
+        /** 오호둔 정월(인월) 천간 시작 보정 — 갑기년 → 병(丙, index 2)인월. */
+        private const val WOLDU_BASE = 2
 
         @JvmStatic
         public fun fromIndex(index: Int): Cheongan = entries[floorMod(index, entries.size)]
