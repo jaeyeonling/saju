@@ -6,6 +6,13 @@
 // 이 플러그인은 멀티모듈을 루트에서 일괄 관장하는 구조라 모듈별 convention plugin 으로 나눌 수 없다.
 plugins {
     alias(libs.plugins.binary.compatibility.validator)
+    // 배포 플러그인을 루트에 apply false 로 먼저 로드한다 — 적용하지는 않되(모듈은 saju.publish 로 적용),
+    // 공유 classloader scope 에 올려 vanniktech 의 MavenCentralBuildService 가 서브프로젝트마다
+    // 다른 classloader 로 로드돼 충돌하는 문제(멀티모듈 + precompiled convention plugin)를 막는다.
+    // vanniktech 가 Kotlin 플러그인 클래스에 같은 scope 에서 접근해야 하므로 kotlin.jvm 도 함께 올린다.
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.vanniktech.maven.publish) apply false
+    alias(libs.plugins.dokka) apply false
 }
 
 // 각 배포 모듈의 공개 ABI 를 <module>/api/<module>.api 로 동결한다.
