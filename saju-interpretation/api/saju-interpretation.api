@@ -209,6 +209,7 @@ public final class io/github/jaeyeonling/saju/interpretation/HapChungRelation$Ji
 
 public abstract interface class io/github/jaeyeonling/saju/interpretation/HapChungStrategy {
 	public abstract fun detect (Ljava/util/List;Ljava/util/List;I)Ljava/util/List;
+	public static synthetic fun detect$default (Lio/github/jaeyeonling/saju/interpretation/HapChungStrategy;Ljava/util/List;Ljava/util/List;IILjava/lang/Object;)Ljava/util/List;
 }
 
 public final class io/github/jaeyeonling/saju/interpretation/HapChungStrategy$DefaultImpls {

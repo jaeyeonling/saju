@@ -22,9 +22,10 @@ mavenPublishing {
     }
 
     // sources jar + Dokka 로 생성한 javadoc jar.
+    // dokka v2(DGP v2) 는 태스크명이 dokkaGeneratePublicationHtml 이다(구 dokkaHtml).
     configure(
         KotlinJvm(
-            javadocJar = JavadocJar.Dokka("dokkaHtml"),
+            javadocJar = JavadocJar.Dokka("dokkaGeneratePublicationHtml"),
             sourcesJar = true,
         ),
     )
