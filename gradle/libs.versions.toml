@@ -2,7 +2,7 @@
 kotlin = "2.1.20"
 junit = "5.11.4"
 konsist = "0.17.3"
-kotest = "5.9.1"
+kotest = "6.2.1"
 kotlinxSerialization = "1.8.0"
 ktlint = "12.1.2"
 # 0.35.0 = Kotlin 2.1.x 를 지원하는 최신 vanniktech(0.36.0 부터 Kotlin 2.2 요구). argless Central Portal 배포 지원.
