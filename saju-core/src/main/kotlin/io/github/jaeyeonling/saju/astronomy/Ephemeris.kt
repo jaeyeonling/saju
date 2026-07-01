@@ -13,12 +13,7 @@ public object Ephemeris {
      */
     @JvmStatic
     public fun equationOfTimeMinutes(utJd: Double): Double {
-        val ttJd = utJd + DeltaT.seconds(decimalYearOf(utJd)) / SECONDS_PER_DAY
+        val ttJd = toTT(utJd)
         return EquationOfTime.minutes(ttJd)
     }
-
-    private fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / DAYS_PER_YEAR
-
-    private const val SECONDS_PER_DAY = 86_400.0
-    private const val DAYS_PER_YEAR = 365.25
 }

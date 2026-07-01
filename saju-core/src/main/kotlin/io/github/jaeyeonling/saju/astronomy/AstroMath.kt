@@ -55,3 +55,17 @@ internal fun julianCenturies(jde: Double): Double = (jde - J2000_EPOCH) / JULIAN
 
 /** 율리우스일(TT) → J2000 기준 율리우스 천년 (VSOP87 의 τ). */
 internal fun julianMillennia(jde: Double): Double = (jde - J2000_EPOCH) / JULIAN_MILLENNIUM_DAYS
+
+// ── ΔT(지구 자전 지연) 시간척도 변환 — TT(역학시)↔UT(세계시). 단일 진실 소스. ──
+
+/** 하루의 초 = 86400. ΔT(초)를 일(day) 단위로 환산할 때 쓴다. */
+internal const val SECONDS_PER_DAY = 86_400.0
+
+/** 율리우스일 → 십진 연도(ΔT 다항식 입력용). 2000 + (jd − J2000)/365.25. */
+internal fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / 365.25
+
+/** UT 율리우스일 → TT 율리우스일 (ΔT 만큼 더함). */
+internal fun toTT(utJd: Double): Double = utJd + DeltaT.seconds(decimalYearOf(utJd)) / SECONDS_PER_DAY
+
+/** TT 율리우스일 → UT 율리우스일 (ΔT 만큼 뺌). */
+internal fun toUT(ttJd: Double): Double = ttJd - DeltaT.seconds(decimalYearOf(ttJd)) / SECONDS_PER_DAY
