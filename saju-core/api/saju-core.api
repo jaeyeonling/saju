@@ -172,6 +172,8 @@ public final class io/github/jaeyeonling/saju/domain/Cheongan : java/lang/Enum {
 	public final fun getHanja ()Ljava/lang/String;
 	public final fun getKoreanName ()Ljava/lang/String;
 	public final fun getOhaeng ()Lio/github/jaeyeonling/saju/domain/Ohaeng;
+	public final fun hourStartStem ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun monthStartStem ()Lio/github/jaeyeonling/saju/domain/Cheongan;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Cheongan;
 	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Cheongan;
 }

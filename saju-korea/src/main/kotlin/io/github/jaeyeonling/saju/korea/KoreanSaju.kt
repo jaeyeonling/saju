@@ -8,6 +8,23 @@ import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.lunar.CalendarBasis
 import io.github.jaeyeonling.saju.lunar.LunarConverter
 
+/** 하루 = 24시간 (율리우스일 ↔ 시각 변환용). */
+private const val HOURS_PER_DAY = 24.0
+
+/**
+ * 진태양시 순간 — 법정시 보정 결과.
+ *
+ * @property jd 진태양시 율리우스일.
+ * @property utOffsetHours 진태양시 기준 UT 오프셋(시간).
+ */
+internal data class TrueSolarInstant(
+    val jd: Double,
+    val utOffsetHours: Double,
+) {
+    /** 오프셋을 되돌린 UT 기준 율리우스일(절대 순간) — 대운 절기거리 계산에 쓴다. */
+    val utJd: Double get() = jd - utOffsetHours / HOURS_PER_DAY
+}
+
 /**
  * 한국 사주 진입점 — 법정시(시계 시각)에 한국 보정을 적용해 사주판을 도출한다.
  *
@@ -55,9 +72,8 @@ public object KoreanSaju {
         longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
         config: KoreanSajuConfig = KoreanSajuConfig.DEFAULT,
     ): SajuChart {
-        val (trueSolarJd, trueSolarUtOffsetHours) =
-            computeTrueSolar(year, month, day, hour, minute, longitudeDeg, config.trueSolarTime)
-        val ts = JulianDayConverter.toGregorian(trueSolarJd)
+        val instant = computeTrueSolar(year, month, day, hour, minute, longitudeDeg, config.trueSolarTime)
+        val ts = JulianDayConverter.toGregorian(instant.jd)
         // 진태양시 시각을 초까지 보존해 절기 경계 오판 방지.
         return Saju.fromLocalDateTime(
             ts.year,
@@ -65,7 +81,7 @@ public object KoreanSaju {
             ts.day,
             ts.hour,
             ts.minute,
-            trueSolarUtOffsetHours,
+            instant.utOffsetHours,
             config.saju,
             ts.second,
         )
@@ -86,9 +102,8 @@ public object KoreanSaju {
         config: KoreanSajuConfig = KoreanSajuConfig.DEFAULT,
     ): List<Daeun> {
         // 진태양시를 한 번만 계산해 사주판과 대운이 동일 순간을 보도록 한다(이중 계산 방지).
-        val (trueSolarJd, trueSolarUtOffsetHours) =
-            computeTrueSolar(year, month, day, hour, minute, longitudeDeg, config.trueSolarTime)
-        val ts = JulianDayConverter.toGregorian(trueSolarJd)
+        val instant = computeTrueSolar(year, month, day, hour, minute, longitudeDeg, config.trueSolarTime)
+        val ts = JulianDayConverter.toGregorian(instant.jd)
         val chart =
             Saju.fromLocalDateTime(
                 ts.year,
@@ -96,12 +111,11 @@ public object KoreanSaju {
                 ts.day,
                 ts.hour,
                 ts.minute,
-                trueSolarUtOffsetHours,
+                instant.utOffsetHours,
                 config.saju,
                 ts.second,
             )
-        val utJd = trueSolarJd - trueSolarUtOffsetHours / HOURS_PER_DAY
-        return Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count, config.saju)
+        return Saju.daeun(instant.utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count, config.saju)
     }
 
     /**
@@ -119,12 +133,12 @@ public object KoreanSaju {
         longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
         policy: TrueSolarTimePolicy = TrueSolarTimePolicy.FULL,
     ): Double {
-        val (trueSolarJd, _) = computeTrueSolar(year, month, day, hour, minute, longitudeDeg, policy)
+        val trueSolarJd = computeTrueSolar(year, month, day, hour, minute, longitudeDeg, policy).jd
         val legalJd = legalJulianDay(year, month, day, hour, minute)
         return (trueSolarJd - legalJd) * MINUTES_PER_DAY
     }
 
-    /** (진태양시 율리우스일, 진태양시 기준 UT 오프셋 시간)을 [policy] 에 따라 계산한다. */
+    /** 법정시를 [policy] 에 따라 진태양시 순간([TrueSolarInstant])으로 변환한다. */
     private fun computeTrueSolar(
         year: Int,
         month: Int,
@@ -133,7 +147,7 @@ public object KoreanSaju {
         minute: Int,
         longitudeDeg: Double,
         policy: TrueSolarTimePolicy,
-    ): Pair<Double, Double> {
+    ): TrueSolarInstant {
         // 모든 공개 진입점(fromCivilTime/daeun/trueSolarOffsetMinutes)이 이 함수를 거치므로 여기서 fail-fast.
         Saju.requireValidCivilDateTime(year, month, day, hour, minute)
         require(longitudeDeg.isFinite() && longitudeDeg in MIN_LONGITUDE..MAX_LONGITUDE) {
@@ -160,7 +174,7 @@ public object KoreanSaju {
             if (policy == TrueSolarTimePolicy.FULL) Ephemeris.equationOfTimeMinutes(utJd) else 0.0
         val trueSolarUtOffsetHours = longitudeHours + equationOfTimeMinutes / MINUTES_PER_HOUR
         val trueSolarJd = utJd + trueSolarUtOffsetHours / HOURS_PER_DAY
-        return trueSolarJd to trueSolarUtOffsetHours
+        return TrueSolarInstant(trueSolarJd, trueSolarUtOffsetHours)
     }
 
     private fun legalJulianDay(
@@ -176,7 +190,6 @@ public object KoreanSaju {
     private const val MAX_LONGITUDE = 180.0
     private const val SUMMER_TIME_HOURS = 1.0
     private const val DEGREES_PER_HOUR = 15.0
-    private const val HOURS_PER_DAY = 24.0
     private const val MINUTES_PER_HOUR = 60.0
     private const val MINUTES_PER_DAY = 1440.0
 }

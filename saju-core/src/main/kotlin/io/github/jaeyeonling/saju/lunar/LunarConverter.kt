@@ -1,7 +1,7 @@
 package io.github.jaeyeonling.saju.lunar
 
 import io.github.jaeyeonling.saju.astronomy.CalendarDate
-import io.github.jaeyeonling.saju.domain.daysInGregorianMonth
+import io.github.jaeyeonling.saju.astronomy.daysInGregorianMonth
 
 /**
  * 음력 ↔ 양력 변환 공개 진입점. 기본 기준은 한국([CalendarBasis.KOREA], KASI/KST).
