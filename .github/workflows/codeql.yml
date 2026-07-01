@@ -26,7 +26,7 @@ jobs:
       actions: read
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # build-mode: none — 빌드 없이 소스를 분석한다(GitHub Actions 호스티드는 manual 미지원).
       # 빌드 스텝·JDK·Gradle 설정이 필요 없어 CodeQL 분석이 가볍고 빠르다.
