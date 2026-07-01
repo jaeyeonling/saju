@@ -31,3 +31,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 # 공개 API 표면(.api)을 동결해 의도치 않은 바이너리 호환성 변경을 apiCheck 로 잡는다(루트에 적용).
 binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
+# 멀티모듈에서 공유 build service 의 classloader 충돌을 막기 위해 루트에 apply false 로 먼저 로드한다.
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
