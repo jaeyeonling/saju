@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
+        uses: gradle/actions/wrapper-validation@v6
 
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
@@ -35,7 +35,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       # build = compile + test. test 에는 Konsist java.time-free 강제, 골든 벡터 회귀,
       # LINE 80% / BRANCH 60% 커버리지 게이트가 포함된다.
@@ -62,7 +62,7 @@ jobs:
           java-version: '21'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       # ktlint 는 build job(./gradlew build → check → ktlintCheck)에서 이미 게이트로 강제된다.
       # 이 잡은 ktlint 위반 위치를 한데 모아 빠르게 보여주는 보조 리포트다(게이트는 build job 담당).
