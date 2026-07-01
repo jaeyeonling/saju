@@ -35,6 +35,9 @@ public enum class Cheongan(
     /** 천간합(天干合) 짝. 갑기·을경·병신·정임·무계 — `(ordinal+5)%10`. */
     public fun combinePartner(): Cheongan = fromIndex(ordinal + 5)
 
+    /** 천간합(天干合) 변화 오행 — 갑기합토·을경합금·병신합수·정임합목·무계합화. `ordinal % 5`. */
+    public fun combinedOhaeng(): Ohaeng = COMBINED_OHAENG[ordinal % COMBINED_OHAENG.size]
+
     /**
      * 천간충(天干沖) 짝. 갑경·을신·병임·정계 — ordinal 거리 6(상극 + 같은 음양 = 칠살 관계)의 정면충돌.
      * 무·기(토)는 중앙 오행이라 방위가 없어 충 짝이 없다 → `null`.
@@ -49,6 +52,9 @@ public enum class Cheongan(
         }
 
     public companion object {
+        /** 천간합 변화 오행 룩업 — 갑기합토·을경합금·병신합수·정임합목·무계합화 (ordinal % 5). */
+        private val COMBINED_OHAENG = listOf(Ohaeng.TO, Ohaeng.GEUM, Ohaeng.SU, Ohaeng.MOK, Ohaeng.HWA)
+
         @JvmStatic
         public fun fromIndex(index: Int): Cheongan = entries[floorMod(index, entries.size)]
     }

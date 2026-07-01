@@ -4,25 +4,16 @@
 package io.github.jaeyeonling.saju.group
 
 import io.github.jaeyeonling.saju.domain.Jiji
-import io.github.jaeyeonling.saju.domain.Ohaeng
 
 /**
- * 멤버간 합충 판정 테이블 — vault 노트 [[합충형해]](책 교차검증)를 전사한 단일 진실 소스(SSOT).
+ * 그룹 관계 매트릭스가 쓰는 보조 판정 테이블 — 형(刑)·파(破)·반합·자묘형만 담는다.
  *
- * 육합·육충·육해는 [Jiji] 의 산술 함수(`sixCombinePartner`/`opposite`/`harmPartner`)로 판정하므로
- * 테이블이 없다. 천간합 변화오행은 [combinedOhaeng] 가 계산한다. 여기 모은 것은 [io.github.jaeyeonling.saju]
- * interpretation 의 `StandardHapChungStrategy` 가 **미모델링**(학파 이견)하는 형·파·반합·자묘형이다.
+ * 육합·육충·육해는 [Jiji] 의 산술 함수(`sixCombinePartner`/`opposite`/`harmPartner`)로, 천간합 변화오행은
+ * [io.github.jaeyeonling.saju.domain.Cheongan.combinedOhaeng] 로, 삼합 4조는
+ * [io.github.jaeyeonling.saju.domain.Samhap] 로 판정한다 — 이들 명리 상수의 SSOT 는 `saju-core`(도메인)다.
+ * 여기 남은 것은 core 가 **미모델링**(학파 이견)하는 형·파·반합·자묘형 테이블뿐이다.
  */
 internal object RelationTables {
-    /** 삼합 4조 + 변화오행. 해묘미→목, 인오술→화, 신자진→수, 사유축→금. */
-    val SAMHAP: List<Pair<Set<Jiji>, Ohaeng>> =
-        listOf(
-            setOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목
-            setOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA, // 인오술 → 화
-            setOf(Jiji.SIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
-            setOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM, // 사유축 → 금
-        )
-
     /** 왕지(旺支) — 반합 성립에 필요(자·오·묘·유). */
     val WANGJI: Set<Jiji> = setOf(Jiji.JA, Jiji.O, Jiji.MYO, Jiji.YU)
 
@@ -46,11 +37,4 @@ internal object RelationTables {
             setOf(Jiji.JIN, Jiji.CHUK), // 진축
             setOf(Jiji.SUL, Jiji.MI), // 술미
         )
-
-    /** 천간합 변화오행 — 갑기합토·을경합금·병신합수·정임합목·무계합화. `ordinal % 5`. */
-    private val COMBINED_OHAENG: List<Ohaeng> =
-        listOf(Ohaeng.TO, Ohaeng.GEUM, Ohaeng.SU, Ohaeng.MOK, Ohaeng.HWA)
-
-    /** 천간 [io.github.jaeyeonling.saju.domain.Cheongan] 의 합 변화오행(ordinal 기반). */
-    fun combinedOhaeng(stemOrdinal: Int): Ohaeng = COMBINED_OHAENG[stemOrdinal % COMBINED_OHAENG.size]
 }

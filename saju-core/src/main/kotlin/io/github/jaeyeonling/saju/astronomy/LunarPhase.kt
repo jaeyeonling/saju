@@ -21,7 +21,6 @@ internal object LunarPhase {
 
     private const val MAX_ITERATIONS = 8
     private const val CONVERGENCE_RAD = 1e-10
-    private const val SECONDS_PER_DAY = 86_400.0
     private const val LUNATIONS_PER_CENTURY = 1236.85
 
     /** k 번째 삭의 TT 율리우스일. k=0 은 2000-01-06 경. */
@@ -47,11 +46,9 @@ internal object LunarPhase {
     /** k 번째 삭의 UT 율리우스일 (TT − ΔT). */
     fun newMoonInstantUT(k: Int): Double {
         val tt = newMoonInstantTT(k)
-        return tt - DeltaT.seconds(decimalYearOf(tt)) / SECONDS_PER_DAY
+        return toUT(tt)
     }
 
     /** 주어진 UT 율리우스일에 가장 가까운 삭의 k. */
     fun newMoonIndexNear(utJd: Double): Int = round((utJd - NEW_MOON_EPOCH) / SYNODIC_MONTH).toInt()
-
-    private fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / 365.25
 }

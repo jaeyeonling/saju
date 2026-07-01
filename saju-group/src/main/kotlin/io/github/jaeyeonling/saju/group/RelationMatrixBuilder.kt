@@ -2,6 +2,7 @@ package io.github.jaeyeonling.saju.group
 
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Jiji
+import io.github.jaeyeonling.saju.domain.Samhap
 
 /**
  * 멤버간 합충 매트릭스 합성(STAGE3c).
@@ -57,7 +58,7 @@ internal object RelationMatrixBuilder {
         for (ga in aStems.toSet()) {
             for (gb in bUnique) {
                 if (ga != gb && ga.combinePartner() == gb) {
-                    val oh = RelationTables.combinedOhaeng(ga.ordinal)
+                    val oh = ga.combinedOhaeng()
                     val detail = "${ga.koreanName}${gb.koreanName}합${oh.koreanName}"
                     add(PairRelation(RelationKind.CHEONGAN_HAP, RelationLabel.COMPLEMENT, detail))
                 }
@@ -105,7 +106,8 @@ internal object RelationMatrixBuilder {
         val aSet = aBranches.toSet()
         val bSet = bBranches.toSet()
         val union = aSet + bSet
-        for ((combo, oh) in RelationTables.SAMHAP) {
+        for ((comboMembers, oh) in Samhap.GROUPS) {
+            val combo = comboMembers.toSet() // core 정규 테이블은 List — Set 소비 로직 유지 위해 변환
             if (!spansBoth(combo, aSet, bSet)) continue
             val present = combo intersect union
             when {

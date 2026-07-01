@@ -49,7 +49,7 @@ internal object SolarLongitude {
         termIndex: Int,
     ): Double {
         val tt = solarTermInstantTT(year, termIndex)
-        return tt - DeltaT.seconds(decimalYearOf(tt)) / SECONDS_PER_DAY
+        return toUT(tt)
     }
 
     /**
@@ -57,7 +57,7 @@ internal object SolarLongitude {
      * 월주 도출에 쓰인다 — 황경 315°(입춘)부터 30°마다 월(月)이 바뀐다.
      */
     fun apparentLongitudeDegAtUT(utJd: Double): Double {
-        val ttJd = utJd + DeltaT.seconds(decimalYearOf(utJd)) / SECONDS_PER_DAY
+        val ttJd = toTT(utJd)
         return SunPosition.apparentLongitudeRad(ttJd) * RAD_TO_DEG
     }
 
@@ -70,18 +70,12 @@ internal object SolarLongitude {
         nearUtJd: Double,
     ): Double {
         val target = normalizeRadians(targetDeg * DEG_TO_RAD)
-        var jde = nearUtJd + DeltaT.seconds(decimalYearOf(nearUtJd)) / SECONDS_PER_DAY // TT 시작
+        var jde = toTT(nearUtJd) // TT 시작
         repeat(MAX_ITERATIONS) {
             val delta = wrapToPi(target - SunPosition.apparentLongitudeRad(jde))
             jde += delta / MEAN_ANGULAR_SPEED
-            if (abs(delta) < CONVERGENCE_RAD) return toUt(jde)
+            if (abs(delta) < CONVERGENCE_RAD) return toUT(jde)
         }
-        return toUt(jde)
+        return toUT(jde)
     }
-
-    private fun toUt(jdeTT: Double): Double = jdeTT - DeltaT.seconds(decimalYearOf(jdeTT)) / SECONDS_PER_DAY
-
-    private fun decimalYearOf(jd: Double): Double = 2000.0 + (jd - J2000_EPOCH) / 365.25
-
-    private const val SECONDS_PER_DAY = 86_400.0
 }

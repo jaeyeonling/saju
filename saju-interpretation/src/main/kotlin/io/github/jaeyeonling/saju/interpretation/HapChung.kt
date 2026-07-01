@@ -6,6 +6,7 @@ package io.github.jaeyeonling.saju.interpretation
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
+import io.github.jaeyeonling.saju.domain.Samhap
 
 /** 글자끼리의 결합·충돌 관계. 현재 탐지는 원국 8글자(4간4지) 안에서 이뤄진다(운(運) 글자 결합은 호출부 확장 시). */
 public sealed interface HapChungRelation {
@@ -85,7 +86,7 @@ public object StandardHapChungStrategy : HapChungStrategy {
             if (a.combinePartner() == b) {
                 // 일간(위치)이 낀 합만 합화 보류(合而不化). 위치 판정이라 같은 글자 중복에 오탐 없음.
                 val involvesDayMaster = i == dayMasterIndex || j == dayMasterIndex
-                val transformsTo = if (involvesDayMaster) null else combinedOhaeng(a)
+                val transformsTo = if (involvesDayMaster) null else a.combinedOhaeng()
                 relations += HapChungRelation.CheonganHap(a, b, transformsTo)
             }
             if (a.chungPartner() == b) {
@@ -106,7 +107,7 @@ public object StandardHapChungStrategy : HapChungStrategy {
 
         // 지지 삼합·방합 (세 글자가 모두 있으면 성립 — 완전 3집합은 서로 일치 안 해 동일 관계 중복 없이 독립 판정)
         val branchSet = branches.toSet()
-        for ((members, ohaeng) in SAMHAP_GROUPS) {
+        for ((members, ohaeng) in Samhap.GROUPS) {
             if (branchSet.containsAll(members)) {
                 relations += HapChungRelation.JijiSamhap(members, ohaeng)
             }
@@ -120,9 +121,6 @@ public object StandardHapChungStrategy : HapChungStrategy {
         return relations
     }
 
-    /** 천간합 변화 오행: 갑기합토·을경합금·병신합수·정임합목·무계합화. */
-    private fun combinedOhaeng(stem: Cheongan): Ohaeng = COMBINED_OHAENG[stem.ordinal % COMBINED_OHAENG.size]
-
     private inline fun forEachPair(
         size: Int,
         action: (Int, Int) -> Unit,
@@ -131,16 +129,6 @@ public object StandardHapChungStrategy : HapChungStrategy {
             for (j in i + 1 until size) action(i, j)
         }
     }
-
-    private val COMBINED_OHAENG = listOf(Ohaeng.TO, Ohaeng.GEUM, Ohaeng.SU, Ohaeng.MOK, Ohaeng.HWA)
-
-    private val SAMHAP_GROUPS: List<Pair<List<Jiji>, Ohaeng>> =
-        listOf(
-            listOf(Jiji.SIN, Jiji.JA, Jiji.JIN) to Ohaeng.SU, // 신자진 → 수
-            listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목
-            listOf(Jiji.IN, Jiji.O, Jiji.SUL) to Ohaeng.HWA, // 인오술 → 화
-            listOf(Jiji.SA, Jiji.YU, Jiji.CHUK) to Ohaeng.GEUM, // 사유축 → 금
-        )
 
     // 방합 = 계절/방위 3글자. 반방합(2글자)은 학파 이견 커 제외 — 3글자 모두 모일 때만 성립.
     private val BANGHAP_GROUPS: List<Pair<List<Jiji>, Ohaeng>> =
