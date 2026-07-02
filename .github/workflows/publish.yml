@@ -32,6 +32,24 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      # 태그(vX.Y.Z)와 gradle.properties 의 VERSION_NAME 이 어긋나면 잘못된 좌표가 Central 로 올라간다.
+      # Maven Central 좌표는 immutable 이므로 배포 전에 일치를 자동으로 강제한다.
+      - name: Verify tag matches VERSION_NAME
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PROP_VERSION="$(grep '^VERSION_NAME=' gradle.properties | cut -d= -f2)"
+          if [ "$TAG_VERSION" != "$PROP_VERSION" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match VERSION_NAME=${PROP_VERSION} in gradle.properties"
+            exit 1
+          fi
+          echo "Tag ${GITHUB_REF_NAME} matches VERSION_NAME=${PROP_VERSION}"
+
+      # 골든 회귀·아키텍처(Konsist)·apiCheck·커버리지 게이트를 통과한 커밋만 배포한다.
+      # 태그 push 는 ci.yml 의 push 트리거(branches:[main])에 걸리지 않으므로 여기서 명시적으로 검증한다.
+      - name: Run checks (test · apiCheck · coverage · architecture)
+        run: ./gradlew check --no-configuration-cache --stacktrace
+
       # Central Portal 로 업로드한다. saju.publish 플러그인은 automaticRelease 를 켜지 않으므로
       # 업로드 후 https://central.sonatype.com 에서 수동으로 "Publish" 해야 실제 공개된다.
       # (자동 공개를 원하면 saju.publish.gradle.kts 의 publishToMavenCentral(automaticRelease = true) 로 바꾼다.)

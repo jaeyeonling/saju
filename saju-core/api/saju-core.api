@@ -341,8 +341,8 @@ public final class io/github/jaeyeonling/saju/domain/SajuChart {
 }
 
 public final class io/github/jaeyeonling/saju/domain/Samhap {
+	public static final field GROUPS Ljava/util/List;
 	public static final field INSTANCE Lio/github/jaeyeonling/saju/domain/Samhap;
-	public final fun getGROUPS ()Ljava/util/List;
 }
 
 public final class io/github/jaeyeonling/saju/domain/StandardHiddenStemTable : io/github/jaeyeonling/saju/domain/HiddenStemTable {

@@ -8,10 +8,10 @@ import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
-import io.github.jaeyeonling.saju.group.GROUP_DISCLAIMER
 import io.github.jaeyeonling.saju.group.Gender
 import io.github.jaeyeonling.saju.group.GroupAnalysis
 import io.github.jaeyeonling.saju.group.GroupMember
+import io.github.jaeyeonling.saju.group.GroupReport
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
@@ -56,7 +56,7 @@ class GroupSerializationTest : StringSpec({
         val decoded = sajuJson.decodeFromString<GroupReportDto>(json)
 
         decoded.memberIds shouldBe listOf("a", "b")
-        decoded.disclaimer shouldBe GROUP_DISCLAIMER
+        decoded.disclaimer shouldBe GroupReport.GROUP_DISCLAIMER
         decoded.ohaeng.groupVector.keys shouldContain "목" // enum-key 가 한글로 평탄화
         decoded.timeline.year shouldBe 2026
         decoded.timeline.groupSeun?.name shouldBe "병오" // a 의 세운(공통)

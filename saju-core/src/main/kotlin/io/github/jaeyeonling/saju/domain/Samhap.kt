@@ -13,7 +13,12 @@ package io.github.jaeyeonling.saju.domain
  * 그대로 노출되므로 의미 있는 값이다 — 생지→왕지→묘지 관습 순서를 보존한다.
  */
 public object Samhap {
-    /** 삼합 4조 + 변화오행. 해묘미→목·인오술→화·신자진→수·사유축→금. */
+    /**
+     * 삼합 4조 + 변화오행. 해묘미→목·인오술→화·신자진→수·사유축→금.
+     *
+     * `@JvmField` 로 노출 — Java 에서 getGROUPS() 게터 없이 다른 도메인 상수(Ganji.ALL)처럼 필드로 접근한다.
+     */
+    @JvmField
     public val GROUPS: List<Pair<List<Jiji>, Ohaeng>> =
         listOf(
             listOf(Jiji.HAE, Jiji.MYO, Jiji.MI) to Ohaeng.MOK, // 해묘미 → 목

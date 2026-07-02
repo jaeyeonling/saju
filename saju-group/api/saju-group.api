@@ -163,6 +163,8 @@ public final class io/github/jaeyeonling/saju/group/GroupMember$Companion {
 }
 
 public final class io/github/jaeyeonling/saju/group/GroupReport {
+	public static final field Companion Lio/github/jaeyeonling/saju/group/GroupReport$Companion;
+	public static final field GROUP_DISCLAIMER Ljava/lang/String;
 	public fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/util/List;Lio/github/jaeyeonling/saju/group/OhaengBalance;Lio/github/jaeyeonling/saju/group/SipseongRoles;Lio/github/jaeyeonling/saju/group/RelationMatrix;Lio/github/jaeyeonling/saju/group/GroupTimeline;Lio/github/jaeyeonling/saju/group/GroupContext;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/util/List;
@@ -186,8 +188,7 @@ public final class io/github/jaeyeonling/saju/group/GroupReport {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/jaeyeonling/saju/group/GroupReportKt {
-	public static final field GROUP_DISCLAIMER Ljava/lang/String;
+public final class io/github/jaeyeonling/saju/group/GroupReport$Companion {
 }
 
 public final class io/github/jaeyeonling/saju/group/GroupRole : java/lang/Enum {

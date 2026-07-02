@@ -1,3 +1,6 @@
+// Java 소비자에게 파일명 유래 `GroupSerializationKt` 대신 안정적인 `GroupSerialization` 을 노출한다.
+@file:JvmName("GroupSerialization")
+
 package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.group.GroupReport
