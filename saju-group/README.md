@@ -21,6 +21,16 @@
 
 ## 라이브러리 사용법
 
+[Maven Central](https://central.sonatype.com/artifact/io.github.jaeyeonling/saju-group) 에서 의존성으로 추가한다(멤버 사주 조립은 `saju-korea`/`saju-core` 에 위임):
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation("io.github.jaeyeonling:saju-group:0.1.0")
+    implementation("io.github.jaeyeonling:saju-korea:0.1.0") // 멤버 사주 조립용
+}
+```
+
 ```kotlin
 import io.github.jaeyeonling.saju.group.GroupAnalysis
 import io.github.jaeyeonling.saju.group.GroupMember
