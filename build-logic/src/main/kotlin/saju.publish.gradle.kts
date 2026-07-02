@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinJvm
+import org.gradle.api.tasks.bundling.Jar
 
 // 라이브러리 모듈(core·korea·interpretation·group·serialization) 의 Maven Central 배포 설정.
 // 좌표(GROUP·VERSION_NAME)는 gradle.properties 에서 vanniktech 가 자동으로 읽고, artifactId 는 모듈명이다.
@@ -56,5 +57,15 @@ mavenPublishing {
             connection.set("scm:git:https://github.com/jaeyeonling/saju.git")
             developerConnection.set("scm:git:ssh://git@github.com/jaeyeonling/saju.git")
         }
+    }
+}
+
+// 배포되는 모든 jar(main·sources·javadoc)의 META-INF 에 라이선스·제3자 고지를 동봉한다.
+// jar 만 내려받는 다운스트림도 고지를 얻어야 attribution 체인이 끊기지 않는다 —
+// 특히 saju-core 는 astronomia(MIT) 계수 데이터를 번들하므로 MIT 고지 동행이 필수다.
+tasks.withType<Jar>().configureEach {
+    metaInf {
+        from(rootProject.file("LICENSE"))
+        from(rootProject.file("THIRD-PARTY-NOTICES.md"))
     }
 }

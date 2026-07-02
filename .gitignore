@@ -10,3 +10,18 @@ build/
 local.properties
 .kotlin/
 out/
+
+# Secrets / signing material — 절대 커밋 금지 (Maven Central 배포 준비 중 로컬 유출 방어)
+*.gpg
+*.asc
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+secring.*
+.env
+.env.*
+secrets.properties
+credentials.properties

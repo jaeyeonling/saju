@@ -268,7 +268,7 @@ public final class io/github/jaeyeonling/saju/serialization/GroupReportDto$Compa
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class io/github/jaeyeonling/saju/serialization/GroupSerializationKt {
+public final class io/github/jaeyeonling/saju/serialization/GroupSerialization {
 	public static final fun toDto (Lio/github/jaeyeonling/saju/group/GroupReport;)Lio/github/jaeyeonling/saju/serialization/GroupReportDto;
 	public static final fun toJson (Lio/github/jaeyeonling/saju/group/GroupReport;)Ljava/lang/String;
 }
@@ -720,7 +720,7 @@ public final class io/github/jaeyeonling/saju/serialization/SajuChartDto$Compani
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class io/github/jaeyeonling/saju/serialization/SajuSerializationKt {
+public final class io/github/jaeyeonling/saju/serialization/SajuSerialization {
 	public static final fun getSajuJson ()Lkotlinx/serialization/json/Json;
 	public static final fun toDto (Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/serialization/CheonganDto;
 	public static final fun toDto (Lio/github/jaeyeonling/saju/domain/Ganji;)Lio/github/jaeyeonling/saju/serialization/GanjiDto;

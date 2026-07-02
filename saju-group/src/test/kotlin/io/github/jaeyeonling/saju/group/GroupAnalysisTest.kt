@@ -26,7 +26,7 @@ class GroupAnalysisTest : StringSpec({
         report.memberIds shouldBe listOf("a", "b")
         report.relations.pairs shouldHaveSize 1
         report.timeline.year shouldBe 2026
-        report.disclaimer shouldBe GROUP_DISCLAIMER
+        report.disclaimer shouldBe GroupReport.GROUP_DISCLAIMER
     }
 
     "결정론 — 같은 입력은 같은 결과" {

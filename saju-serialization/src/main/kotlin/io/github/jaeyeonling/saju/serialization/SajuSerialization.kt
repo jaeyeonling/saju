@@ -1,3 +1,7 @@
+// Java 소비자에게 파일명 유래 `SajuSerializationKt` 대신 안정적인 `SajuSerialization` 을 노출한다.
+// 파일을 rename 해도 이 JvmName 만 유지하면 JVM 바이너리 호환이 깨지지 않는다.
+@file:JvmName("SajuSerialization")
+
 package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.domain.Cheongan

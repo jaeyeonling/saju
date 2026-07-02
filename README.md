@@ -1,7 +1,7 @@
 # saju — 한국 사주 만세력 라이브러리
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.1-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![JDK](https://img.shields.io/badge/JDK-17%2B-orange.svg)](https://adoptium.net)
 [![CI](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml)
