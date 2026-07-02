@@ -5,10 +5,12 @@
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-07-01
+## [0.1.0] - 2026-07-02
 
 ### Added
 
+- **최초 공개 릴리스** — Maven Central 에 배포: `io.github.jaeyeonling:{saju-core, saju-korea, saju-interpretation, saju-group, saju-serialization}:0.1.0`.
+  `mavenCentral()` 저장소에서 바로 의존할 수 있다. `saju-cli` 는 데모 앱이라 미배포.
 - **천문 엔진** (`saju-core`) — VSOP87/Meeus 기반 자체 계산: 태양·달 위치, 24절기 절입, 삭(朔),
   율리우스일 변환, ΔT·균시차·장동·황도경사. 런타임 의존성 0.
 - **4기둥·대운·세운 도출** — 절기 기반 연/월 경계, 자시 정책, 대운수(3일=1세), 음력 변환(무중치윤).

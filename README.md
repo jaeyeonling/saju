@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.jaeyeonling/saju-core?logo=apachemaven&logoColor=white)](https://central.sonatype.com/artifact/io.github.jaeyeonling/saju-core)
 [![JDK](https://img.shields.io/badge/JDK-17%2B-orange.svg)](https://adoptium.net)
 [![CI](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml/badge.svg)](https://github.com/jaeyeonling/saju/actions/workflows/codeql.yml)
@@ -86,16 +87,11 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"
 
 ## 설치
 
-아직 Maven Central 미배포(`0.1.0`)다. 로컬 Maven 저장소에 게시해 쓴다:
-
-```bash
-./gradlew publishToMavenLocal   # 1. 로컬에 0.1.0 게시
-```
+[Maven Central](https://central.sonatype.com/artifact/io.github.jaeyeonling/saju-core) 에서 바로 의존성으로 추가한다:
 
 ```kotlin
-// 2. build.gradle.kts
+// build.gradle.kts
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -273,11 +269,11 @@ report.getYongsin().getYongsin().getKoreanName();    // 용신 = "화"
 
 **지원 입력 범위는 1900~2100.** 골든 검증 구간(절기·4기둥 1900~2050, 음력 1900~2099) 밖의 입력도 가드를 통과하며 천문 다항식 외삽으로 분 단위 정밀도를 기대하나, 골든 대조가 없는 구간이다.
 
-> CI는 JDK 17·21 매트릭스에서 빌드+테스트+아키텍처 검증(java.time-free)+커버리지 게이트(LINE 80%/BRANCH 60%)를 돌린다. CodeQL 보안 스캔은 public 전환 시 자동 활성화된다.
+> CI는 JDK 17·21 매트릭스에서 빌드+테스트+아키텍처 검증(java.time-free)+커버리지 게이트(LINE 80%/BRANCH 60%)를 돌린다. CodeQL 보안 스캔이 활성화되어 있다(상단 배지 참조).
 
 ## 로드맵
 
-- [ ] Maven Central 릴리스 (예정)
+- [x] Maven Central 릴리스 — v0.1.0 (2026-07-02 게시)
 
 <details>
 <summary>완료된 마일스톤 (v0.1)</summary>
