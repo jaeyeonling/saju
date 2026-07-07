@@ -85,6 +85,16 @@ report.yongsin.yongsin.koreanName   // 용신     → "화"
 
 > 모든 도메인·해석 enum 은 `.koreanName`·`.hanja` 표시 라벨을 제공한다 — 한글 매핑을 직접 짤 필요가 없다.
 
+### 입력이 쓰이는 곳 — 특히 **성별**
+
+| 입력 | 쓰이는 곳 | 원국(4기둥 8글자) |
+|------|----------|-------------------|
+| **생년월일시** | 원국 + 대운 | ✅ 결정 |
+| **성별** | **대운(大運)의 순행·역행 방향 전용** | ❌ 무관 |
+| 출생지 경도 | 진태양시 보정(시각 미세 조정) | 간접 |
+
+> ⚠️ **성별은 원국을 바꾸지 않는다 — 오직 대운 방향(순행·역행)만 정한다.** 그래서 원국을 만드는 `KoreanSaju.fromCivilTime` 은 성별을 받지 않고, **성별을 받는 건 `KoreanSaju.daeun(…, Gender.MALE/FEMALE)` 뿐**이다. 대운(인생의 10년 흐름)을 쓰려면 성별을 반드시 넘겨야 하고, 대운을 안 쓰면 성별은 등장할 일이 없다(누락이 아니라 설계).
+
 ## 설치
 
 [Maven Central](https://central.sonatype.com/artifact/io.github.jaeyeonling/saju-core) 에서 바로 의존성으로 추가한다:
@@ -132,7 +142,7 @@ dependencies {
 
 - **십성**(十星, `SipSeong`) — 일간 대비 다른 글자의 역할 10종(비견=경쟁자, 정재=재물, 정관=직장…).
 - **신강신약**(身強身弱) — 일간이 강한가 약한가. **용신**(用神) — 균형을 돕는 오행. **격국**(格局) — 사주의 짜임새 유형.
-- **대운**(大運) — 10년 단위로 바뀌는 인생의 큰 흐름. **세운**(歲運) — 해마다 바뀌는 그 해의 운.
+- **대운**(大運) — 10년 단위로 바뀌는 인생의 큰 흐름. **순행·역행 방향은 연간 음양 × 성별로 갈린다**(양남음녀 순행) — 대운이 성별을 받는 유일한 이유다. **세운**(歲運) — 해마다 바뀌는 그 해의 운.
 
 ## 모듈
 
@@ -166,12 +176,13 @@ astronomy(순수 UT JD, 타임존 무지)
 
 ## 사용 예시
 
-진입점은 단 둘 — **`KoreanSaju`**(생년월일시 → 사주판)와 **`Interpretation.of`**(사주판 → 해석).
+진입점은 셋 — **`KoreanSaju.fromCivilTime`**(생년월일시 → 사주판)·**`KoreanSaju.daeun`**(생년월일시 + **성별** → 대운)·**`Interpretation.of`**(사주판 → 해석). 성별은 대운의 순행·역행 방향에만 쓰이고 원국에는 영향이 없다([입력이 쓰이는 곳](#입력이-쓰이는-곳--특히-성별) 표 참고).
 
 ### Kotlin
 ```kotlin
 import io.github.jaeyeonling.saju.korea.KoreanSaju
 import io.github.jaeyeonling.saju.korea.Birthplace
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.interpretation.Interpretation
 import io.github.jaeyeonling.saju.lunar.LunarConverter
 
@@ -190,10 +201,12 @@ report.gyeokguk.type.koreanName    // 격국 = "편관격"
 report.gongmang                    // 공망 = (Jiji.SIN, Jiji.YU)
 report.sibiUnseong                 // 십이운성 Map<PillarPosition, SibiUnseong>
 
-// ── 3. 대운 (10년 단위 인생 흐름) ──
-val daeun = KoreanSaju.daeun(1990, 3, 15, 7, 0, isMale = true)
-daeun.first().startAge    // 7 (세부터 시작)
-daeun.first().ganji       // 경진
+// ── 3. 대운 (10년 단위 인생 흐름) — 성별이 순행·역행 '방향'을 정한다(원국에는 영향 없음) ──
+val daeunM = KoreanSaju.daeun(1990, 3, 15, 7, 0, Gender.MALE)   // 남: 7세 경진 (순행)
+val daeunF = KoreanSaju.daeun(1990, 3, 15, 7, 0, Gender.FEMALE) // 여: 같은 원국, 방향 반대(역행)
+daeunM.first().startAge   // 7 (세부터 시작)
+daeunM.first().ganji      // 경진
+// isMale: Boolean 오버로드도 유지되나, 성별을 도메인 개념으로 드러내는 Gender 를 권장.
 
 // ── 4. 음력 생일 입력 / 음↔양 변환 ──
 val lunarChart = KoreanSaju.fromLunarCivilTime(1990, 2, 19, isLeapMonth = false, hour = 7, minute = 0)
@@ -208,9 +221,14 @@ REST 응답으로 바로 내보낼 수 있다. 한글 라벨(`name`)과 영문 e
 
 ```kotlin
 import io.github.jaeyeonling.saju.serialization.toJson
+import io.github.jaeyeonling.saju.serialization.toDaeunJson
 
 val chartJson  = chart.toJson()                    // 사주판 → JSON (일주 name="기묘", hanja="己卯" …)
 val reportJson = Interpretation.of(chart).toJson() // 해석 → JSON (strength.verdictKorean="중화" …)
+
+// 대운 JSON 은 성별을 함께 담는다 — JSON 부터 만드는 소비자도 "성별→대운" 의존을 스키마에서 만난다.
+val daeunJson  = KoreanSaju.daeun(1990, 3, 15, 7, 0, Gender.MALE).toDaeunJson(Gender.MALE)
+// → { "gender":"MALE", "genderKorean":"남", "daeun":[ {"startAge":7,"ganji":{…}}, … ] }
 ```
 
 ### Java

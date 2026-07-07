@@ -1,7 +1,9 @@
 package io.github.jaeyeonling.saju.serialization
 
 import io.github.jaeyeonling.saju.Saju
+import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.domain.Cheongan
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.interpretation.HapChungRelation
@@ -94,5 +96,27 @@ class SajuSerializationTest : StringSpec({
             it.transformsTo shouldBe "목"
             it.members shouldHaveSize 3
         }
+    }
+
+    "대운 시퀀스가 성별과 함께 JSON 으로 직렬화된다 (성별→대운 방향을 스키마에 노출)" {
+        val localJd = JulianDayConverter.fromGregorian(1990, 3, 15, (7 * 60) / 1440.0)
+        val utJd = localJd - 9.0 / 24.0
+        val maleDaeun = Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, Gender.MALE, count = 8)
+
+        val dto = maleDaeun.toDaeunSeriesDto(Gender.MALE)
+        dto.gender shouldBe "MALE"
+        dto.genderKorean shouldBe "남"
+        dto.daeun shouldHaveSize 8
+        dto.daeun.first().startAge shouldBe maleDaeun.first().startAge
+        dto.daeun.first().ganji.name shouldBe maleDaeun.first().ganji.koreanName
+
+        // 성별이 바뀌면 방향이 갈려 대운 시퀀스도 달라진다 — JSON 에 성별이 드러나야 하는 이유.
+        val femaleDaeun = Saju.daeun(utJd, chart.month.ganji, chart.year.gan.eumyang, Gender.FEMALE, count = 8)
+        val femaleJson = femaleDaeun.toDaeunJson(Gender.FEMALE)
+        femaleJson shouldContain "FEMALE"
+        femaleJson shouldContain "여"
+        val back = sajuJson.decodeFromString<DaeunSeriesDto>(femaleJson)
+        back.gender shouldBe "FEMALE"
+        back.daeun shouldHaveSize 8
     }
 })

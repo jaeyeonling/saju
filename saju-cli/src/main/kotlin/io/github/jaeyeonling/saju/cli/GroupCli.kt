@@ -1,8 +1,8 @@
 package io.github.jaeyeonling.saju.cli
 
 import io.github.jaeyeonling.saju.Saju
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.Ohaeng
-import io.github.jaeyeonling.saju.group.Gender
 import io.github.jaeyeonling.saju.group.GroupAnalysis
 import io.github.jaeyeonling.saju.group.GroupMember
 import io.github.jaeyeonling.saju.group.GroupReport
@@ -123,15 +123,15 @@ internal fun renderGroup(
 
 private fun MemberInput.toGroupMember(seunYear: Int): GroupMember {
     val lon = longitude ?: Birthplace.SEOUL.longitudeDeg
-    val isMale = Gender.fromCode(gender) == Gender.MALE
+    val parsedGender = Gender.fromCode(gender)
     val chart = KoreanSaju.fromCivilTime(year, month, day, hour, minute, lon)
     val daeun =
-        KoreanSaju.daeun(year, month, day, hour, minute, isMale = isMale, longitudeDeg = lon, count = DAEUN_COUNT)
+        KoreanSaju.daeun(year, month, day, hour, minute, parsedGender, longitudeDeg = lon, count = DAEUN_COUNT)
     val label = alias.ifEmpty { name.ifEmpty { id } }
     return GroupMember.of(
         id = id,
         alias = label,
-        gender = Gender.fromCode(gender),
+        gender = parsedGender,
         birthYear = year,
         chart = chart,
         daeun = daeun,

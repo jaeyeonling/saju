@@ -48,21 +48,6 @@ public final class io/github/jaeyeonling/saju/group/DaeunTransition {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/jaeyeonling/saju/group/Gender : java/lang/Enum {
-	public static final field Companion Lio/github/jaeyeonling/saju/group/Gender$Companion;
-	public static final field FEMALE Lio/github/jaeyeonling/saju/group/Gender;
-	public static final field MALE Lio/github/jaeyeonling/saju/group/Gender;
-	public static final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public final fun getKoreanName ()Ljava/lang/String;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
-	public static fun values ()[Lio/github/jaeyeonling/saju/group/Gender;
-}
-
-public final class io/github/jaeyeonling/saju/group/Gender$Companion {
-	public final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/group/Gender;
-}
-
 public final class io/github/jaeyeonling/saju/group/GraphEdge {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/RelationLabel;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -131,35 +116,35 @@ public final class io/github/jaeyeonling/saju/group/GroupMember {
 	public static final field Companion Lio/github/jaeyeonling/saju/group/GroupMember$Companion;
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lio/github/jaeyeonling/saju/group/Gender;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Gender;
 	public final fun component4 ()I
 	public final fun component5 ()Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public final fun component6 ()Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
 	public final fun component7 ()Ljava/util/List;
 	public final fun component8 ()Lio/github/jaeyeonling/saju/derivation/Seun;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupMember;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/group/GroupMember;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAlias ()Ljava/lang/String;
 	public final fun getBirthYear ()I
 	public final fun getChart ()Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public final fun getDaeun ()Ljava/util/List;
-	public final fun getGender ()Lio/github/jaeyeonling/saju/group/Gender;
+	public final fun getGender ()Lio/github/jaeyeonling/saju/domain/Gender;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getReport ()Lio/github/jaeyeonling/saju/interpretation/InterpretationReport;
 	public final fun getSeun ()Lio/github/jaeyeonling/saju/derivation/Seun;
 	public fun hashCode ()I
-	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/jaeyeonling/saju/group/GroupMember$Companion {
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
-	public static synthetic fun of$default (Lio/github/jaeyeonling/saju/group/GroupMember$Companion;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/group/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public final fun of (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;)Lio/github/jaeyeonling/saju/group/GroupMember;
+	public static synthetic fun of$default (Lio/github/jaeyeonling/saju/group/GroupMember$Companion;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/domain/SajuChart;Ljava/util/List;Lio/github/jaeyeonling/saju/derivation/Seun;Lio/github/jaeyeonling/saju/group/GroupContext;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/group/GroupMember;
 }
 
 public final class io/github/jaeyeonling/saju/group/GroupReport {

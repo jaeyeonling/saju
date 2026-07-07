@@ -46,6 +46,25 @@ public data class SajuChartDto(
     public val dayMaster: CheonganDto,
 )
 
+/** 대운 한 구간 — startAge 세부터 시작하는 10년 ganji 구간. */
+@Serializable
+public data class DaeunDto(
+    public val startAge: Int,
+    public val ganji: GanjiDto,
+)
+
+/**
+ * 대운 시퀀스 + 그 방향을 정한 성별. 성별→대운 의존을 JSON 스키마에 드러낸다 —
+ * 성별은 원국(4기둥)에는 쓰이지 않고 오직 대운 방향(순행·역행)만 정한다.
+ * gender="MALE"|"FEMALE"(기계 분기용), genderKorean="남"|"여".
+ */
+@Serializable
+public data class DaeunSeriesDto(
+    public val gender: String,
+    public val genderKorean: String,
+    public val daeun: List<DaeunDto>,
+)
+
 /**
  * 신강신약 — verdict(영문 enum)·verdictKorean·supportRatio(0~1, 0.45~0.55=중화)·basis(산출 근거).
  * groupScores 는 십성 5묶음(비겁·식상·재성·관성·인성)별 세력 점수 — 억부 용신 분기의 입력.

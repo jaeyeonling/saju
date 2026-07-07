@@ -22,10 +22,15 @@ public final class io/github/jaeyeonling/saju/korea/Birthplace$Companion {
 
 public final class io/github/jaeyeonling/saju/korea/KoreanSaju {
 	public static final field INSTANCE Lio/github/jaeyeonling/saju/korea/KoreanSaju;
+	public static final fun daeun (IIIIILio/github/jaeyeonling/saju/domain/Gender;)Ljava/util/List;
+	public static final fun daeun (IIIIILio/github/jaeyeonling/saju/domain/Gender;D)Ljava/util/List;
+	public static final fun daeun (IIIIILio/github/jaeyeonling/saju/domain/Gender;DI)Ljava/util/List;
+	public static final fun daeun (IIIIILio/github/jaeyeonling/saju/domain/Gender;DILio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Ljava/util/List;
 	public static final fun daeun (IIIIIZ)Ljava/util/List;
 	public static final fun daeun (IIIIIZD)Ljava/util/List;
 	public static final fun daeun (IIIIIZDI)Ljava/util/List;
 	public static final fun daeun (IIIIIZDILio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Ljava/util/List;
+	public static synthetic fun daeun$default (IIIIILio/github/jaeyeonling/saju/domain/Gender;DILio/github/jaeyeonling/saju/korea/KoreanSajuConfig;ILjava/lang/Object;)Ljava/util/List;
 	public static synthetic fun daeun$default (IIIIIZDILio/github/jaeyeonling/saju/korea/KoreanSajuConfig;ILjava/lang/Object;)Ljava/util/List;
 	public static final fun fromCivilTime (IIIII)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromCivilTime (IIIIID)Lio/github/jaeyeonling/saju/domain/SajuChart;

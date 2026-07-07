@@ -12,6 +12,7 @@ import io.github.jaeyeonling.saju.derivation.SajuConfig
 import io.github.jaeyeonling.saju.derivation.Seun
 import io.github.jaeyeonling.saju.domain.Eumyang
 import io.github.jaeyeonling.saju.domain.Ganji
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.PillarPosition
@@ -123,6 +124,21 @@ public object Saju {
         val startAge = config.daeunStartAge.startAge(daysToBoundary)
         return DaeunCalculator.sequence(monthPillar, direction, startAge, count)
     }
+
+    /**
+     * 대운 도출 — 성별([Gender]) 오버로드. 성별은 원국에는 쓰이지 않고 대운 방향(순행·역행)만 정하며,
+     * [Gender.isMale] 로 [DaeunDirection.of] 에 위임한다.
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun daeun(
+        utJd: Double,
+        monthPillar: Ganji,
+        yearStemEumyang: Eumyang,
+        gender: Gender,
+        count: Int = DEFAULT_DAEUN_COUNT,
+        config: SajuConfig = SajuConfig.DEFAULT,
+    ): List<Daeun> = daeun(utJd, monthPillar, yearStemEumyang, gender.isMale, count, config)
 
     /** 세운(歲運) — 특정 연도의 간지(입춘 기준 연주). */
     @JvmStatic

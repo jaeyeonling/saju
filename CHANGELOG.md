@@ -5,6 +5,29 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **성별(`Gender`)을 도메인 개념으로 승격** — `Gender` enum 이 `saju-group` 에서
+  `saju-core`(`io.github.jaeyeonling.saju.domain.Gender`)로 이동했다. `saju-group` 의 `Gender` 는
+  `typealias` 로 소스 호환을 유지하지만, 바이너리로는 `group/Gender` 클래스가 사라지고 `GroupMember` 의
+  성별 시그니처가 `domain.Gender` 로 바뀌므로 **재컴파일이 필요하다(binary breaking)**.
+- **`Gender.fromCode` 를 strict 파싱으로 변경** — `"M"`/`"F"`(대소문자 무관)·`"남"`/`"여"` 만 받고,
+  그 외 입력은 `IllegalArgumentException` 을 던진다. 기존에는 `"F"` 외 모든 입력(오타 포함)을 조용히
+  남성으로 처리해 **대운 방향이 뒤집힌 채 계산될 수 있었다**. CLI 의 `members.json` 에서 잘못된
+  `gender` 값은 이제 usage 오류(exit 2)로 즉시 실패한다.
+
+### Added
+
+- **`daeun` 의 `Gender` 오버로드** — `KoreanSaju.daeun(…, gender: Gender, …)` /
+  `Saju.daeun(…, gender: Gender, …)`. 기존 `isMale: Boolean` 오버로드는 유지된다.
+  성별이 **대운(大運) 방향(순행·역행) 전용 입력**(원국 무관)임을 시그니처로 드러낸다.
+- **`DaeunDto` · `DaeunSeriesDto`** (`saju-serialization`) — 대운 시퀀스를 성별과 함께 JSON 으로
+  직렬화한다(`List<Daeun>.toDaeunJson(gender)` / `.toDaeunSeriesDto(gender)`).
+  JSON 부터 만드는 소비자도 "성별→대운" 의존을 스키마에서 만난다.
+- **문서** — README 에 "입력이 쓰이는 곳" 표(성별=대운 방향 전용·원국 무관) 신설,
+  진입점 프레이밍 교정(대운을 1급 진입점으로), 대운 예시 남/여 대비.
+  `docs/api.md` 에 `Gender` enum·`daeun` 성별 역할을 명시.
+
 ## [0.1.0] - 2026-07-02
 
 ### Added

@@ -90,6 +90,19 @@ class GroupCliRenderTest : StringSpec({
         code shouldBe 2
     }
 
+    "runGroupCli — 잘못된 성별 코드는 usage + code 2 (조용히 남성으로 흡수하지 않는다)" {
+        val badGender =
+            """
+            {"group_name":"g","members":[
+              {"id":"a","gender":"male","year":1990,"month":3,"day":15,"hour":7,"minute":0},
+              {"id":"b","gender":"F","year":1991,"month":4,"day":16,"hour":8,"minute":0}
+            ]}
+            """.trimIndent()
+        val (output, code) = runGroupCli(arrayOf("group", "x.json"), 2026) { badGender }
+        code shouldBe 2
+        output shouldContain "성별 코드"
+    }
+
     "runGroupCli — 파일 읽기 예외는 usage + code 2" {
         val (_, code) = runGroupCli(arrayOf("group", "x.json"), 2026) { throw java.io.IOException("없음") }
         code shouldBe 2

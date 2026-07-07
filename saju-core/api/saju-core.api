@@ -2,9 +2,13 @@ public final class io/github/jaeyeonling/saju/Saju {
 	public static final field INSTANCE Lio/github/jaeyeonling/saju/Saju;
 	public static final field SUPPORTED_MAX_YEAR I
 	public static final field SUPPORTED_MIN_YEAR I
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Lio/github/jaeyeonling/saju/domain/Gender;)Ljava/util/List;
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Lio/github/jaeyeonling/saju/domain/Gender;I)Ljava/util/List;
+	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/derivation/SajuConfig;)Ljava/util/List;
 	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Z)Ljava/util/List;
 	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZI)Ljava/util/List;
 	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;)Ljava/util/List;
+	public static synthetic fun daeun$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Ljava/util/List;
 	public static synthetic fun daeun$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Ljava/util/List;
 	public static final fun fromLocalDateTime (IIIIID)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLocalDateTime (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;)Lio/github/jaeyeonling/saju/domain/SajuChart;
@@ -217,6 +221,23 @@ public final class io/github/jaeyeonling/saju/domain/Ganji {
 
 public final class io/github/jaeyeonling/saju/domain/Ganji$Companion {
 	public final fun fromIndex (I)Lio/github/jaeyeonling/saju/domain/Ganji;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Gender : java/lang/Enum {
+	public static final field Companion Lio/github/jaeyeonling/saju/domain/Gender$Companion;
+	public static final field FEMALE Lio/github/jaeyeonling/saju/domain/Gender;
+	public static final field MALE Lio/github/jaeyeonling/saju/domain/Gender;
+	public static final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Gender;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHanja ()Ljava/lang/String;
+	public final fun getKoreanName ()Ljava/lang/String;
+	public final fun isMale ()Z
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Gender;
+	public static fun values ()[Lio/github/jaeyeonling/saju/domain/Gender;
+}
+
+public final class io/github/jaeyeonling/saju/domain/Gender$Companion {
+	public final fun fromCode (Ljava/lang/String;)Lio/github/jaeyeonling/saju/domain/Gender;
 }
 
 public abstract interface class io/github/jaeyeonling/saju/domain/HiddenStemTable {

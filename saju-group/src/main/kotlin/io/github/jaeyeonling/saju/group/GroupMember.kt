@@ -6,21 +6,12 @@ import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.interpretation.Interpretation
 import io.github.jaeyeonling.saju.interpretation.InterpretationReport
 
-/** 성별 — 표시·면책용. 대운 방향(양남음녀 순행 등)은 호출자가 [daeun] 생성 시 이미 반영한다. */
-public enum class Gender(
-    /** 한글 이름(남·여). */
-    public val koreanName: String,
-) {
-    MALE("남"),
-    FEMALE("여"),
-    ;
-
-    public companion object {
-        /** `"M"`/`"F"`(대소문자 무관) → [Gender]. 그 외 입력은 [MALE] 로 본다. */
-        @JvmStatic
-        public fun fromCode(code: String): Gender = if (code.equals("F", ignoreCase = true)) FEMALE else MALE
-    }
-}
+/**
+ * 성별 — [io.github.jaeyeonling.saju.domain.Gender] 로 승격됐다(단일 도메인 개념).
+ * 이 별칭은 기존 `group.Gender` 참조의 소스 호환을 위해 남긴다. 여기 멤버 필드로서의 성별은
+ * 표시·면책용이고, 대운 방향(양남음녀 순행)은 호출자가 [GroupMember.daeun] 생성 시 이미 반영한다.
+ */
+public typealias Gender = io.github.jaeyeonling.saju.domain.Gender
 
 /**
  * 그룹 합성 입력 단위 — 멤버 1명의 사주판·해석 + 시간(대운/세운) 정보 묶음.

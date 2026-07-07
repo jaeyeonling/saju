@@ -1,8 +1,10 @@
 package io.github.jaeyeonling.saju.cli
 
 import io.github.jaeyeonling.saju.Saju
+import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Eumyang
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.Pillar
@@ -17,10 +19,12 @@ import io.github.jaeyeonling.saju.interpretation.SinStrengthVerdict
 import io.github.jaeyeonling.saju.interpretation.SipSeong
 import io.github.jaeyeonling.saju.korea.Birthplace
 import io.github.jaeyeonling.saju.korea.KoreanSaju
+import io.github.jaeyeonling.saju.serialization.DaeunSeriesDto
 import io.github.jaeyeonling.saju.serialization.GanjiDto
 import io.github.jaeyeonling.saju.serialization.InterpretationReportDto
 import io.github.jaeyeonling.saju.serialization.SajuChartDto
 import io.github.jaeyeonling.saju.serialization.sajuJson
+import io.github.jaeyeonling.saju.serialization.toDaeunSeriesDto
 import io.github.jaeyeonling.saju.serialization.toDto
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -323,23 +327,40 @@ private fun renderSeun(
         appendLine("(세운 = 그 해의 간지 — 해마다 바뀌는 1년 단위 운)")
     }
 
+/** CLI 내부 성별 표현(isMale) → 도메인 [Gender]. */
+private val CliInput.gender: Gender get() = if (isMale) Gender.MALE else Gender.FEMALE
+
+private fun daeunOf(
+    input: CliInput,
+    gender: Gender,
+): List<Daeun> =
+    KoreanSaju.daeun(
+        input.year,
+        input.month,
+        input.day,
+        input.hour,
+        input.minute,
+        gender,
+        longitudeDeg = input.longitude,
+        count = DAEUN_COUNT,
+    )
+
+private fun daeunCell(daeun: Daeun): String =
+    "${daeun.startAge}세 ${ganKorean(daeun.ganji.gan)}${jiKorean(daeun.ganji.ji)}"
+
+// 성별이 대운 방향을 가른다는 걸 남/여 대비로 드러낸다 — 원국 8글자는 성별과 무관함을 함께 명시.
 private fun renderDaeun(input: CliInput): String =
     buildString {
-        val daeun =
-            KoreanSaju.daeun(
-                input.year,
-                input.month,
-                input.day,
-                input.hour,
-                input.minute,
-                isMale = input.isMale,
-                longitudeDeg = input.longitude,
-                count = 8,
-            )
-        val label = if (input.isMale) "남성" else "여성"
-        appendLine("───── 대운 ($label) ─────")
-        appendLine(daeun.joinToString("  ") { "${it.startAge}세 ${ganKorean(it.ganji.gan)}${jiKorean(it.ganji.ji)}" })
-        appendLine("(대운 = 시작 나이부터 10년 단위로 바뀌는 인생의 큰 흐름)")
+        val gender = input.gender
+        val opposite = if (gender == Gender.MALE) Gender.FEMALE else Gender.MALE
+        appendLine("───── 대운 (입력: ${gender.koreanName}성) ─────")
+        appendLine(daeunOf(input, gender).joinToString("  ") { daeunCell(it) })
+        appendLine(
+            "(참고) ${opposite.koreanName}성이면 → " +
+                daeunOf(input, opposite).take(DAEUN_PREVIEW_COUNT).joinToString("  ") { daeunCell(it) } +
+                " … (방향 반대)",
+        )
+        appendLine("(대운 = 10년 단위 인생 흐름. 순행·역행 방향은 성별×연간 음양으로 갈린다 — 원국 8글자는 성별과 무관)")
     }
 
 // 표시 라벨은 라이브러리 enum 의 koreanName/hanja 를 단일 진실 소스로 쓴다(CLI 가 매핑을 재정의하지 않는다).
@@ -385,6 +406,7 @@ private fun padDisplay(
 }
 
 private const val DAEUN_COUNT = 8
+private const val DAEUN_PREVIEW_COUNT = 3
 
 /**
  * --json 모드: 사주판·해석·대운·세운을 기계 판독용 JSON 한 덩어리로 출력(부작용 없는 순수 렌더).
@@ -399,17 +421,7 @@ internal fun renderJson(
         KoreanSaju.fromCivilTime(input.year, input.month, input.day, input.hour, input.minute, input.longitude)
     val offset =
         KoreanSaju.trueSolarOffsetMinutes(input.year, input.month, input.day, input.hour, input.minute, input.longitude)
-    val daeun =
-        KoreanSaju.daeun(
-            input.year,
-            input.month,
-            input.day,
-            input.hour,
-            input.minute,
-            isMale = input.isMale,
-            longitudeDeg = input.longitude,
-            count = DAEUN_COUNT,
-        ).map { CliDaeunDto(it.startAge, it.ganji.toDto()) }
+    val daeun = daeunOf(input, input.gender).toDaeunSeriesDto(input.gender)
     val seun =
         Saju.seun(seunYear).let {
             CliSeunDto(it.year, it.ganji.toDto(), SipSeong.of(chart.dayMaster, it.ganji.gan).koreanName)
@@ -442,7 +454,7 @@ internal data class CliJsonOutput(
     val trueSolarOffsetMinutes: Double,
     val chart: SajuChartDto,
     val interpretation: InterpretationReportDto,
-    val daeun: List<CliDaeunDto>,
+    val daeun: DaeunSeriesDto,
     val seun: CliSeunDto,
 )
 
@@ -455,12 +467,6 @@ internal data class CliJsonInput(
     val minute: Int,
     val longitude: Double,
     val isMale: Boolean,
-)
-
-@Serializable
-internal data class CliDaeunDto(
-    val startAge: Int,
-    val ganji: GanjiDto,
 )
 
 @Serializable
