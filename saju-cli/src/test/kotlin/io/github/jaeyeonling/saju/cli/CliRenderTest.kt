@@ -75,8 +75,8 @@ class CliRenderTest : StringSpec({
 
     "대운 블록은 8개 구간과 설명을 출력한다" {
         val out = render(CliInput.DEFAULT, fixedYear)
-        // 대운 라인만 — "N세 간지" 패턴 8개("───── 대운" 이후 구간).
-        val daeunBlock = out.substringAfter("───── 대운")
+        // 주 대운 라인만 — "N세 간지" 8개(반대 성별 "(참고)" 미리보기 앞까지).
+        val daeunBlock = out.substringAfter("───── 대운").substringBefore("(참고)")
         withClue("대운 8구간이어야:\n$daeunBlock") {
             Regex("""\d+세 [가-힣]{2}""").findAll(daeunBlock).count() shouldBe 8
         }

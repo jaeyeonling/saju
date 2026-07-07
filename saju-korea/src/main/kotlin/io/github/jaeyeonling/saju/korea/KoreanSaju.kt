@@ -4,6 +4,7 @@ import io.github.jaeyeonling.saju.Saju
 import io.github.jaeyeonling.saju.astronomy.Ephemeris
 import io.github.jaeyeonling.saju.astronomy.JulianDayConverter
 import io.github.jaeyeonling.saju.derivation.Daeun
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.lunar.CalendarBasis
 import io.github.jaeyeonling.saju.lunar.LunarConverter
@@ -117,6 +118,24 @@ public object KoreanSaju {
             )
         return Saju.daeun(instant.utJd, chart.month.ganji, chart.year.gan.eumyang, isMale, count, config.saju)
     }
+
+    /**
+     * 법정시 + 출생지 + 성별([Gender])로 대운 시퀀스 — [daeun] 의 성별 오버로드.
+     * 성별은 대운 방향(순행·역행)만 정한다(원국 무관).
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun daeun(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+        gender: Gender,
+        longitudeDeg: Double = Birthplace.SEOUL.longitudeDeg,
+        count: Int = DEFAULT_DAEUN_COUNT,
+        config: KoreanSajuConfig = KoreanSajuConfig.DEFAULT,
+    ): List<Daeun> = daeun(year, month, day, hour, minute, gender.isMale, longitudeDeg, count, config)
 
     /**
      * 법정시 → 진태양시 총 보정(분). 진태양시 = 법정시 + 반환값.

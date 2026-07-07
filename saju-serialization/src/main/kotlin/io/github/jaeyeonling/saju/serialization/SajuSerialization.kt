@@ -4,8 +4,10 @@
 
 package io.github.jaeyeonling.saju.serialization
 
+import io.github.jaeyeonling.saju.derivation.Daeun
 import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.Ganji
+import io.github.jaeyeonling.saju.domain.Gender
 import io.github.jaeyeonling.saju.domain.JijiHiddenStems
 import io.github.jaeyeonling.saju.domain.Pillar
 import io.github.jaeyeonling.saju.domain.SajuChart
@@ -63,6 +65,19 @@ public fun SajuChart.toDto(): SajuChartDto =
 
 /** 사주판을 JSON 문자열로. */
 public fun SajuChart.toJson(): String = sajuJson.encodeToString(toDto())
+
+public fun Daeun.toDto(): DaeunDto = DaeunDto(startAge = startAge, ganji = ganji.toDto())
+
+/** 대운 시퀀스를 성별과 함께 DTO 로 — 성별이 방향(순행·역행)을 정했음을 JSON 에 드러낸다. */
+public fun List<Daeun>.toDaeunSeriesDto(gender: Gender): DaeunSeriesDto =
+    DaeunSeriesDto(
+        gender = gender.name,
+        genderKorean = gender.koreanName,
+        daeun = map { it.toDto() },
+    )
+
+/** 대운 시퀀스를 성별과 함께 JSON 문자열로. */
+public fun List<Daeun>.toDaeunJson(gender: Gender): String = sajuJson.encodeToString(toDaeunSeriesDto(gender))
 
 public fun SinStrength.toDto(): SinStrengthDto =
     SinStrengthDto(

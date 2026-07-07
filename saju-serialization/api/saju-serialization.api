@@ -64,6 +64,66 @@ public final class io/github/jaeyeonling/saju/serialization/CurrentDaeunDto$Comp
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/github/jaeyeonling/saju/serialization/DaeunDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DaeunDto$Companion;
+	public fun <init> (ILio/github/jaeyeonling/saju/serialization/GanjiDto;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun copy (ILio/github/jaeyeonling/saju/serialization/GanjiDto;)Lio/github/jaeyeonling/saju/serialization/DaeunDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/DaeunDto;ILio/github/jaeyeonling/saju/serialization/GanjiDto;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/DaeunDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun getStartAge ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/DaeunDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/DaeunDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/DaeunDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/DaeunDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DaeunDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DaeunSeriesDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDaeun ()Ljava/util/List;
+	public final fun getGender ()Ljava/lang/String;
+	public final fun getGenderKorean ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/DaeunSeriesDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DaeunSeriesDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/jaeyeonling/saju/serialization/DaeunTransitionDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DaeunTransitionDto$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;ILio/github/jaeyeonling/saju/serialization/GanjiDto;I)V
@@ -722,6 +782,9 @@ public final class io/github/jaeyeonling/saju/serialization/SajuChartDto$Compani
 
 public final class io/github/jaeyeonling/saju/serialization/SajuSerialization {
 	public static final fun getSajuJson ()Lkotlinx/serialization/json/Json;
+	public static final fun toDaeunJson (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Gender;)Ljava/lang/String;
+	public static final fun toDaeunSeriesDto (Ljava/util/List;Lio/github/jaeyeonling/saju/domain/Gender;)Lio/github/jaeyeonling/saju/serialization/DaeunSeriesDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/derivation/Daeun;)Lio/github/jaeyeonling/saju/serialization/DaeunDto;
 	public static final fun toDto (Lio/github/jaeyeonling/saju/domain/Cheongan;)Lio/github/jaeyeonling/saju/serialization/CheonganDto;
 	public static final fun toDto (Lio/github/jaeyeonling/saju/domain/Ganji;)Lio/github/jaeyeonling/saju/serialization/GanjiDto;
 	public static final fun toDto (Lio/github/jaeyeonling/saju/domain/JijiHiddenStems;)Lio/github/jaeyeonling/saju/serialization/HiddenStemsDto;
