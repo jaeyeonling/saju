@@ -2,7 +2,7 @@
 kotlin = "2.4.0"
 junit = "6.1.1"
 konsist = "0.17.3"
-kotest = "6.2.1"
+kotest = "6.2.2"
 kotlinxSerialization = "1.11.0"
 ktlint = "12.1.2"
 # dokka 2.x = DGP v2(태스크명 dokkaGeneratePublication*). vanniktech 0.37.0 은 dokka v2 를 요구한다.
