@@ -1,3 +1,69 @@
+public final class io/github/jaeyeonling/saju/serialization/AstronomyTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto$Companion;
+	public fun <init> (DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public final fun copy (DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;)Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNextTerm ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public final fun getPrevTerm ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public final fun getSolarLongitudeDeg ()D
+	public final fun getYearBoundary ()Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/AstronomyTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/AstronomyTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/ChartComputationDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/ChartComputationDto$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/serialization/SajuChartDto;DLio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/serialization/SajuChartDto;
+	public final fun component2 ()D
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public final fun copy (Lio/github/jaeyeonling/saju/serialization/SajuChartDto;DLio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;)Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;Lio/github/jaeyeonling/saju/serialization/SajuChartDto;DLio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAstronomy ()Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public final fun getChart ()Lio/github/jaeyeonling/saju/serialization/SajuChartDto;
+	public final fun getPillars ()Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/ChartComputationDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/ChartComputationDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/ChartComputationDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/jaeyeonling/saju/serialization/CheonganDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/CheonganDto$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
@@ -28,6 +94,109 @@ public final synthetic class io/github/jaeyeonling/saju/serialization/CheonganDt
 }
 
 public final class io/github/jaeyeonling/saju/serialization/CheonganDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectedTimeDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto$Companion;
+	public fun <init> (IIIIII)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()I
+	public final fun component6 ()I
+	public final fun copy (IIIIII)Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;IIIIIIILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDay ()I
+	public final fun getHour ()I
+	public final fun getMinute ()I
+	public final fun getMonth ()I
+	public final fun getSecond ()I
+	public final fun getYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/CorrectedTimeDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectedTimeDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectionStepDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto$Companion;
+	public fun <init> (Ljava/lang/String;DLjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()D
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;DLjava/lang/String;)Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;Ljava/lang/String;DLjava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getDeltaMinutes ()D
+	public final fun getKind ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/CorrectionStepDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectionStepDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectionTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto$Companion;
+	public fun <init> (Ljava/util/List;DLio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;DD)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()D
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun copy (Ljava/util/List;DLio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;DD)Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;Ljava/util/List;DLio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;DDILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCorrected ()Lio/github/jaeyeonling/saju/serialization/CorrectedTimeDto;
+	public final fun getSteps ()Ljava/util/List;
+	public final fun getTotalOffsetMinutes ()D
+	public final fun getUtJd ()D
+	public final fun getUtOffsetHours ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/CorrectionTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/CorrectionTraceDto$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -124,6 +293,47 @@ public final class io/github/jaeyeonling/saju/serialization/DaeunSeriesDto$Compa
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/github/jaeyeonling/saju/serialization/DaeunTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;ILjava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()D
+	public final fun component5 ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public final fun component6 ()I
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;ILjava/lang/String;Ljava/util/List;)Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;ILjava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDaysToTerm ()D
+	public final fun getDirection ()Ljava/lang/String;
+	public final fun getDirectionBasis ()Ljava/lang/String;
+	public final fun getDirectionKorean ()Ljava/lang/String;
+	public final fun getEntries ()Ljava/util/List;
+	public final fun getStartAge ()I
+	public final fun getStartAgeBasis ()Ljava/lang/String;
+	public final fun getTargetTerm ()Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/DaeunTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DaeunTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/jaeyeonling/saju/serialization/DaeunTransitionDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DaeunTransitionDto$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;ILio/github/jaeyeonling/saju/serialization/GanjiDto;I)V
@@ -156,6 +366,39 @@ public final synthetic class io/github/jaeyeonling/saju/serialization/DaeunTrans
 }
 
 public final class io/github/jaeyeonling/saju/serialization/DaeunTransitionDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DayPillarTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto$Companion;
+	public fun <init> (JZLio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()Z
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JZLio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;JZLio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun getJulianDayNumber ()J
+	public final fun getZishiAdvanced ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/DayPillarTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/DayPillarTraceDto$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -464,6 +707,39 @@ public final class io/github/jaeyeonling/saju/serialization/HiddenStemsDto$Compa
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/github/jaeyeonling/saju/serialization/HourPillarTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;Ljava/lang/String;Ljava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun getHourBranch ()Ljava/lang/String;
+	public final fun getSijuStartGan ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/HourPillarTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/HourPillarTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/jaeyeonling/saju/serialization/InterpretationReportDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/InterpretationReportDto$Companion;
 	public fun <init> (Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;Lio/github/jaeyeonling/saju/serialization/YongsinDto;Lio/github/jaeyeonling/saju/serialization/GyeokgukDto;Ljava/util/List;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;Ljava/util/Map;)V
@@ -511,6 +787,73 @@ public final synthetic class io/github/jaeyeonling/saju/serialization/Interpreta
 }
 
 public final class io/github/jaeyeonling/saju/serialization/InterpretationReportDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/KoreanChartComputationDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public final fun copy (Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;)Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCore ()Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public final fun getCorrection ()Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public final fun getLunarConversion ()Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/KoreanChartComputationDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/KoreanChartComputationDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/LunarConversionDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/LunarConversionDto$Companion;
+	public fun <init> (IIILjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (IIILjava/lang/String;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;IIILjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getCalendarBasis ()Ljava/lang/String;
+	public final fun getSolarDay ()I
+	public final fun getSolarMonth ()I
+	public final fun getSolarYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/LunarConversionDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/LunarConversionDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/LunarConversionDto$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -576,6 +919,39 @@ public final synthetic class io/github/jaeyeonling/saju/serialization/MemberSeun
 }
 
 public final class io/github/jaeyeonling/saju/serialization/MemberSeunDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/MonthPillarTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto$Companion;
+	public fun <init> (ILjava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (ILjava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;ILjava/lang/String;Lio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun getMonthOffset ()I
+	public final fun getWolduStartGan ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/MonthPillarTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/MonthPillarTraceDto$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -714,6 +1090,39 @@ public final class io/github/jaeyeonling/saju/serialization/PillarSipSeongDto$Co
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/github/jaeyeonling/saju/serialization/PillarsTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto$Companion;
+	public fun <init> (Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;
+	public final fun copy (Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;)Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDay ()Lio/github/jaeyeonling/saju/serialization/DayPillarTraceDto;
+	public final fun getHour ()Lio/github/jaeyeonling/saju/serialization/HourPillarTraceDto;
+	public final fun getMonth ()Lio/github/jaeyeonling/saju/serialization/MonthPillarTraceDto;
+	public final fun getYear ()Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/PillarsTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/PillarsTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class io/github/jaeyeonling/saju/serialization/RelationMatrixDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/RelationMatrixDto$Companion;
 	public fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
@@ -802,19 +1211,25 @@ public final class io/github/jaeyeonling/saju/serialization/SajuSerialization {
 
 public final class io/github/jaeyeonling/saju/serialization/SinStrengthDto {
 	public static final field Companion Lio/github/jaeyeonling/saju/serialization/SinStrengthDto$Companion;
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;Ljava/util/List;DD)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;Ljava/util/List;DDILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()D
 	public final fun component4 ()Ljava/lang/String;
 	public final fun component5 ()Ljava/util/Map;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;)Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;
-	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()D
+	public final fun component8 ()D
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;Ljava/util/List;DD)Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;Ljava/util/Map;Ljava/util/List;DDILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/SinStrengthDto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBasis ()Ljava/lang/String;
+	public final fun getContributions ()Ljava/util/List;
 	public final fun getGroupScores ()Ljava/util/Map;
 	public final fun getSupportRatio ()D
+	public final fun getSupportScore ()D
+	public final fun getTotalScore ()D
 	public final fun getVerdict ()Ljava/lang/String;
 	public final fun getVerdictKorean ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -873,18 +1288,167 @@ public final class io/github/jaeyeonling/saju/serialization/SipseongRolesDto$Com
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class io/github/jaeyeonling/saju/serialization/YongsinDto {
-	public static final field Companion Lio/github/jaeyeonling/saju/serialization/YongsinDto$Companion;
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+public final class io/github/jaeyeonling/saju/serialization/SolarTermInstantDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto$Companion;
+	public fun <init> (ID)V
+	public final fun component1 ()I
+	public final fun component2 ()D
+	public final fun copy (ID)Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;IDILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTermIndex ()I
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/SolarTermInstantDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/SolarTermInstantDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/StrengthContributionDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/YongsinDto;
-	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/YongsinDto;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/YongsinDto;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()D
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;)Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBasis ()Ljava/lang/String;
+	public final fun getPosition ()Ljava/lang/String;
+	public final fun getSipseongGroup ()Ljava/lang/String;
+	public final fun getSlot ()Ljava/lang/String;
+	public final fun getSlotKorean ()Ljava/lang/String;
+	public final fun getStem ()Ljava/lang/String;
+	public final fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/StrengthContributionDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/StrengthContributionDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/TraceSerialization {
+	public static final fun toDto (Lio/github/jaeyeonling/saju/interpretation/StrengthContribution;)Lio/github/jaeyeonling/saju/serialization/StrengthContributionDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/korea/trace/CorrectionStep;)Lio/github/jaeyeonling/saju/serialization/CorrectionStepDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;)Lio/github/jaeyeonling/saju/serialization/CorrectionTraceDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;)Lio/github/jaeyeonling/saju/serialization/KoreanChartComputationDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;)Lio/github/jaeyeonling/saju/serialization/LunarConversionDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/AstronomyTrace;)Lio/github/jaeyeonling/saju/serialization/AstronomyTraceDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/ChartComputation;)Lio/github/jaeyeonling/saju/serialization/ChartComputationDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/DaeunTrace;)Lio/github/jaeyeonling/saju/serialization/DaeunTraceDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/PillarsTrace;)Lio/github/jaeyeonling/saju/serialization/PillarsTraceDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/SolarTermInstant;)Lio/github/jaeyeonling/saju/serialization/SolarTermInstantDto;
+	public static final fun toDto (Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;)Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public static final fun toJson (Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;)Ljava/lang/String;
+	public static final fun toJson (Lio/github/jaeyeonling/saju/trace/ChartComputation;)Ljava/lang/String;
+	public static final fun toJson (Lio/github/jaeyeonling/saju/trace/DaeunTrace;)Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto$Companion;
+	public fun <init> (IDZ)V
+	public final fun component1 ()I
+	public final fun component2 ()D
+	public final fun component3 ()Z
+	public final fun copy (IDZ)Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;IDZILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTermIndex ()I
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public final fun isAfter ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/YearBoundaryTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/YearPillarTraceDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto$Companion;
+	public fun <init> (ILio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (ILio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;)Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;ILio/github/jaeyeonling/saju/serialization/GanjiDto;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/serialization/GanjiDto;
+	public final fun getSajuYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class io/github/jaeyeonling/saju/serialization/YearPillarTraceDto$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/github/jaeyeonling/saju/serialization/YearPillarTraceDto;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/YearPillarTraceDto$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class io/github/jaeyeonling/saju/serialization/YongsinDto {
+	public static final field Companion Lio/github/jaeyeonling/saju/serialization/YongsinDto$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Lio/github/jaeyeonling/saju/serialization/YongsinDto;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/serialization/YongsinDto;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/serialization/YongsinDto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getDecisionPath ()Ljava/util/List;
 	public final fun getMethod ()Ljava/lang/String;
 	public final fun getMethodKorean ()Ljava/lang/String;
 	public final fun getOhaeng ()Ljava/lang/String;

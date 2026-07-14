@@ -76,6 +76,9 @@ public data class SinStrengthDto(
     public val supportRatio: Double,
     public val basis: String = "",
     public val groupScores: Map<String, Double> = emptyMap(),
+    public val contributions: List<StrengthContributionDto> = emptyList(),
+    public val supportScore: Double = 0.0,
+    public val totalScore: Double = 0.0,
 )
 
 /** 용신 — ohaeng(한글)·method(영문 enum)·methodKorean·basis(왜 이 오행인가). */
@@ -85,6 +88,7 @@ public data class YongsinDto(
     public val method: String,
     public val methodKorean: String,
     public val basis: String = "",
+    public val decisionPath: List<String> = emptyList(),
 )
 
 /** 격국 — type(영문 enum)·typeKorean·basis(근거 설명). */

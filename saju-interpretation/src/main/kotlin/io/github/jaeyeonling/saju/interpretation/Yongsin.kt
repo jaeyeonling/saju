@@ -25,11 +25,16 @@ public enum class YongsinMethod(
  *
  * [basis] 는 산출 근거(왜 이 오행인가). 용신은 LLM 이 가장 자신 있게 틀리는 지점이라,
  * 근거를 함께 노출해 모델이 결론만 보고 추론을 지어내는 걸 막는다([GyeokgukResult] 의 basis 와 같은 역할).
+ *
+ * [decisionPath] 는 분기 트리의 통과 경로다(trace) — 한 문장으로 접힌 [basis] 와 달리
+ * 판단 단계(강약 판정 → 과다 세력 비교 → 결론)를 낱개로 보존해, 시각화가 의사결정
+ * 트리에서 경로를 하이라이트할 수 있게 한다. 기본값이 있어 스키마 안정.
  */
 public data class YongsinResult(
     public val yongsin: Ohaeng,
     public val method: YongsinMethod,
     public val basis: String = "",
+    public val decisionPath: List<String> = emptyList(),
 )
 
 /** 용신 도출 전략. 억부·조후·병약 등 방법이 다중이라 전략화한다. */
@@ -66,14 +71,30 @@ public object EokbuYongsinStrategy : YongsinStrategy {
         fun score(group: SipSeongGroup): Double = strength.groupScores[group] ?: 0.0
         val pct = "%.0f".format(strength.supportRatio * 100)
 
-        val (yongsin, reason) =
+        // (용신, 한 줄 근거, 분기 단계) — 분기 단계는 decisionPath 로 보존한다(트리 하이라이트용).
+        val (yongsin, reason, branchStep) =
             if (strength.verdict.isStrong) {
                 val bg = score(SipSeongGroup.BIGEOP)
                 val ins = score(SipSeongGroup.INSEONG)
                 when {
-                    bg > ins -> gwanseong to "비겁과다(비겁 ${f(bg)} > 인성 ${f(ins)}) → 관성 ${label(gwanseong)} 극제"
-                    ins > bg -> jaeseong to "인성과다(인성 ${f(ins)} > 비겁 ${f(bg)}) → 재성 ${label(jaeseong)} 재극인"
-                    else -> siksang to "비겁·인성 균형 → 식상 ${label(siksang)} 설기"
+                    bg > ins ->
+                        Triple(
+                            gwanseong,
+                            "비겁과다(비겁 ${f(bg)} > 인성 ${f(ins)}) → 관성 ${label(gwanseong)} 극제",
+                            "비겁 ${f(bg)} > 인성 ${f(ins)} → 비겁과다",
+                        )
+                    ins > bg ->
+                        Triple(
+                            jaeseong,
+                            "인성과다(인성 ${f(ins)} > 비겁 ${f(bg)}) → 재성 ${label(jaeseong)} 재극인",
+                            "인성 ${f(ins)} > 비겁 ${f(bg)} → 인성과다",
+                        )
+                    else ->
+                        Triple(
+                            siksang,
+                            "비겁·인성 균형 → 식상 ${label(siksang)} 설기",
+                            "비겁 ${f(bg)} = 인성 ${f(ins)} → 균형",
+                        )
                 }
             } else {
                 val gw = score(SipSeongGroup.GWANSEONG)
@@ -81,13 +102,43 @@ public object EokbuYongsinStrategy : YongsinStrategy {
                 val sik = score(SipSeongGroup.SIKSANG)
                 val maxDrain = maxOf(gw, ja, sik)
                 when {
-                    maxDrain == 0.0 -> inseong to "일간 ${label(day)} 생조 → 인성 ${label(inseong)}"
-                    gw == maxDrain -> inseong to "관성과다(관성 ${f(gw)}) → 인성 ${label(inseong)} 설기·생조"
-                    ja == maxDrain -> bigeop to "재성과다(재성 ${f(ja)}) → 비겁 ${label(bigeop)} 재극"
-                    else -> inseong to "식상과다(식상 ${f(sik)}) → 인성 ${label(inseong)} 제어"
+                    maxDrain == 0.0 ->
+                        Triple(
+                            inseong,
+                            "일간 ${label(day)} 생조 → 인성 ${label(inseong)}",
+                            "빼는 세력 없음 → 생조",
+                        )
+                    gw == maxDrain ->
+                        Triple(
+                            inseong,
+                            "관성과다(관성 ${f(gw)}) → 인성 ${label(inseong)} 설기·생조",
+                            "관성 ${f(gw)} 최대 → 관성과다",
+                        )
+                    ja == maxDrain ->
+                        Triple(
+                            bigeop,
+                            "재성과다(재성 ${f(ja)}) → 비겁 ${label(bigeop)} 재극",
+                            "재성 ${f(ja)} 최대 → 재성과다",
+                        )
+                    else ->
+                        Triple(
+                            inseong,
+                            "식상과다(식상 ${f(sik)}) → 인성 ${label(inseong)} 제어",
+                            "식상 ${f(sik)} 최대 → 식상과다",
+                        )
                 }
             }
-        return YongsinResult(yongsin, YongsinMethod.EOKBU, "${strength.verdict.koreanName}($pct%) · $reason")
+        return YongsinResult(
+            yongsin = yongsin,
+            method = YongsinMethod.EOKBU,
+            basis = "${strength.verdict.koreanName}($pct%) · $reason",
+            decisionPath =
+                listOf(
+                    "${strength.verdict.koreanName}($pct%) → ${if (strength.verdict.isStrong) "억(抑)" else "부(扶)"}",
+                    branchStep,
+                    "용신 ${label(yongsin)}",
+                ),
+        )
     }
 }
 
@@ -119,7 +170,16 @@ public object JohuYongsinStrategy : YongsinStrategy {
             }
         val ji = chart.month.ji
         val basis = "월지 ${ji.koreanName}(${ji.hanja})=$season 계절 → 조후로 ${label(yongsin)}"
-        return YongsinResult(yongsin, YongsinMethod.JOHU, basis)
+        return YongsinResult(
+            yongsin = yongsin,
+            method = YongsinMethod.JOHU,
+            basis = basis,
+            decisionPath =
+                listOf(
+                    "월지 ${ji.koreanName}(${ji.hanja}) → $season 계절",
+                    "용신 ${label(yongsin)}",
+                ),
+        )
     }
 }
 
@@ -143,9 +203,11 @@ public class CompositeYongsinStrategy
             strength: SinStrength,
         ): YongsinResult =
             if (chart.month.ji in CLIMATE_EXTREME_BRANCHES) {
-                joho.derive(chart, strength)
+                val result = joho.derive(chart, strength)
+                result.copy(decisionPath = listOf("월령 기후 극단(여름·겨울) → 조후 우선") + result.decisionPath)
             } else {
-                eokbu.derive(chart, strength)
+                val result = eokbu.derive(chart, strength)
+                result.copy(decisionPath = listOf("월령 기후 극단 아님 → 억부") + result.decisionPath)
             }
 
         private companion object {

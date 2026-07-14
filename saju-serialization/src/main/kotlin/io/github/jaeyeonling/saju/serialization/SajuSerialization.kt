@@ -86,6 +86,9 @@ public fun SinStrength.toDto(): SinStrengthDto =
         supportRatio = supportRatio,
         basis = basis,
         groupScores = groupScores.entries.associate { (group, score) -> group.koreanName to score },
+        contributions = contributions.map { it.toDto() },
+        supportScore = supportScore,
+        totalScore = totalScore,
     )
 
 public fun YongsinResult.toDto(): YongsinDto =
@@ -94,6 +97,7 @@ public fun YongsinResult.toDto(): YongsinDto =
         method = method.name,
         methodKorean = method.koreanName,
         basis = basis,
+        decisionPath = decisionPath,
     )
 
 public fun GyeokgukResult.toDto(): GyeokgukDto =

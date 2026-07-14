@@ -36,11 +36,20 @@ public final class io/github/jaeyeonling/saju/korea/KoreanSaju {
 	public static final fun fromCivilTime (IIIIID)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromCivilTime (IIIIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static synthetic fun fromCivilTime$default (IIIIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun fromCivilTimeWithTrace (IIIII)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static final fun fromCivilTimeWithTrace (IIIIID)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static final fun fromCivilTimeWithTrace (IIIIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static synthetic fun fromCivilTimeWithTrace$default (IIIIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
 	public static final fun fromLunarCivilTime (IIIZII)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLunarCivilTime (IIIZIID)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLunarCivilTime (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLunarCivilTime (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;Lio/github/jaeyeonling/saju/lunar/CalendarBasis;)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static synthetic fun fromLunarCivilTime$default (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;Lio/github/jaeyeonling/saju/lunar/CalendarBasis;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun fromLunarCivilTimeWithTrace (IIIZII)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static final fun fromLunarCivilTimeWithTrace (IIIZIID)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static final fun fromLunarCivilTimeWithTrace (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static final fun fromLunarCivilTimeWithTrace (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;Lio/github/jaeyeonling/saju/lunar/CalendarBasis;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static synthetic fun fromLunarCivilTimeWithTrace$default (IIIZIIDLio/github/jaeyeonling/saju/korea/KoreanSajuConfig;Lio/github/jaeyeonling/saju/lunar/CalendarBasis;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
 	public static final fun trueSolarOffsetMinutes (IIIII)D
 	public static final fun trueSolarOffsetMinutes (IIIIID)D
 	public static final fun trueSolarOffsetMinutes (IIIIIDLio/github/jaeyeonling/saju/korea/TrueSolarTimePolicy;)D
@@ -95,5 +104,84 @@ public final class io/github/jaeyeonling/saju/korea/TrueSolarTimePolicy : java/l
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/korea/TrueSolarTimePolicy;
 	public static fun values ()[Lio/github/jaeyeonling/saju/korea/TrueSolarTimePolicy;
+}
+
+public final class io/github/jaeyeonling/saju/korea/trace/CorrectionStep {
+	public fun <init> (Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;DLjava/lang/String;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public final fun component2 ()D
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;DLjava/lang/String;)Lio/github/jaeyeonling/saju/korea/trace/CorrectionStep;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/korea/trace/CorrectionStep;Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;DLjava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/CorrectionStep;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getDeltaMinutes ()D
+	public final fun getKind ()Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/korea/trace/CorrectionStepKind : java/lang/Enum {
+	public static final field DST Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public static final field EOT Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public static final field LONGITUDE Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public static final field MERIDIAN Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+	public static fun values ()[Lio/github/jaeyeonling/saju/korea/trace/CorrectionStepKind;
+}
+
+public final class io/github/jaeyeonling/saju/korea/trace/CorrectionTrace {
+	public fun <init> (Ljava/util/List;DLio/github/jaeyeonling/saju/astronomy/CalendarDate;DD)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()D
+	public final fun component3 ()Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun copy (Ljava/util/List;DLio/github/jaeyeonling/saju/astronomy/CalendarDate;DD)Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;Ljava/util/List;DLio/github/jaeyeonling/saju/astronomy/CalendarDate;DDILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCorrected ()Lio/github/jaeyeonling/saju/astronomy/CalendarDate;
+	public final fun getSteps ()Ljava/util/List;
+	public final fun getTotalOffsetMinutes ()D
+	public final fun getUtJd ()D
+	public final fun getUtOffsetHours ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/korea/trace/KoreanChartComputation {
+	public fun <init> (Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;Lio/github/jaeyeonling/saju/trace/ChartComputation;Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;)V
+	public synthetic fun <init> (Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;Lio/github/jaeyeonling/saju/trace/ChartComputation;Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;
+	public final fun copy (Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;Lio/github/jaeyeonling/saju/trace/ChartComputation;Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;Lio/github/jaeyeonling/saju/trace/ChartComputation;Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/KoreanChartComputation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCore ()Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public final fun getCorrection ()Lio/github/jaeyeonling/saju/korea/trace/CorrectionTrace;
+	public final fun getLunarConversion ()Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/korea/trace/LunarConversionBasis {
+	public fun <init> (IIILio/github/jaeyeonling/saju/lunar/CalendarBasis;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (IIILio/github/jaeyeonling/saju/lunar/CalendarBasis;Ljava/lang/String;)Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;IIILio/github/jaeyeonling/saju/lunar/CalendarBasis;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/korea/trace/LunarConversionBasis;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getCalendarBasis ()Lio/github/jaeyeonling/saju/lunar/CalendarBasis;
+	public final fun getSolarDay ()I
+	public final fun getSolarMonth ()I
+	public final fun getSolarYear ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 

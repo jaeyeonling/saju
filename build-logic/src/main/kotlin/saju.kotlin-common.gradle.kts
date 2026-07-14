@@ -41,6 +41,8 @@ dependencies {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+    // 골든 CSV 재생성 스위치를 테스트 JVM 으로 전달 — `-Dgolden.write=true` 로 *GoldenWriter 활성화.
+    System.getProperty("golden.write")?.let { systemProperty("golden.write", it) }
     finalizedBy(tasks.named("jacocoTestReport"))
 }
 
