@@ -22,3 +22,9 @@ updates:
       day: monday
       time: "06:00"
     open-pull-requests-limit: 5
+    groups:
+      # init/analyze 는 같은 버전이어야 한다 — 따로 올리면 config 버전 불일치로 CI 가 깨진다.
+      codeql:
+        patterns:
+          - "github/codeql-action*"
+
