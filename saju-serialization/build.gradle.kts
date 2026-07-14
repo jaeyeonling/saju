@@ -8,6 +8,7 @@ plugins {
 // core/korea/interpretation 의 '런타임 의존성 0' 강점은 그대로 보존된다.
 dependencies {
     api(project(":saju-core"))
+    api(project(":saju-korea")) // 한국 보정 trace(CorrectionTrace) DTO 용
     api(project(":saju-interpretation"))
     api(project(":saju-group"))
     implementation(libs.kotlinx.serialization.json)

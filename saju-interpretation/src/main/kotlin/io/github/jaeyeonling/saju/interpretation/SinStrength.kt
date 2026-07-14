@@ -1,9 +1,11 @@
 package io.github.jaeyeonling.saju.interpretation
 
+import io.github.jaeyeonling.saju.domain.Cheongan
 import io.github.jaeyeonling.saju.domain.HiddenStemTable
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
+import java.util.Locale
 
 /** 신강신약 판정 결과 — Day Master strength verdict (극신강→극신약 5단계). */
 public enum class SinStrengthVerdict(
@@ -23,6 +25,36 @@ public enum class SinStrengthVerdict(
     public val isStrong: Boolean get() = this == GEUKSIN_GANG || this == SIN_GANG
 }
 
+/** 세력 슬롯 — 한 기둥 안에서 세력 1점이 나온 자리(천간 또는 지장간 3분야). */
+public enum class StrengthSlot(
+    /** 한글 이름(천간·본기·중기·여기). */
+    public val koreanName: String,
+) {
+    STEM("천간"),
+    BRANCH_MAIN("본기"),
+    BRANCH_MID("중기"),
+    BRANCH_RESIDUAL("여기"),
+}
+
+/**
+ * 세력 기여 1건 — 신강신약 점수에 더해진 낱개 항목.
+ *
+ * 지금까지 [EokbuSinStrengthStrategy.evaluate] 내부에서 합산 후 버려지던 슬롯별 기여를
+ * 구조화해, 시각화가 "어느 글자가 얼마나 세력을 보탰는가"를 보여줄 수 있게 한다.
+ *
+ * @property stem 기여한 천간(지지 슬롯이면 그 지장간).
+ * @property weight 가중 적용 후 실효 점수 — 합은 [SinStrength.totalScore] 와 같다.
+ * @property basis 가중 산식(월령 배수·지장간 분야 가중·통근 배수).
+ */
+public data class StrengthContribution(
+    public val position: PillarPosition,
+    public val slot: StrengthSlot,
+    public val stem: Cheongan,
+    public val sipseongGroup: SipSeongGroup,
+    public val weight: Double,
+    public val basis: String,
+)
+
 /**
  * 신강신약 평가 — 일간을 돕는 세력 비율과 판정.
  *
@@ -31,12 +63,18 @@ public enum class SinStrengthVerdict(
  *
  * [groupScores] 는 십성 5묶음(비겁·식상·재성·관성·인성)별 가중 세력 점수다. 억부 용신이
  * "무엇이 과한가"로 분기할 때의 입력이며(예: 비겁과다→관성용), 합은 [전체 세력][basis]과 같다.
+ *
+ * [contributions]/[supportScore]/[totalScore] 는 점수의 슬롯별 분해다(trace).
+ * 기본값이 있어 스키마 안정 — 직접 생성하는 기존 코드는 영향이 없다.
  */
 public data class SinStrength(
     public val supportRatio: Double,
     public val verdict: SinStrengthVerdict,
     public val basis: String = "",
     public val groupScores: Map<SipSeongGroup, Double> = emptyMap(),
+    public val contributions: List<StrengthContribution> = emptyList(),
+    public val supportScore: Double = 0.0,
+    public val totalScore: Double = 0.0,
 )
 
 /**
@@ -101,36 +139,83 @@ public class EokbuSinStrengthStrategy
             var support = 0.0
             var total = 0.0
             val groupScores = SipSeongGroup.entries.associateWith { 0.0 }.toMutableMap()
-            // 세력 1점을 돕는 세력 합·전체 합·십성 묶음별 합에 동시 반영(한 곳에서 누적).
-            val accumulate: (Double, Double, SipSeongGroup) -> Unit = { s, t, g ->
-                support += s
-                total += t
-                groupScores[g] = groupScores.getValue(g) + t
+            val contributions = mutableListOf<StrengthContribution>()
+
+            // 세력 1점을 돕는 세력 합·전체 합·십성 묶음별 합·기여 목록(trace)에 동시 반영(한 곳에서 누적).
+            fun add(
+                position: PillarPosition,
+                slot: StrengthSlot,
+                stem: Cheongan,
+                pillarWeight: Double,
+                slotWeight: Double,
+                rooting: Double = 1.0,
+            ) {
+                val sipSeong = SipSeong.of(dayMaster, stem)
+                val supporting = isSupport(sipSeong)
+                // 통근 배수는 방향성을 위해 **support(비겁·인성)에만** 곱한다 — 재·관·식은 base weight.
+                val effective = pillarWeight * slotWeight * (if (supporting) rooting else 1.0)
+                support += if (supporting) effective else 0.0
+                total += effective
+                groupScores[sipSeong.group] = groupScores.getValue(sipSeong.group) + effective
+                contributions +=
+                    StrengthContribution(
+                        position = position,
+                        slot = slot,
+                        stem = stem,
+                        sipseongGroup = sipSeong.group,
+                        weight = effective,
+                        basis =
+                            contributionBasis(position, slot, pillarWeight, slotWeight, rooting, supporting, effective),
+                    )
             }
 
             for (pillar in chart.pillars()) {
                 val pillarWeight = if (pillar.position == PillarPosition.MONTH) weights.month else 1.0
                 // 일주의 천간(나 자신)은 세력 계산에서 제외.
                 if (pillar.position != PillarPosition.DAY) {
-                    add(SipSeong.of(dayMaster, pillar.gan), pillarWeight, accumulate)
+                    add(pillar.position, StrengthSlot.STEM, pillar.gan, pillarWeight, 1.0)
                 }
                 // 지장간 본기·중기·여기를 차등 가중으로 반영(연속 ratio → 5단계 verdict 모두 도달 가능).
-                // 통근 배수(rooting): 일간이 그 지지에서 강근/약근이면 적용(기본 1.0=중립). 방향성을 위해
-                // 일간을 '돕는' 지장간(비겁·인성)에만 곱한다 — add() 내부에서 isSupport 게이트.
+                // 통근 배수(rooting): 일간이 그 지지에서 강근/약근이면 적용(기본 1.0=중립).
                 val hidden = hiddenStems.of(pillar.ji)
                 val rooting = rootingFactorOf(sibiUnseong.stageOf(dayMaster, pillar.ji))
-                add(SipSeong.of(dayMaster, hidden.mainQi), pillarWeight * weights.mainQi, accumulate, rooting)
+                add(pillar.position, StrengthSlot.BRANCH_MAIN, hidden.mainQi, pillarWeight, weights.mainQi, rooting)
                 hidden.midQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.midQi, accumulate, rooting)
+                    add(pillar.position, StrengthSlot.BRANCH_MID, it, pillarWeight, weights.midQi, rooting)
                 }
                 hidden.residualQi?.let {
-                    add(SipSeong.of(dayMaster, it), pillarWeight * weights.residualQi, accumulate, rooting)
+                    add(pillar.position, StrengthSlot.BRANCH_RESIDUAL, it, pillarWeight, weights.residualQi, rooting)
                 }
             }
 
             val ratio = if (total > 0.0) support / total else NEUTRAL
-            return SinStrength(ratio, verdictOf(ratio), basisOf(support, total, ratio), groupScores.toMap())
+            return SinStrength(
+                supportRatio = ratio,
+                verdict = verdictOf(ratio),
+                basis = basisOf(support, total, ratio),
+                groupScores = groupScores.toMap(),
+                contributions = contributions.toList(),
+                supportScore = support,
+                totalScore = total,
+            )
         }
+
+        /** 기여 1건의 가중 산식 — "월령×2 · 본기×1 → 2.0" 꼴. 통근 배수는 적용됐을 때만 드러낸다. */
+        private fun contributionBasis(
+            position: PillarPosition,
+            slot: StrengthSlot,
+            pillarWeight: Double,
+            slotWeight: Double,
+            rooting: Double,
+            supporting: Boolean,
+            effective: Double,
+        ): String =
+            buildString {
+                append(if (position == PillarPosition.MONTH) "월령×${fmtWeight(pillarWeight)}" else "기본×1")
+                if (slot != StrengthSlot.STEM) append(" · ${slot.koreanName}×${fmtWeight(slotWeight)}")
+                if (supporting && rooting != 1.0) append(" · 통근×${fmtWeight(rooting)}")
+                append(" → ${"%.1f".format(Locale.ROOT, effective)}")
+            }
 
         /** 산출 근거 — 돕는 세력 점수·전체 점수·가중 정책을 한 줄로(LLM 검증용). */
         private fun basisOf(
@@ -138,8 +223,8 @@ public class EokbuSinStrengthStrategy
             total: Double,
             ratio: Double,
         ): String =
-            "돕는 세력(비겁·인성) ${"%.1f".format(support)} / 전체 ${"%.1f".format(total)} = " +
-                "${"%.0f".format(ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
+            "돕는 세력(비겁·인성) ${"%.1f".format(Locale.ROOT, support)} / 전체 ${"%.1f".format(Locale.ROOT, total)} = " +
+                "${"%.0f".format(Locale.ROOT, ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
                 "지장간 정기${fmtWeight(weights.mainQi)}·중기${fmtWeight(weights.midQi)}·여기${fmtWeight(weights.residualQi)}" +
                 " 가중 · 통근 $rootingPolicy"
 
@@ -165,22 +250,6 @@ public class EokbuSinStrengthStrategy
                 SibiUnseong.MYO -> weights.rootWeak
                 else -> weights.rootMid
             }
-
-        /**
-         * 십성을 돕는 세력(비겁·인성)이면 support, 전체는 total, 묶음은 [SipSeong.group] 에 가산.
-         * 통근 배수 [rooting] 은 방향성을 위해 **support(비겁·인성)에만** 곱한다 — 재·관·식은 base weight.
-         * (기본 1.0이면 비트 동일 — 천간 호출은 rooting 미전달로 기존 동작 보존.)
-         */
-        private inline fun add(
-            sipSeong: SipSeong,
-            weight: Double,
-            accumulate: (Double, Double, SipSeongGroup) -> Unit,
-            rooting: Double = 1.0,
-        ) {
-            val supporting = isSupport(sipSeong)
-            val effective = if (supporting) weight * rooting else weight
-            accumulate(if (supporting) effective else 0.0, effective, sipSeong.group)
-        }
 
         // 일간을 돕는 세력 = 비겁(같은 오행) + 인성(나를 생함).
         private fun isSupport(sipSeong: SipSeong): Boolean =

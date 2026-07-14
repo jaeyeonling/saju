@@ -10,10 +10,18 @@ public final class io/github/jaeyeonling/saju/Saju {
 	public static final fun daeun (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;)Ljava/util/List;
 	public static synthetic fun daeun$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Lio/github/jaeyeonling/saju/domain/Gender;ILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Ljava/util/List;
 	public static synthetic fun daeun$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Ljava/util/List;
+	public static final fun daeunWithTrace (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;Z)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
+	public static final fun daeunWithTrace (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZI)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
+	public static final fun daeunWithTrace (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
+	public static synthetic fun daeunWithTrace$default (DLio/github/jaeyeonling/saju/domain/Ganji;Lio/github/jaeyeonling/saju/domain/Eumyang;ZILio/github/jaeyeonling/saju/derivation/SajuConfig;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
 	public static final fun fromLocalDateTime (IIIIID)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLocalDateTime (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static final fun fromLocalDateTime (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;I)Lio/github/jaeyeonling/saju/domain/SajuChart;
 	public static synthetic fun fromLocalDateTime$default (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;IILjava/lang/Object;)Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public static final fun fromLocalDateTimeWithTrace (IIIIID)Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public static final fun fromLocalDateTimeWithTrace (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;)Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public static final fun fromLocalDateTimeWithTrace (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;I)Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public static synthetic fun fromLocalDateTimeWithTrace$default (IIIIIDLio/github/jaeyeonling/saju/derivation/SajuConfig;IILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/ChartComputation;
 	public static final fun requireValidCivilDateTime (IIIII)V
 	public static final fun seun (I)Lio/github/jaeyeonling/saju/derivation/Seun;
 }
@@ -414,6 +422,174 @@ public final class io/github/jaeyeonling/saju/lunar/LunarDate {
 	public final fun copy (IIIZ)Lio/github/jaeyeonling/saju/lunar/LunarDate;
 	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/lunar/LunarDate;IIIZILjava/lang/Object;)Lio/github/jaeyeonling/saju/lunar/LunarDate;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/AstronomyTrace {
+	public fun <init> (DLio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;
+	public final fun copy (DLio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;)Lio/github/jaeyeonling/saju/trace/AstronomyTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/AstronomyTrace;DLio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/SolarTermInstant;Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/AstronomyTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNextTerm ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public final fun getPrevTerm ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public final fun getSolarLongitudeDeg ()D
+	public final fun getYearBoundary ()Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/ChartComputation {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/SajuChart;DLio/github/jaeyeonling/saju/trace/AstronomyTrace;Lio/github/jaeyeonling/saju/trace/PillarsTrace;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public final fun component2 ()D
+	public final fun component3 ()Lio/github/jaeyeonling/saju/trace/AstronomyTrace;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/trace/PillarsTrace;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/SajuChart;DLio/github/jaeyeonling/saju/trace/AstronomyTrace;Lio/github/jaeyeonling/saju/trace/PillarsTrace;)Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/ChartComputation;Lio/github/jaeyeonling/saju/domain/SajuChart;DLio/github/jaeyeonling/saju/trace/AstronomyTrace;Lio/github/jaeyeonling/saju/trace/PillarsTrace;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/ChartComputation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAstronomy ()Lio/github/jaeyeonling/saju/trace/AstronomyTrace;
+	public final fun getChart ()Lio/github/jaeyeonling/saju/domain/SajuChart;
+	public final fun getPillars ()Lio/github/jaeyeonling/saju/trace/PillarsTrace;
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/DaeunTrace {
+	public fun <init> (Lio/github/jaeyeonling/saju/derivation/DaeunDirection;Ljava/lang/String;DLio/github/jaeyeonling/saju/trace/SolarTermInstant;ILjava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()D
+	public final fun component4 ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public final fun component5 ()I
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/util/List;
+	public final fun copy (Lio/github/jaeyeonling/saju/derivation/DaeunDirection;Ljava/lang/String;DLio/github/jaeyeonling/saju/trace/SolarTermInstant;ILjava/lang/String;Ljava/util/List;)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/DaeunTrace;Lio/github/jaeyeonling/saju/derivation/DaeunDirection;Ljava/lang/String;DLio/github/jaeyeonling/saju/trace/SolarTermInstant;ILjava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/DaeunTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDaysToTerm ()D
+	public final fun getDirection ()Lio/github/jaeyeonling/saju/derivation/DaeunDirection;
+	public final fun getDirectionBasis ()Ljava/lang/String;
+	public final fun getEntries ()Ljava/util/List;
+	public final fun getStartAge ()I
+	public final fun getStartAgeBasis ()Ljava/lang/String;
+	public final fun getTargetTerm ()Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/DayPillarTrace {
+	public fun <init> (JZLio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()Z
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JZLio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)Lio/github/jaeyeonling/saju/trace/DayPillarTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/DayPillarTrace;JZLio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/DayPillarTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getJulianDayNumber ()J
+	public final fun getZishiAdvanced ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/HourPillarTrace {
+	public fun <init> (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)Lio/github/jaeyeonling/saju/trace/HourPillarTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/HourPillarTrace;Lio/github/jaeyeonling/saju/domain/Jiji;Lio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/HourPillarTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getHourBranch ()Lio/github/jaeyeonling/saju/domain/Jiji;
+	public final fun getSijuStartGan ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/MonthPillarTrace {
+	public fun <init> (ILio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (ILio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;ILio/github/jaeyeonling/saju/domain/Cheongan;Lio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getMonthOffset ()I
+	public final fun getWolduStartGan ()Lio/github/jaeyeonling/saju/domain/Cheongan;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/PillarsTrace {
+	public fun <init> (Lio/github/jaeyeonling/saju/trace/YearPillarTrace;Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;Lio/github/jaeyeonling/saju/trace/DayPillarTrace;Lio/github/jaeyeonling/saju/trace/HourPillarTrace;)V
+	public final fun component1 ()Lio/github/jaeyeonling/saju/trace/YearPillarTrace;
+	public final fun component2 ()Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;
+	public final fun component3 ()Lio/github/jaeyeonling/saju/trace/DayPillarTrace;
+	public final fun component4 ()Lio/github/jaeyeonling/saju/trace/HourPillarTrace;
+	public final fun copy (Lio/github/jaeyeonling/saju/trace/YearPillarTrace;Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;Lio/github/jaeyeonling/saju/trace/DayPillarTrace;Lio/github/jaeyeonling/saju/trace/HourPillarTrace;)Lio/github/jaeyeonling/saju/trace/PillarsTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/PillarsTrace;Lio/github/jaeyeonling/saju/trace/YearPillarTrace;Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;Lio/github/jaeyeonling/saju/trace/DayPillarTrace;Lio/github/jaeyeonling/saju/trace/HourPillarTrace;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/PillarsTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDay ()Lio/github/jaeyeonling/saju/trace/DayPillarTrace;
+	public final fun getHour ()Lio/github/jaeyeonling/saju/trace/HourPillarTrace;
+	public final fun getMonth ()Lio/github/jaeyeonling/saju/trace/MonthPillarTrace;
+	public final fun getYear ()Lio/github/jaeyeonling/saju/trace/YearPillarTrace;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/SolarTermInstant {
+	public fun <init> (ID)V
+	public final fun component1 ()I
+	public final fun component2 ()D
+	public final fun copy (ID)Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/SolarTermInstant;IDILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/SolarTermInstant;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTermIndex ()I
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/YearBoundaryTrace {
+	public fun <init> (IDZ)V
+	public final fun component1 ()I
+	public final fun component2 ()D
+	public final fun component3 ()Z
+	public final fun copy (IDZ)Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;IDZILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/YearBoundaryTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTermIndex ()I
+	public final fun getUtJd ()D
+	public fun hashCode ()I
+	public final fun isAfter ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/jaeyeonling/saju/trace/YearPillarTrace {
+	public fun <init> (ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)V
+	public final fun component1 ()I
+	public final fun component2 ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;)Lio/github/jaeyeonling/saju/trace/YearPillarTrace;
+	public static synthetic fun copy$default (Lio/github/jaeyeonling/saju/trace/YearPillarTrace;ILio/github/jaeyeonling/saju/domain/Ganji;Ljava/lang/String;ILjava/lang/Object;)Lio/github/jaeyeonling/saju/trace/YearPillarTrace;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBasis ()Ljava/lang/String;
+	public final fun getGanji ()Lio/github/jaeyeonling/saju/domain/Ganji;
+	public final fun getSajuYear ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

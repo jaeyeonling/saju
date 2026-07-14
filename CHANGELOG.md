@@ -18,6 +18,25 @@
 
 ### Added
 
+- **도출 근거(trace) API** — 결과만이 아니라 **왜 그 결과인가**를 구조화해 반환하는
+  `...WithTrace` 진입점 신설. 기존 무근거 함수는 traced 결과에 위임한다(산식 단일 진실 소스, 동작 불변).
+  - `Saju.fromLocalDateTimeWithTrace(...)` → `ChartComputation(chart, utJd, astronomy, pillars)`
+    (`saju-core` 신규 `trace` 패키지: `AstronomyTrace`(태양 황경·직전/직후 절·연 경계),
+    `PillarsTrace`(기둥별 중간값 + 한국어 `basis` 산식)).
+  - `Saju.daeunWithTrace(...)` → `DaeunTrace`(방향·목표 절까지 일수·대운수 환산 근거·entries).
+  - `KoreanSaju.fromCivilTimeWithTrace(...)` / `fromLunarCivilTimeWithTrace(...)` →
+    `KoreanChartComputation(correction, core, lunarConversion?)` (`saju-korea` 신규 `korea.trace` 패키지:
+    `CorrectionTrace` — 서머타임→자오선→경도→균시차 단계별 `deltaMinutes`+`basis`, 델타 합 = 총 보정량).
+- **`SinStrength.contributions/supportScore/totalScore`** — 신강신약 점수의 슬롯별
+  (천간·지장간 본/중/여기) 기여 분해(`StrengthContribution`, `StrengthSlot`). 기본값으로 스키마 안정.
+- **`YongsinResult.decisionPath`** — 용신 분기 트리의 통과 경로(판정→분기→결론 단계 리스트).
+  억부·조후·합성 전략 모두 채운다.
+- **trace DTO** (`saju-serialization`) — `KoreanChartComputationDto`·`ChartComputationDto`·
+  `CorrectionTraceDto`·`DaeunTraceDto`·`StrengthContributionDto` 등 + `toDto()`/`toJson()` 확장.
+  `saju-serialization` 이 `saju-korea` 에 의존하게 됐다(보정 trace DTO 용).
+- **trace 골든 벡터** — `trace_chart.csv`·`trace_daeun.csv`(saju-core)·`trace_correction.csv`(saju-korea).
+  basis 문자열까지 동결해 TS 포트(saju-ts)의 언어 간 parity 대조에 쓴다.
+  재생성: `./gradlew test -Dgolden.write=true --tests '*GoldenWriter*'`.
 - **`daeun` 의 `Gender` 오버로드** — `KoreanSaju.daeun(…, gender: Gender, …)` /
   `Saju.daeun(…, gender: Gender, …)`. 기존 `isMale: Boolean` 오버로드는 유지된다.
   성별이 **대운(大運) 방향(순행·역행) 전용 입력**(원국 무관)임을 시그니처로 드러낸다.
