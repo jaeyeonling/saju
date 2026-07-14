@@ -119,6 +119,7 @@ dependencies {
 ## 사주(四柱)란 무엇인가
 
 > 사주를 모르고 코드를 읽기 시작했다면 이 절부터. 기초 용어(천간·지지·오행)는 `saju-core/.../domain/`, 해석 용어(십성·용신·격국)는 `saju-interpretation/` 의 enum KDoc에 정의가 있다.
+> 명리 이론 자체를 더 깊이 배우려면 → **[명리 이론 학습 Wiki](https://github.com/jaeyeonling/saju/wiki)** (음양오행부터 격국·신살까지, 개념 지도 20페이지).
 
 사주는 태어난 **연·월·일·시** 네 시점을 각각 한 기둥(柱)으로 삼아 그 사람의 기운을 8글자로 적은 것이다. "사주팔자(四柱八字)"의 팔자가 곧 이 8글자다.
 
@@ -173,6 +174,7 @@ astronomy(순수 UT JD, 타임존 무지)
 | **해석 용어** (십성·신강신약·용신·격국·십이운성) | [interpretation/](saju-interpretation/src/main/kotlin/io/github/jaeyeonling/saju/interpretation/README.md) |
 | **그룹 사주** (여러 명 합성 — 오행 균형·역할·관계·타임라인) | [saju-group/](saju-group/README.md) |
 | **천문 엔진** (절기·삭을 왜·어떻게 계산하나) | [astronomy/](saju-core/src/main/kotlin/io/github/jaeyeonling/saju/astronomy/README.md) |
+| **명리 이론 배경지식** (음양오행·천간지지·십성·용신·격국·신살… 개념 학습) | [Wiki](https://github.com/jaeyeonling/saju/wiki) |
 
 ## 사용 예시
 
