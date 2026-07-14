@@ -57,6 +57,9 @@ class CorrectionTraceTest : StringSpec({
                 ) shouldBe row.subList(11, 17).map { it.toInt() }
             }
             withClue("utJd @ $tag") { trace.utJd shouldBe (row[17].toDouble() plusOrMinus MINUTE_TOLERANCE) }
+            withClue("utOffsetHours @ $tag") {
+                trace.utOffsetHours shouldBe (row[18].toDouble() plusOrMinus MINUTE_TOLERANCE)
+            }
             withClue("basis @ $tag") {
                 bases.getValue(CorrectionStepKind.DST) shouldBe row[19]
                 bases.getValue(CorrectionStepKind.MERIDIAN) shouldBe row[20]

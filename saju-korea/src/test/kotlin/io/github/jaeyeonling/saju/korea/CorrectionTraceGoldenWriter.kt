@@ -15,7 +15,7 @@ import java.util.Locale
  */
 class CorrectionTraceGoldenWriter : StringSpec({
 
-    "보정 trace 골든 CSV 재생성".config(enabled = System.getProperty("golden.write") != null) {
+    "보정 trace 골든 CSV 재생성".config(enabled = System.getProperty("golden.write")?.toBoolean() == true) {
         val lines = mutableListOf(HEADER)
         for (case in CASES) {
             val (y, mo, d, h, mi) = case.time

@@ -5,6 +5,7 @@ import io.github.jaeyeonling.saju.domain.HiddenStemTable
 import io.github.jaeyeonling.saju.domain.PillarPosition
 import io.github.jaeyeonling.saju.domain.SajuChart
 import io.github.jaeyeonling.saju.domain.StandardHiddenStemTable
+import java.util.Locale
 
 /** 신강신약 판정 결과 — Day Master strength verdict (극신강→극신약 5단계). */
 public enum class SinStrengthVerdict(
@@ -213,7 +214,7 @@ public class EokbuSinStrengthStrategy
                 append(if (position == PillarPosition.MONTH) "월령×${fmtWeight(pillarWeight)}" else "기본×1")
                 if (slot != StrengthSlot.STEM) append(" · ${slot.koreanName}×${fmtWeight(slotWeight)}")
                 if (supporting && rooting != 1.0) append(" · 통근×${fmtWeight(rooting)}")
-                append(" → ${"%.1f".format(effective)}")
+                append(" → ${"%.1f".format(Locale.ROOT, effective)}")
             }
 
         /** 산출 근거 — 돕는 세력 점수·전체 점수·가중 정책을 한 줄로(LLM 검증용). */
@@ -222,8 +223,8 @@ public class EokbuSinStrengthStrategy
             total: Double,
             ratio: Double,
         ): String =
-            "돕는 세력(비겁·인성) ${"%.1f".format(support)} / 전체 ${"%.1f".format(total)} = " +
-                "${"%.0f".format(ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
+            "돕는 세력(비겁·인성) ${"%.1f".format(Locale.ROOT, support)} / 전체 ${"%.1f".format(Locale.ROOT, total)} = " +
+                "${"%.0f".format(Locale.ROOT, ratio * 100)}% · 월령 ${fmtWeight(weights.month)}배·" +
                 "지장간 정기${fmtWeight(weights.mainQi)}·중기${fmtWeight(weights.midQi)}·여기${fmtWeight(weights.residualQi)}" +
                 " 가중 · 통근 $rootingPolicy"
 

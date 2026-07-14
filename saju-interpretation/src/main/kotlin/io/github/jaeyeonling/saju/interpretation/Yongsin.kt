@@ -3,6 +3,7 @@ package io.github.jaeyeonling.saju.interpretation
 import io.github.jaeyeonling.saju.domain.Jiji
 import io.github.jaeyeonling.saju.domain.Ohaeng
 import io.github.jaeyeonling.saju.domain.SajuChart
+import java.util.Locale
 
 /**
  * 용신 도출법 — 결과에 어느 법으로 뽑았는지 타입으로 담는다(문자열 아님).
@@ -69,7 +70,7 @@ public object EokbuYongsinStrategy : YongsinStrategy {
         val inseong = day.generatedBy() // 인성: 나를 생함
 
         fun score(group: SipSeongGroup): Double = strength.groupScores[group] ?: 0.0
-        val pct = "%.0f".format(strength.supportRatio * 100)
+        val pct = "%.0f".format(Locale.ROOT, strength.supportRatio * 100)
 
         // (용신, 한 줄 근거, 분기 단계) — 분기 단계는 decisionPath 로 보존한다(트리 하이라이트용).
         val (yongsin, reason, branchStep) =
@@ -146,7 +147,7 @@ public object EokbuYongsinStrategy : YongsinStrategy {
 private fun label(ohaeng: Ohaeng): String = "${ohaeng.koreanName}(${ohaeng.hanja})"
 
 /** 세력 점수 표시 — "4.2". */
-private fun f(score: Double): String = "%.1f".format(score)
+private fun f(score: Double): String = "%.1f".format(Locale.ROOT, score)
 
 /**
  * 조후(調候) 용신 — 신강신약과 무관하게 월령(계절)의 치우친 한난조습을 중화한다.

@@ -31,6 +31,7 @@ import io.github.jaeyeonling.saju.trace.PillarsTrace
 import io.github.jaeyeonling.saju.trace.SolarTermInstant
 import io.github.jaeyeonling.saju.trace.YearBoundaryTrace
 import io.github.jaeyeonling.saju.trace.YearPillarTrace
+import java.util.Locale
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -252,9 +253,7 @@ public object Saju {
             daysToTerm = daysToBoundary,
             targetTerm = targetTerm,
             startAge = startAge,
-            startAgeBasis =
-                "목표 절(황경 ${targetTerm.termIndex * DEGREES_PER_TERM}°)까지 " +
-                    "${"%.3f".format(daysToBoundary)}일 ÷ 3 → ${startAge}세${startAgePolicyLabel(config.daeunStartAge)}",
+            startAgeBasis = startAgeBasis(targetTerm, daysToBoundary, startAge, config.daeunStartAge),
             entries = DaeunCalculator.sequence(monthPillar, direction, startAge, count),
         )
     }
@@ -338,13 +337,25 @@ public object Saju {
         "${hour}시 → 시지 ${hourJi.koreanName}(오프셋 ${hourJi.ordinal}) · " +
             "오자둔 ${dayGanji.gan.koreanName}일 자시 시작간 ${sijuStartGan.koreanName} → ${hourGanji.koreanName}"
 
-    /** 대운수 환산 정책 표시 — 알려진 정책 상수만 라벨링(사용자 정의 정책은 생략). */
-    private fun startAgePolicyLabel(policy: DaeunStartAgePolicy): String =
-        when {
-            policy === DaeunStartAgePolicy.THREE_DAYS_ONE_YEAR -> " (3일1세 반올림)"
-            policy === DaeunStartAgePolicy.FLOOR -> " (3일1세 버림)"
-            else -> ""
+    /**
+     * 대운수 환산 근거 — 내장 정책만 "÷ 3" 산식을 서술한다.
+     * 사용자 정의 정책은 산식을 알 수 없으므로 중립 문구로 거짓 서술을 피한다.
+     */
+    private fun startAgeBasis(
+        targetTerm: SolarTermInstant,
+        daysToBoundary: Double,
+        startAge: Int,
+        policy: DaeunStartAgePolicy,
+    ): String {
+        val distance =
+            "목표 절(황경 ${targetTerm.termIndex * DEGREES_PER_TERM}°)까지 " +
+                "${"%.3f".format(Locale.ROOT, daysToBoundary)}일"
+        return when {
+            policy === DaeunStartAgePolicy.THREE_DAYS_ONE_YEAR -> "$distance ÷ 3 → ${startAge}세 (3일1세 반올림)"
+            policy === DaeunStartAgePolicy.FLOOR -> "$distance ÷ 3 → ${startAge}세 (3일1세 버림)"
+            else -> "$distance → ${startAge}세 (사용자 정의 정책)"
         }
+    }
 
     private fun floorModDouble(
         value: Double,

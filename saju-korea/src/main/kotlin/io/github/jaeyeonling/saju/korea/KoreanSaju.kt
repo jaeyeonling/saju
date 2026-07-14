@@ -13,6 +13,7 @@ import io.github.jaeyeonling.saju.korea.trace.KoreanChartComputation
 import io.github.jaeyeonling.saju.korea.trace.LunarConversionBasis
 import io.github.jaeyeonling.saju.lunar.CalendarBasis
 import io.github.jaeyeonling.saju.lunar.LunarConverter
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlin.math.truncate
@@ -339,8 +340,8 @@ public object KoreanSaju {
                         policy == TrueSolarTimePolicy.NONE -> "무보정 정책(NONE) — 경도 보정 생략"
                         info.standardMeridianDeg == null -> "LMT 시대 — 표준 자오선 = 출생지 경도라 경도 보정 0"
                         else ->
-                            "표준 자오선 ${formatDegrees(standardMeridian)}° − 출생지 경도 " +
-                                "${formatDegrees(longitudeDeg)}° = ${signedMinutes(longitudeDelta)}"
+                            "출생지 경도 ${formatDegrees(longitudeDeg)}° − 표준 자오선 " +
+                                "${formatDegrees(standardMeridian)}° = ${signedMinutes(longitudeDelta)}"
                     },
             )
         val eot =
@@ -369,7 +370,7 @@ public object KoreanSaju {
     /** 부호 붙인 분 표기(음수 부호는 U+2212 '−'). 예: "+3.20분", "−32.09분" */
     private fun signedMinutes(value: Double): String {
         val sign = if (value >= 0) "+" else "−"
-        return "$sign${"%.2f".format(abs(value))}분"
+        return "$sign${"%.2f".format(Locale.ROOT, abs(value))}분"
     }
 
     /** 도(度) 표기 — 정수면 정수로(135.0→"135"), 소수면 그대로(127.5→"127.5"). */

@@ -16,7 +16,7 @@ import java.util.Locale
  */
 class TraceGoldenWriter : StringSpec({
 
-    "trace 골든 CSV 재생성".config(enabled = System.getProperty("golden.write") != null) {
+    "trace 골든 CSV 재생성".config(enabled = System.getProperty("golden.write")?.toBoolean() == true) {
         val dir = Path.of("src/test/resources/golden")
 
         // ── trace_chart.csv — saju_pillars 표본의 1/12 서브셋(≈50건) ──
