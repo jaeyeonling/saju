@@ -49,7 +49,7 @@ internal data class CorrectionCase(
 /**
  * 표준시 연혁 × 서머타임 × 정책의 대표 조합 —
  * 평시 135°, 서머타임+127.5°(1955), 88 올림픽 서머타임, LMT(1905), 127.5° 마지막 날 자시,
- * 부산(경도차), LONGITUDE_ONLY/NONE 정책.
+ * 부산(경도차), LONGITUDE_ONLY/NONE 정책, LMT × 비 FULL 정책 교차.
  */
 internal val CASES: List<CorrectionCase> =
     listOf(
@@ -61,6 +61,9 @@ internal val CASES: List<CorrectionCase> =
         CorrectionCase(listOf(2000, 6, 1, 6, 30), Birthplace.BUSAN.longitudeDeg, TrueSolarTimePolicy.FULL),
         CorrectionCase(listOf(2026, 6, 26, 12, 0), Birthplace.SEOUL.longitudeDeg, TrueSolarTimePolicy.LONGITUDE_ONLY),
         CorrectionCase(listOf(2026, 6, 26, 12, 0), Birthplace.SEOUL.longitudeDeg, TrueSolarTimePolicy.NONE),
+        // LMT 시대 × 비 FULL 정책 교차 — 자오선 null 폴백과 정책 분기가 겹치는 경계.
+        CorrectionCase(listOf(1905, 1, 1, 12, 0), Birthplace.SEOUL.longitudeDeg, TrueSolarTimePolicy.LONGITUDE_ONLY),
+        CorrectionCase(listOf(1905, 1, 1, 12, 0), Birthplace.SEOUL.longitudeDeg, TrueSolarTimePolicy.NONE),
     )
 
 internal const val HEADER: String =
