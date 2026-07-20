@@ -31,12 +31,12 @@ jobs:
       # build-mode: none — 빌드 없이 소스를 분석한다(GitHub Actions 호스티드는 manual 미지원).
       # 빌드 스텝·JDK·Gradle 설정이 필요 없어 CodeQL 분석이 가볍고 빠르다.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4
+        uses: github/codeql-action/init@7188fc363630916deb702c7fdcf4e481b751f97a # v4
         with:
           languages: java-kotlin
           build-mode: none
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4
+        uses: github/codeql-action/analyze@7188fc363630916deb702c7fdcf4e481b751f97a # v4
         with:
           category: "/language:java-kotlin"
