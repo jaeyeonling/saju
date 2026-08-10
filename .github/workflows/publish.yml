@@ -30,7 +30,7 @@ jobs:
           java-version: '17'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
 
       # 태그(vX.Y.Z)와 gradle.properties 의 VERSION_NAME 이 어긋나면 잘못된 좌표가 Central 로 올라간다.
       # Maven Central 좌표는 immutable 이므로 배포 전에 일치를 자동으로 강제한다.
