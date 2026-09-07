@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 junit = "6.1.2"
 konsist = "0.17.3"
 kotest = "6.2.2"
@@ -8,7 +8,7 @@ ktlint = "12.1.2"
 # dokka 2.x = DGP v2(태스크명 dokkaGeneratePublication*). vanniktech 0.37.0 은 dokka v2 를 요구한다.
 dokka = "2.2.0"
 mavenPublish = "0.37.0"
-binaryCompatibilityValidator = "0.18.1"
+binaryCompatibilityValidator = "0.18.2"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
